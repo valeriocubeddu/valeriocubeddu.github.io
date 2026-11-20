@@ -1,7 +1,7 @@
 // Link personali: incolla qui gli URL (stringa vuota = pulsante nascosto).
 // Usati in home dai pulsanti con data-link="linkedin" / data-link="portfolio".
 window.LINKS = {
-  linkedin: '',   // es. 'https://www.linkedin.com/in/...'
+  linkedin: 'https://www.linkedin.com/in/valerio-cubeddu-00a87144b/',   // es. 'https://www.linkedin.com/in/...'
   portfolio: 'https://valeriocubeddu.github.io'   // es. 'https://....up.railway.app' (indirizzo pubblico di questo sito)
 };
 document.querySelectorAll('[data-link]').forEach(a => {
