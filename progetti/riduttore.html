@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Progetto di un riduttore coassiale a due stadi — Valerio Cubeddu</title>
+<meta name="description" content="Progetto del corso di Costruzione di macchine al Politecnico di Torino: dimensionamento e verifica di ruote dentate elicoidali, alberi, cuscinetti, linguette e carcassa di un riduttore coassiale a due stadi.">
+<link rel="stylesheet" href="../assets/css/style.css?v=4">
+</head>
+<body>
+
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="../index.html">Valerio <span>Cubeddu</span></a>
+    <ul>
+      <li><a href="../index.html#progetti">Progetti</a></li>
+      <li><a href="../index.html#esperienza">Esperienza</a></li>
+      <li><a href="../index.html#contatti">Contatti</a></li>
+    </ul>
+    <div class="lang"><button class="on">IT</button><button>EN</button></div>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <a class="back" href="../index.html#progetti">← Tutti i progetti</a>
+    <div class="eyebrow">Costruzione di macchine · Politecnico di Torino · 2024</div>
+    <h1>Progetto di un riduttore coassiale a due stadi</h1>
+    <p class="lead">Il progetto completo di un riduttore a ingranaggi elicoidali con assi paralleli, preso come riferimento un modello commerciale: dimensionamento e verifica statica e a fatica di ruote dentate e alberi secondo le norme ISO, scelta di cuscinetti e lubrificante, linguette, montaggio e ingombri della carcassa.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="pkpis">
+    <div class="kpi"><b>12,5 : 1</b><small>rapporto di riduzione ottenuto, entro il 2% di quello nominale</small></div>
+    <div class="kpi"><b>ISO 6336</b><small>verifica a fatica delle ruote a flessione al piede e a pitting</small></div>
+    <div class="kpi"><b>&gt;25.000 h</b><small>durata corretta SKF di tutti i cuscinetti</small></div>
+    <div class="kpi"><b>143 × 87 mm</b><small>ingombro del gruppo ingranaggi, entro i limiti del modello di riferimento</small></div>
+  </div>
+
+  <div class="pbody">
+    <article>
+
+      <h2 id="specifiche">Le specifiche</h2>
+      <p>Il riferimento è un riduttore commerciale coassiale a due stadi con rapporto nominale 12,27, 900 rpm in ingresso, 62 Nm in uscita e una potenza continuativa di 0,34 kW. Il progetto doveva rispettare gli ingombri del modello, garantire ai cuscinetti almeno 25.000 ore di durata e sopportare il carico radiale dell'utilizzatore sull'albero di uscita.</p>
+      <figure>
+        <a href="../assets/img/riduttore/riduttore.png" target="_blank"><img src="../assets/img/riduttore/riduttore.png" alt="Sezione del riduttore coassiale a due stadi accoppiato al motore elettrico" loading="lazy"></a>
+        <figcaption>Sezione di un riduttore coassiale a due stadi accoppiato a un motore elettrico IEC, la configurazione del modello di riferimento.</figcaption>
+      </figure>
+      <p>Per gli alberi di ingresso e uscita abbiamo scelto acciaio da bonifica C45; per le ruote e l'albero intermedio 16MnCr5 cementato e temprato.</p>
+
+      <h2 id="ruote">Ruote dentate</h2>
+      <p>Il numero minimo di denti viene dal limite di interferenza, il modulo dalle formule di Lewis, per la flessione, e di Hertz, per il contatto, poi si sceglie il modulo unificato superiore. Con i denti definitivi il rapporto vale 12,49, entro il 2% di quello nominale, e la condizione di coassialità è rispettata con uno scarto di pochi millesimi di millimetro. Abbiamo verificato rapporto di condotta e di ricoprimento, poi la resistenza statica e a fatica, a flessione al piede e a pitting, secondo ISO 6336-1 con tutti i fattori correttivi.</p>
+
+      <figure>
+        <a href="../assets/img/riduttore/forze.png" target="_blank"><img src="../assets/img/riduttore/forze.png" alt="Schema delle forze di ingranamento sui tre alberi" loading="lazy"></a>
+        <figcaption>Forze di ingranamento (tangenziali, radiali e assiali) e coppie sui tre alberi, con le posizioni dei cuscinetti A–G.</figcaption>
+      </figure>
+      <figure class="narrow">
+        <a href="../assets/img/riduttore/ingombri.png" target="_blank"><img src="../assets/img/riduttore/ingombri.png" alt="Disposizione coassiale delle quattro ruote e ingombri" loading="lazy"></a>
+        <figcaption>Disposizione coassiale delle quattro ruote: l'interasse è lo stesso per i due stadi, gli ingombri A e H sono quelli da rispettare.</figcaption>
+      </figure>
+
+      <h2 id="alberi">Alberi</h2>
+      <p>Il dimensionamento degli alberi è iterativo: un primo progetto a sola torsione, poi a flesso-torsione con i diagrammi delle sollecitazioni, infine la verifica statica con il criterio di Tresca. L'albero intermedio, il più sollecitato, è stato verificato anche a fatica nelle sezioni critiche, con effetti di intaglio, dimensione e finitura superficiale e con il diagramma di Haigh. Il pignone dell'albero intermedio è ricavato di pezzo, perché una cava per linguetta avrebbe indebolito troppo il mozzo.</p>
+
+      <figure>
+        <a href="../assets/img/riduttore/albero.png" target="_blank"><img src="../assets/img/riduttore/albero.png" alt="Geometria dell'albero con spallamenti e quote" loading="lazy"></a>
+        <figcaption>Geometria di un albero con spallamenti, sedi dei cuscinetti e quote assiali.</figcaption>
+      </figure>
+      <figure class="narrow">
+        <a href="../assets/img/riduttore/haigh.png" target="_blank"><img src="../assets/img/riduttore/haigh.png" alt="Diagramma di Haigh per la verifica a fatica dell'albero intermedio" loading="lazy"></a>
+        <figcaption>Verifica a fatica dell'albero intermedio sul diagramma di Haigh: i punti di lavoro delle sezioni critiche restano all'interno del limite di resistenza.</figcaption>
+      </figure>
+
+      <h2 id="cuscinetti">Cuscinetti, lubrificazione e linguette</h2>
+      <p>Abbiamo scelto cuscinetti radiali a sfere, verificati staticamente e a durata. La durata base è stata corretta con il metodo SKF, che tiene conto di viscosità del lubrificante e contaminazione. Con olio ISO VG 460, scelto sull'albero più sollecitato, tutti i cuscinetti superano le 25.000 ore richieste. Le linguette, secondo UNI 6604, sono dimensionate a pressione di contatto e a taglio.</p>
+
+      <figure>
+        <a href="../assets/img/riduttore/cuscinetti.png" target="_blank"><img src="../assets/img/riduttore/cuscinetti.png" alt="Sezioni dei montaggi dei cuscinetti sui tre alberi" loading="lazy"></a>
+        <figcaption>Montaggio dei cuscinetti sui tre alberi: anelli elastici, ghiere, distanziali e spallamenti che bloccano ogni cuscinetto sull'albero e, dove serve, sulla cassa.</figcaption>
+      </figure>
+
+      <h2 id="montaggio">Montaggio e carcassa</h2>
+      <p>Abbiamo definito la sequenza di montaggio degli alberi nei tre elementi della carcassa e il bloccaggio di ogni cuscinetto: solo quello caricato assialmente è vincolato anche sulla cassa, con flangia o anello elastico, mentre l'altro resta libero per assorbire le dilatazioni. Le ruote sono calettate con linguetta e fissate assialmente tra spallamento e distanziale.</p>
+
+      <figure>
+        <a href="../assets/img/riduttore/assieme.png" target="_blank"><img src="../assets/img/riduttore/assieme.png" alt="Sequenza di montaggio degli alberi negli elementi della carcassa" loading="lazy"></a>
+        <figcaption>Sequenza di montaggio dei tre alberi nei tre elementi della carcassa (A, B, C).</figcaption>
+      </figure>
+
+      <h2 id="imparato">Cosa ho imparato</h2>
+      <p>Questo progetto mi ha fatto vivere il processo di progettazione meccanica nella sua forma reale: iterativo, con scelte che si influenzano a vicenda e norme da applicare con attenzione. Ho imparato a passare dal calcolo al disegno, pensando fin dall'inizio a come i componenti verranno montati e bloccati, e a bilanciare resistenza, ingombri e semplicità costruttiva.</p>
+
+      <div class="pnext">
+        <a href="../index.html#progetti">← Tutti i progetti</a>
+        <a href="../index.html#contatti">Contattami →</a>
+      </div>
+    </article>
+
+    <aside class="facts">
+      <dl>
+        <dt>Contesto</dt><dd>Corso di Costruzione di macchine, Politecnico di Torino</dd>
+        <dt>Periodo</dt><dd>2024</dd>
+        <dt>Strumenti</dt>
+        <dd><div class="chips" style="margin-top:6px"><span class="chip">ISO 6336</span><span class="chip">Metodo SKF</span><span class="chip">CAD 3D</span></div></dd>
+        <dt>In questa pagina</dt>
+        <dd><ul class="toc">
+          <li><a href="#specifiche">Le specifiche</a></li>
+          <li><a href="#ruote">Ruote dentate</a></li>
+          <li><a href="#alberi">Alberi</a></li>
+          <li><a href="#cuscinetti">Cuscinetti e linguette</a></li>
+          <li><a href="#montaggio">Montaggio e carcassa</a></li>
+          <li><a href="#imparato">Cosa ho imparato</a></li>
+        </ul></dd>
+      </dl>
+    </aside>
+  </div>
+</div>
+
+<footer>© 2026 Valerio Cubeddu</footer>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Programmi LabVIEW per misure termofluidodinamiche — Valerio Cubeddu</title>
+<meta name="description" content="Tesi di laurea triennale all'Università di Roma Tor Vergata: programmi LabVIEW che interfacciano il sistema di acquisizione Keithley 3706 con un PC per tre esperimenti del laboratorio di fisica tecnica.">
+<link rel="stylesheet" href="../assets/css/style.css?v=4">
+</head>
+<body>
+
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="../index.html">Valerio <span>Cubeddu</span></a>
+    <ul>
+      <li><a href="../index.html#progetti">Progetti</a></li>
+      <li><a href="../index.html#esperienza">Esperienza</a></li>
+      <li><a href="../index.html#contatti">Contatti</a></li>
+    </ul>
+    <div class="lang"><button class="on">IT</button><button>EN</button></div>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <a class="back" href="../index.html#progetti">← Tutti i progetti</a>
+    <div class="eyebrow">Tesi di laurea triennale · Università di Roma Tor Vergata · 2022 – 2023</div>
+    <h1>Programmi LabVIEW per misure termofluidodinamiche</h1>
+    <p class="lead">Ho collegato il sistema di acquisizione Keithley 3706 a un PC e scritto in LabVIEW i programmi per tre esperimenti del laboratorio di fisica tecnica industriale: convezione naturale tra due pareti, convezione forzata in un condotto reticolare e perdite di carico in un condotto. I programmi configurano gli strumenti, acquisiscono e mostrano le misure in tempo reale e le salvano su file.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="pkpis">
+    <div class="kpi"><b>3</b><small>esperimenti di laboratorio con un programma dedicato ciascuno</small></div>
+    <div class="kpi"><b>14</b><small>termocoppie tipo J acquisite nell'esperimento di convezione naturale</small></div>
+    <div class="kpi"><b>6</b><small>distanze tra le pareti provate, da 0,5 a 7 cm</small></div>
+    <div class="kpi"><b>110/110 e lode</b><small>voto di laurea</small></div>
+  </div>
+
+  <div class="pbody">
+    <article>
+
+      <h2 id="obiettivo">L'obiettivo</h2>
+      <p>Il laboratorio aveva un sistema di acquisizione Keithley 3706 con una scheda multiplexer, ma nessun software per usarlo nelle proprie prove. Il mio compito era scrivere i programmi che lo comandano dal PC, uno per ogni esperimento, partendo da zero: comunicazione con lo strumento, configurazione dei canali, acquisizione, visualizzazione e salvataggio dei dati.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/triennale/intercapedine.jpg" target="_blank"><img src="../assets/img/triennale/intercapedine.jpg" alt="Apparato per la convezione naturale tra due pareti verticali" loading="lazy"></a>
+          <a href="../assets/img/triennale/multiplexer.jpg" target="_blank"><img src="../assets/img/triennale/multiplexer.jpg" alt="Morsettiera della scheda multiplexer cablata con le termocoppie" loading="lazy"></a>
+        </div>
+        <figcaption>L'apparato per la convezione naturale tra due pareti verticali riscaldate e la morsettiera della scheda multiplexer, cablata con le termocoppie.</figcaption>
+      </figure>
+
+      <h2 id="acquisizione">Il sistema di acquisizione</h2>
+      <p>La scheda multiplexer 3721 smista i segnali degli strumenti sui canali del Keithley; ogni canale si indica con slot e numero, per esempio 1012 è il canale 12 dello slot 1. Il tempo di integrazione è impostato a 1 PLC, cioè 16,67 ms con la rete a 60 Hz: è l'intervallo in cui il rumore di misura è minimo.</p>
+      <p>Lo strumento si programma in Lua. Dal PC LabVIEW comunica con lui tramite NI-VISA, l'interfaccia che traduce i comandi in un formato che il Keithley capisce, e con la libreria di driver del 3706, che raggruppa le funzioni VISA in sottoprogrammi specifici. Per le parti che i driver non coprivano ho inviato direttamente i comandi Lua, per esempio per eseguire la scansione e leggere il buffer delle misure.</p>
+
+      <h2 id="esperimento1">Esperimento 1: convezione naturale tra due pareti</h2>
+      <p>Due pareti verticali affacciate sono riscaldate da resistenze alimentate da due generatori in corrente continua. Sulla prima parete ci sono 6 termocoppie, sulla seconda 5, più due per l'aria in ingresso e in uscita e una sulla superficie esterna. Abbiamo provato sei distanze tra le pareti, da 0,5 a 7 cm.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/triennale/sezione.png" target="_blank"><img src="../assets/img/triennale/sezione.png" alt="Schema della sezione di prova con le due pareti" loading="lazy"></a>
+          <a href="../assets/img/triennale/termocoppie_pareti.png" target="_blank"><img src="../assets/img/triennale/termocoppie_pareti.png" alt="Posizione delle termocoppie sulle pareti" loading="lazy"></a>
+        </div>
+        <figcaption>Sezione di prova: tratto riscaldato L, tratti adiabatici a monte e a valle, distanza s tra le pareti. A destra la posizione delle termocoppie su una parete, in centimetri.</figcaption>
+      </figure>
+      <p>La potenza termica di ogni riscaldatore si calcola dalla tensione ai suoi capi e dalla corrente, che si ricava dalla caduta di tensione su uno shunt da 0,1 Ω in serie. Il programma acquisisce quindi, oltre alle termocoppie, le tensioni su shunt e riscaldatori di entrambi i circuiti.</p>
+      <figure class="narrow">
+        <a href="../assets/img/triennale/circuito.png" target="_blank"><img src="../assets/img/triennale/circuito.png" alt="Circuito del riscaldatore con generatore e shunt" loading="lazy"></a>
+        <figcaption>Circuito di un riscaldatore: le tensioni su riscaldatore e shunt vanno al sistema di acquisizione insieme alle termocoppie.</figcaption>
+      </figure>
+
+      <h3>Il programma</h3>
+      <p>Il pannello del programma ha due parti. Nella configurazione si impostano i parametri di scansione di shunt, riscaldatori e termocoppie, il tempo di attesa tra le scansioni e il file di salvataggio, e si leggono in diretta corrente, resistenza e potenza di ogni parete. Nell'output ci sono i grafici delle temperature sulle pareti, delle temperature medie e dell'aria, e le tabelle con tutte le scansioni. A fine prova i dati vengono salvati su file in colonne già pronte per l'elaborazione.</p>
+      <figure class="narrow">
+        <a href="../assets/img/triennale/pannello_intercapedine.png" target="_blank"><img src="../assets/img/triennale/pannello_intercapedine.png" alt="Pannello frontale del programma per la convezione naturale" loading="lazy"></a>
+        <figcaption>Pannello frontale del programma: configurazione in alto, grafici delle temperature e tabelle delle scansioni sotto.</figcaption>
+      </figure>
+      <figure>
+        <a href="../assets/img/triennale/codice.png" target="_blank"><img src="../assets/img/triennale/codice.png" alt="Diagramma a blocchi del programma principale" loading="lazy"></a>
+        <figcaption>Diagramma a blocchi del programma principale: a sinistra l'inizializzazione, al centro il ciclo di scansione, a destra il salvataggio su file.</figcaption>
+      </figure>
+      <p>Ho diviso il codice in sottoprogrammi riutilizzabili. Scan.vi configura ed esegue una scansione su una lista di canali; Termocoppia_J.vi converte la tensione della termocoppia in temperatura con il polinomio di riferimento NIST, T = Σ cᵢVⁱ. Ho scritto la stessa conversione anche per le termocoppie di tipo E, K, N, R, S e T, così i programmi si adattano ad altri sensori.</p>
+      <figure>
+        <a href="../assets/img/triennale/termocoppia_j.png" target="_blank"><img src="../assets/img/triennale/termocoppia_j.png" alt="Diagramma a blocchi del sottoprogramma di conversione per termocoppie J" loading="lazy"></a>
+        <figcaption>Termocoppia_J.vi: la tensione in microvolt passa per il polinomio con i coefficienti del tipo J e restituisce la temperatura in gradi Celsius.</figcaption>
+      </figure>
+
+      <h3>I problemi da risolvere</h3>
+      <p>Le prime prove si interrompevano con errori di timeout di VISA: la lettura partiva prima che lo strumento avesse finito la scansione, oppure si aspettava un numero di byte sbagliato. Ho tarato timeout e byte da leggere e fatto leggere il buffer solo fino all'ultimo indice scritto, invece che per intero. Il Keithley gestisce al massimo 576 canali per scansione, un limite da rispettare nel costruire le liste. Per gli arresti anomali di LabVIEW ho cercato le cause anche nelle segnalazioni di altri utenti dello stesso strumento.</p>
+
+      <h3>Prove e risultati</h3>
+      <p>Per ogni distanza tra le pareti la prova ha seguito quattro fasi: riscaldamento con entrambe le pareti, salvataggio a regime, spegnimento della seconda parete, nuovo salvataggio a regime. Il programma ha registrato l'intera evoluzione delle temperature.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/triennale/test_pareti.png" target="_blank"><img src="../assets/img/triennale/test_pareti.png" alt="Temperature delle termocoppie durante una prova" loading="lazy"></a>
+          <a href="../assets/img/triennale/test_medie.png" target="_blank"><img src="../assets/img/triennale/test_medie.png" alt="Temperature medie delle due pareti durante una prova" loading="lazy"></a>
+        </div>
+        <figcaption>Una prova vista dal programma: a sinistra le temperature di tutte le termocoppie, a destra le medie delle due pareti. Si vedono il riscaldamento, il regime e lo spegnimento della seconda parete.</figcaption>
+      </figure>
+      <p>Dalle temperature a regime abbiamo ricavato il numero di Nusselt, che misura quanto la convezione aumenta lo scambio rispetto alla sola conduzione, al variare della distanza. Con una sola parete riscaldata lo scambio è più intenso. Con entrambe riscaldate, a distanze piccole i due flussi d'aria calda interferiscono e il Nusselt crolla, poi si stabilizza oltre i 3 cm.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/triennale/nusselt.png" target="_blank"><img src="../assets/img/triennale/nusselt.png" alt="Numero di Nusselt in funzione della distanza tra le pareti" loading="lazy"></a>
+          <a href="../assets/img/triennale/nusselt_ra.png" target="_blank"><img src="../assets/img/triennale/nusselt_ra.png" alt="Rapporto tra Nusselt e Rayleigh in funzione della distanza tra le pareti" loading="lazy"></a>
+        </div>
+        <figcaption>Nusselt e rapporto Nusselt/Rayleigh al variare della distanza s, con una sola parete riscaldata (rosso) e con entrambe (giallo e blu).</figcaption>
+      </figure>
+
+      <h2 id="esperimento2">Esperimento 2: convezione forzata in un condotto reticolare</h2>
+      <p>Il secondo apparato è un condotto lungo 8 cm con una struttura interna reticolare, attraversato da un flusso d'aria e riscaldato da una resistenza. Le termocoppie sono sopra e sotto il condotto e misurano anche l'aria in ingresso e in uscita. Il circuito di riscaldamento è lo stesso del primo esperimento, quindi ho riusato i sottoprogrammi adattando pannello e liste di canali.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/triennale/condotto.jpg" target="_blank"><img src="../assets/img/triennale/condotto.jpg" alt="Condotto reticolare isolato e strumentato" loading="lazy"></a>
+          <a href="../assets/img/triennale/condotto_3d.png" target="_blank"><img src="../assets/img/triennale/condotto_3d.png" alt="Modello del condotto con la struttura reticolare interna" loading="lazy"></a>
+        </div>
+        <figcaption>Il condotto isolato e strumentato e il suo modello, 70 × 15 mm di sezione, con la struttura reticolare interna.</figcaption>
+      </figure>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/triennale/condotto_sonde.png" target="_blank"><img src="../assets/img/triennale/condotto_sonde.png" alt="Posizione delle termocoppie sopra e sotto il condotto" loading="lazy"></a>
+          <a href="../assets/img/triennale/pannello_condotto.png" target="_blank"><img src="../assets/img/triennale/pannello_condotto.png" alt="Pannello frontale del programma per il condotto" loading="lazy"></a>
+        </div>
+        <figcaption>Posizione delle termocoppie sopra e sotto il condotto e pannello del programma dedicato.</figcaption>
+      </figure>
+
+      <h2 id="esperimento3">Esperimento 3: perdite di carico in un condotto</h2>
+      <p>Nel terzo esperimento si misura la caduta di pressione lungo un condotto con un trasduttore differenziale Dwyer 629C03, che ha un campo di misura di 0–25 psid e un'accuratezza dello 0,5% del fondo scala. Ho scritto un sottoprogramma che converte l'uscita del trasduttore in pressione e un programma che la acquisisce insieme alle temperature dell'aria.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/triennale/perdite.jpg" target="_blank"><img src="../assets/img/triennale/perdite.jpg" alt="Banco per la misura delle perdite di carico" loading="lazy"></a>
+          <a href="../assets/img/triennale/pannello_perdite.png" target="_blank"><img src="../assets/img/triennale/pannello_perdite.png" alt="Pannello frontale del programma per le perdite di carico" loading="lazy"></a>
+        </div>
+        <figcaption>Il banco per le perdite di carico e il pannello del programma, con i grafici di pressione e temperature.</figcaption>
+      </figure>
+
+      <h2 id="imparato">Cosa ho imparato</h2>
+      <p>È stato il mio primo progetto in cui il software doveva funzionare su uno strumento reale, usato poi da altri. Ho imparato a leggere la documentazione di un sistema di acquisizione, a far dialogare livelli diversi, da LabVIEW a VISA ai comandi Lua dello strumento, e a scrivere codice modulare che si potesse riusare su esperimenti diversi. Gli errori di comunicazione mi hanno insegnato a cercare la causa con metodo invece di aggirarla.</p>
+
+      <div class="pnext">
+        <a href="../index.html#progetti">← Tutti i progetti</a>
+        <a href="../index.html#contatti">Contattami →</a>
+      </div>
+    </article>
+
+    <aside class="facts">
+      <dl>
+        <dt>Contesto</dt><dd>Tesi di laurea triennale in Ingegneria meccanica, Università di Roma Tor Vergata</dd>
+        <dt>Relatore</dt><dd>Ing. Ivano Petracci</dd>
+        <dt>Periodo</dt><dd>2022 – 2023</dd>
+        <dt>Strumenti</dt>
+        <dd><div class="chips" style="margin-top:6px"><span class="chip">LabVIEW</span><span class="chip">NI-VISA</span><span class="chip">Lua</span><span class="chip">Keithley 3706</span></div></dd>
+        <dt>In questa pagina</dt>
+        <dd><ul class="toc">
+          <li><a href="#obiettivo">L'obiettivo</a></li>
+          <li><a href="#acquisizione">Il sistema di acquisizione</a></li>
+          <li><a href="#esperimento1">Convezione naturale</a></li>
+          <li><a href="#esperimento2">Convezione forzata</a></li>
+          <li><a href="#esperimento3">Perdite di carico</a></li>
+          <li><a href="#imparato">Cosa ho imparato</a></li>
+        </ul></dd>
+      </dl>
+    </aside>
+  </div>
+</div>
+
+<footer>© 2026 Valerio Cubeddu</footer>
+</body>
+</html>

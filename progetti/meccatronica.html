@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Servosistemi: prove sperimentali e modellazione — Valerio Cubeddu</title>
+<meta name="description" content="Laboratorio di Meccatronica al Politecnico di Torino: sei esperienze su banchi prova reali, dalle valvole pneumatiche in PWM ai servoattuatori elettrici e idraulici, con modelli Simulink validati sui dati sperimentali.">
+<link rel="stylesheet" href="../assets/css/style.css?v=3">
+</head>
+<body>
+
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="../index.html">Valerio <span>Cubeddu</span></a>
+    <ul>
+      <li><a href="../index.html#progetti">Progetti</a></li>
+      <li><a href="../index.html#esperienza">Esperienza</a></li>
+      <li><a href="../index.html#contatti">Contatti</a></li>
+    </ul>
+    <div class="lang"><button class="on">IT</button><button>EN</button></div>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <a class="back" href="../index.html#progetti">← Tutti i progetti</a>
+    <div class="eyebrow">Laboratorio di Meccatronica · Politecnico di Torino · 2024 – 2025</div>
+    <h1>Servosistemi: prove sperimentali e modellazione</h1>
+    <p class="lead">Sei esperienze su banchi prova reali, pneumatici, elettrici e idraulici. In ognuna abbiamo acquisito dati in laboratorio, costruito un modello in MATLAB/Simulink e identificato i parametri fisici confrontando simulazione e misure.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="pkpis">
+    <div class="kpi"><b>6</b><small>esperienze su banchi prova di laboratorio</small></div>
+    <div class="kpi"><b>3</b><small>tecnologie di attuazione: pneumatica, elettrica e idraulica</small></div>
+    <div class="kpi"><b>MATLAB</b><small>modelli Simulink e identificazione dei parametri con ottimizzazione</small></div>
+    <div class="kpi"><b>107</b><small>pagine di relazione tecnica di gruppo</small></div>
+  </div>
+
+  <div class="pbody">
+    <article>
+
+      <h2 id="metodo">Il metodo</h2>
+      <p>Tutte le esperienze seguono lo stesso percorso: prove sul banco con segnali sinusoidali, a onda quadra o chirp; acquisizione ed elaborazione dei dati in MATLAB; modello del sistema in Simulink; stima dei parametri che non si possono misurare direttamente, come attriti, smorzamenti, resistenze e masse equivalenti, minimizzando lo scarto tra modello e misure con <code>fminsearch</code> o con Simulink Parameter Estimator. Il modello validato serve poi a studiare il controllo, la risposta in frequenza e l'effetto dei parametri.</p>
+
+      <h2 id="pwm">1 · Valvole digitali comandate in PWM</h2>
+      <span class="exp-tag">Pneumatica</span>
+      <p>Controllo in anello chiuso della pressione di un serbatoio con due valvole elettropneumatiche on/off, una di carico e una di scarico. Modulando il duty cycle in PWM si ottiene un comportamento medio simile a quello di una valvola proporzionale. Nel modello Simulink abbiamo ottimizzato la resistenza delle tubazioni, l'esponente della politropica e le conduttanze delle valvole, usando gruppi di prove distinti per la stima e per la validazione.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/meccatronica/pwm_banco.png" target="_blank"><img src="../assets/img/meccatronica/pwm_banco.png" alt="Banco prova con serbatoio, valvole elettropneumatiche e trasduttore di pressione" loading="lazy"></a>
+          <a href="../assets/img/meccatronica/pwm_quadra.png" target="_blank"><img src="../assets/img/meccatronica/pwm_quadra.png" alt="Pressione simulata e set nella prova a onda quadra" loading="lazy"></a>
+        </div>
+        <figcaption>Banco prova pneumatico e modello validato in una prova a onda quadra. Lo scarico è più lento del carico perché il salto di pressione disponibile è minore.</figcaption>
+      </figure>
+
+      <h2 id="sensore">2 · Sensore di forze e coppie a sei assi</h2>
+      <span class="exp-tag">Misura</span>
+      <p>Un dinamometro con struttura a piattaforma di Stewart: sei trasduttori monoassiali collegati con giunti sferici tra due piastre. Lo abbiamo eccitato con un sistema massa-molla, con frequenza naturale di circa 2,45 Hz, e acquisito i segnali a frequenze di campionamento da 2,5 a 1000 Hz per verificare il teorema di Nyquist. I parametri fisici, cioè massa, rigidezza, braccio e smorzamento, sono stati ricavati per fitting dei segnali, prima con un modello senza smorzamento e poi con smorzamento.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/meccatronica/6assi_sensore.png" target="_blank"><img src="../assets/img/meccatronica/6assi_sensore.png" alt="Sensore di forza a sei assi con struttura a piattaforma di Stewart" loading="lazy"></a>
+          <a href="../assets/img/meccatronica/6assi_fit.png" target="_blank"><img src="../assets/img/meccatronica/6assi_fit.png" alt="Forza misurata e forza del modello ottimizzato a 100 Hz di campionamento" loading="lazy"></a>
+        </div>
+        <figcaption>Il sensore a sei assi e il confronto tra la forza misurata (F<sub>exp</sub>) e quella del modello ottimizzato (F<sub>opt</sub>), campionata a 100 Hz.</figcaption>
+      </figure>
+
+      <h2 id="iswec">3 · ISWEC su piattaforma di Stewart</h2>
+      <span class="exp-tag">Robotica · energia dal mare</span>
+      <p>L'ISWEC (Inertial Sea Wave Energy Converter) ricava energia dal moto ondoso sfruttando l'effetto giroscopico. In laboratorio il moto dello scafo è riprodotto da una piattaforma di Stewart a sei gradi di libertà, con attuatori elettromeccanici e controllore cRIO. Abbiamo analizzato prove chirp e sinusoidali in sussulto (heave) e beccheggio (pitch), con piattaforma carica e scarica, ricavando i diagrammi di Bode e stimando la massa traslante al variare di attrito e smorzamento.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/meccatronica/iswec_giroscopio.png" target="_blank"><img src="../assets/img/meccatronica/iswec_giroscopio.png" alt="Schema del giroscopio dell'ISWEC con gli assi di rotazione" loading="lazy"></a>
+          <a href="../assets/img/meccatronica/iswec_bode.png" target="_blank"><img src="../assets/img/meccatronica/iswec_bode.png" alt="Diagrammi di Bode della piattaforma in prova chirp heave, carica e scarica" loading="lazy"></a>
+        </div>
+        <figcaption>Principio del giroscopio ISWEC e diagrammi di Bode da una prova chirp in sussulto da 100 mm, con piattaforma carica e scarica.</figcaption>
+      </figure>
+
+      <h2 id="elettrico">4 · Servosistema elettrico in controllo di posizione</h2>
+      <span class="exp-tag">Elettrica</span>
+      <p>Il carrello di una stampante mosso da un motore in corrente continua con cinghia dentata, controllato in posizione con un PID su scheda myRIO e LabVIEW. Abbiamo acquisito risposte a set sinusoidali da 0,5 a 10 Hz e a onda quadra con diversi guadagni. Poi abbiamo identificato in sequenza resistenza e induttanza del motore, smorzamento viscoso e attrito coulombiano, scartando le prove senza significato fisico, e confrontato modello e misure anche in frequenza.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/meccatronica/servo_el_banco.png" target="_blank"><img src="../assets/img/meccatronica/servo_el_banco.png" alt="Banco del servosistema elettrico con carrello, motore e acquisizione" loading="lazy"></a>
+          <a href="../assets/img/meccatronica/servo_el_fit.png" target="_blank"><img src="../assets/img/meccatronica/servo_el_fit.png" alt="Posizione misurata e simulata con smorzamento e attrito ottimizzati" loading="lazy"></a>
+        </div>
+        <figcaption>Banco prova e confronto tra posizione sperimentale e modello con smorzamento c e attrito F<sub>ad</sub> ottimizzati.</figcaption>
+      </figure>
+
+      <h2 id="ema">5 · Banco prova per servocomandi di volo EMA</h2>
+      <span class="exp-tag">Idraulica · aerospazio</span>
+      <p>Un banco sviluppato nel progetto di ricerca europeo ASTIB (Clean Sky 2) per provare attuatori elettromeccanici di comandi di volo. Un attuatore idraulico controllato in forza, alimentato a 140 bar, simula i carichi aerodinamici sull'EMA controllato in posizione. Abbiamo studiato il modello non lineare del banco, con servovalvola, orifizio di by-pass, attuatore di carico e legge di controllo, lo abbiamo confrontato con le acquisizioni e abbiamo analizzato l'effetto di luce di passaggio della servovalvola, temperatura dell'olio e rigidezze di collegamento.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/meccatronica/ema_banco.png" target="_blank"><img src="../assets/img/meccatronica/ema_banco.png" alt="Banco prova EMA con attuatore sotto test, blocco servoattuatore e telaio" loading="lazy"></a>
+          <a href="../assets/img/meccatronica/ema_lvt.png" target="_blank"><img src="../assets/img/meccatronica/ema_lvt.png" alt="Velocità dell'attuatore misurata e simulata dal modello non lineare" loading="lazy"></a>
+        </div>
+        <figcaption>Il banco EMA e la velocità del servoattuatore misurata (rosso) e simulata dal modello non lineare (nero): le due curve sono quasi sovrapposte.</figcaption>
+      </figure>
+
+      <h2 id="idraulico">6 · Controllo di posizione idraulico</h2>
+      <span class="exp-tag">Idraulica</span>
+      <p>Un servoattuatore idraulico lineare su un banco a montante, usato per prove statiche e dinamiche. Dalle prove sinusoidali e a onda quadra abbiamo studiato l'effetto dei guadagni del PID: aumentare K<sub>p</sub> riduce l'errore e allarga la banda, ma oltre un certo valore il sistema oscilla. Abbiamo poi stimato la massa mobile per fitting della forza d'inerzia, circa 1,2 kg, e verificato che il modello riproduce la risposta in frequenza fino alla banda passante.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/meccatronica/idr_kp.png" target="_blank"><img src="../assets/img/meccatronica/idr_kp.png" alt="Risposta a onda quadra del servoattuatore idraulico al variare del guadagno proporzionale" loading="lazy"></a>
+          <a href="../assets/img/meccatronica/idr_bode.png" target="_blank"><img src="../assets/img/meccatronica/idr_bode.png" alt="Risposta in frequenza simulata e sperimentale del servoattuatore idraulico" loading="lazy"></a>
+        </div>
+        <figcaption>Risposta a onda quadra al crescere di K<sub>p</sub> e confronto tra risposta in frequenza simulata e sperimentale.</figcaption>
+      </figure>
+
+      <h2 id="imparato">Cosa ho imparato</h2>
+      <p>Questo laboratorio mi ha messo davanti a banchi prova veri, con i loro rumori, attriti e non linearità. Ho imparato che un modello vale quanto la sua validazione: scegliere prove diverse per stimare e per verificare i parametri, riconoscere quando un risultato non ha senso fisico, e capire il legame tra frequenza di campionamento, banda del sistema e qualità dei dati. Lavorare su tecnologie diverse, pneumatica, elettrica e idraulica, mi ha mostrato quanto lo stesso metodo di analisi si applichi a sistemi molto diversi tra loro.</p>
+
+      <div class="pnext">
+        <a href="../index.html#progetti">← Tutti i progetti</a>
+        <a href="../index.html#contatti">Contattami →</a>
+      </div>
+    </article>
+
+    <aside class="facts">
+      <dl>
+        <dt>Contesto</dt><dd>Corso di Meccatronica, Politecnico di Torino</dd>
+        <dt>Periodo</dt><dd>Ottobre 2024 – febbraio 2025</dd>
+        <dt>Tipo</dt><dd>Laboratorio di gruppo (squadra di tre studenti), relazione tecnica condivisa</dd>
+        <dt>Strumenti</dt>
+        <dd><div class="chips" style="margin-top:6px"><span class="chip">MATLAB</span><span class="chip">Simulink</span><span class="chip">Parameter Estimator</span><span class="chip">LabVIEW</span><span class="chip">myRIO</span><span class="chip">PID</span></div></dd>
+        <dt>In questa pagina</dt>
+        <dd><ul class="toc">
+          <li><a href="#metodo">Il metodo</a></li>
+          <li><a href="#pwm">Valvole in PWM</a></li>
+          <li><a href="#sensore">Sensore a sei assi</a></li>
+          <li><a href="#iswec">ISWEC</a></li>
+          <li><a href="#elettrico">Servo elettrico</a></li>
+          <li><a href="#ema">Banco EMA</a></li>
+          <li><a href="#idraulico">Servo idraulico</a></li>
+          <li><a href="#imparato">Cosa ho imparato</a></li>
+        </ul></dd>
+      </dl>
+    </aside>
+  </div>
+</div>
+
+<footer>© 2026 Valerio Cubeddu</footer>
+</body>
+</html>

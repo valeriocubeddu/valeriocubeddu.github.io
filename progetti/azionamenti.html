@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Azionamento di un motore sincrono a magneti permanenti — Valerio Cubeddu</title>
+<meta name="description" content="Progetto del corso di Azionamenti elettrici al Politecnico di Torino: controllo di corrente, coppia, velocità e posizione di un motore SPM con inverter trifase, simulato in Simulink.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="../index.html">Valerio <span>Cubeddu</span></a>
+    <ul>
+      <li><a href="../index.html#progetti">Progetti</a></li>
+      <li><a href="../index.html#esperienza">Esperienza</a></li>
+      <li><a href="../index.html#contatti">Contatti</a></li>
+    </ul>
+    <div class="lang"><button class="on">IT</button><button>EN</button></div>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <a class="back" href="../index.html#progetti">← Tutti i progetti</a>
+    <div class="eyebrow">Progetto d'esame · Azionamenti elettrici ed elettronica di potenza · Politecnico di Torino · 2025</div>
+    <h1>Azionamento di un motore sincrono a magneti permanenti</h1>
+    <p class="lead">Ho preso il datasheet di un motore brushless commerciale e ne ho costruito l'azionamento completo in Simulink: inverter trifase, controllo di corrente in assi d-q, poi gli anelli di coppia, velocità e posizione, ognuno dimensionato e verificato con prove dedicate.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="pkpis">
+    <div class="kpi"><b>4</b><small>anelli di controllo: corrente, coppia, velocità e posizione</small></div>
+    <div class="kpi"><b>0,6 ms</b><small>tempo di salita della corrente, con banda dell'anello di 500 Hz</small></div>
+    <div class="kpi"><b>50 Hz · 60°</b><small>crossover e margine di fase dell'anello di velocità</small></div>
+    <div class="kpi"><b>&lt;80 rpm</b><small>calo di velocità a 1000 rpm con un gradino di coppia nominale, che torna al riferimento in circa 20 ms</small></div>
+  </div>
+
+  <div class="pbody">
+    <article>
+
+      <h2 id="obiettivo">L'obiettivo</h2>
+      <p>Il progetto finale del corso chiedeva di dimensionare, simulare e verificare un azionamento trifase con inverter a due livelli e motore sincrono a magneti permanenti superficiali (SPM). Il punto di partenza era un modello base con il solo controllo di corrente; a ciascuno studente era assegnato un motore commerciale diverso, nel mio caso un <strong>PE1R 90 S6</strong> da 7,2 Nm a 1000 rpm.</p>
+      <p>Il lavoro si è svolto in quattro passi: adattare il modello al motore reale, verificare il controllo di corrente, aggiungere il controllo di coppia, poi quelli di velocità e di posizione.</p>
+
+      <h2 id="modello">Dal datasheet al modello</h2>
+      <p>Dal catalogo ho ricavato i parametri elettrici e meccanici della macchina. L'induttanza sincrona si ottiene da quelle di dispersione e di magnetizzazione, mentre il flusso dei magneti si ricava dalla tensione a vuoto: a corrente nulla la tensione di fase dipende solo dai magneti e dalla velocità elettrica. Il risultato è λ<sub>PM</sub> ≈ 0,754 Vs e una costante di coppia k<sub>T</sub> = 3/2 · p · λ<sub>PM</sub> ≈ 3,39 Nm/A.</p>
+      <p>Il motore e l'inverter (6 IGBT con diodi di ricircolo, DC-link a 560 V, commutazione a 5 kHz) sono modellati con i componenti elettrici di Simscape Electrical. Il controllo, invece, è tutto a tempo discreto e si attiva una volta per periodo PWM, come su un microcontrollore o un DSP reale.</p>
+
+      <h2 id="cascata">Architettura di controllo</h2>
+      <p>Gli anelli sono in cascata: ognuno genera il riferimento per quello interno. Per restare stabile e disaccoppiato, ogni anello ha una banda di circa un decimo di quello che lo segue.</p>
+      <figure>
+        <a href="../assets/img/azionamenti/cascata.svg" target="_blank"><img src="../assets/img/azionamenti/cascata.svg" alt="Schema a blocchi dei controlli in cascata di posizione, velocità, coppia e corrente" loading="lazy"></a>
+        <figcaption>Controllo in cascata: posizione (P) → velocità (PI) → coppia (1/k<sub>T</sub>) → corrente in assi d-q (PI) → PWM e inverter.</figcaption>
+      </figure>
+
+      <h2 id="corrente">Controllo di corrente e di coppia</h2>
+      <p>Il regolatore di corrente fornito era un PI in assi d-q con anti-windup e saturazione alla massima tensione dell'inverter. L'ho verificato con tre prove: inseguimento dei riferimenti a regime, risposta a gradino e tensione a vuoto. Con una banda di 500 Hz la corrente passa dal 10 al 90% del gradino in circa 0,6 ms; riducendo la banda a 150 Hz servono circa 2,5 ms. A corrente nulla e velocità nominale la tensione richiesta è tutta in asse q e vale circa 284 V concatenati, a circa il 2% dai 290 V del catalogo: una conferma che i parametri ricavati dal datasheet sono coerenti.</p>
+      <figure>
+        <a href="../assets/img/azionamenti/corrente.png" target="_blank"><img src="../assets/img/azionamenti/corrente.png" alt="Risposta a gradino della corrente iq con due diverse bande passanti" loading="lazy"></a>
+        <figcaption>Gradino di 0,5 A sulla corrente i<sub>q</sub> a 1000 rpm, con banda di 500 Hz e di 150 Hz. Il ripple è dovuto alla commutazione PWM.</figcaption>
+      </figure>
+      <p>Il controllo di coppia è un passaggio diretto: in un motore SPM la coppia dipende solo da i<sub>q</sub>, quindi basta dividere la coppia richiesta per k<sub>T</sub>, tenendo i<sub>d</sub> = 0. Proprio perché non introduce dinamica, l'anello di coppia ha la stessa banda di quello di corrente.</p>
+
+      <h2 id="velocita">Controllo di velocità</h2>
+      <p>Per l'anello di velocità il modello meccanico cambia: il motore non ha più la velocità imposta ma riceve una coppia di carico, e la velocità risulta dal bilancio con l'inerzia. Ho progettato un PI con anti-windup e saturazione alla coppia massima del motore, calcolando i guadagni dalla funzione d'anello aperto per avere crossover a 50 Hz e margine di fase di 60°.</p>
+      <p>Le prove verificano il gradino a 1000 rpm, l'effetto del margine di fase, la velocità massima raggiungibile prima della saturazione e la <strong>rigidezza dinamica</strong>: quando arriva un gradino di coppia pari a quella nominale la velocità cala per un istante e il PI la riporta al riferimento.</p>
+      <figure>
+        <a href="../assets/img/azionamenti/velocita.png" target="_blank"><img src="../assets/img/azionamenti/velocita.png" alt="Risposta di velocità a un gradino e a un disturbo di coppia, con margine di fase di 60 e 10 gradi" loading="lazy"></a>
+        <figcaption>Gradino di velocità a 1000 rpm e, dopo 0,4 s, gradino di coppia di carico da 7,2 Nm. All'avvio la coppia satura al limite del motore; con margine di fase di 10° la risposta diventa molto oscillante.</figcaption>
+      </figure>
+
+      <h2 id="posizione">Controllo di posizione</h2>
+      <p>L'anello di velocità chiuso si comporta, visto dall'esterno, come un integratore puro. Per questo per la posizione basta un regolatore proporzionale, con crossover a 5 Hz. L'ho verificato con un gradino di π rad e con riferimenti sinusoidali: a 1,5 Hz la posizione segue bene il riferimento, a 4 Hz, vicino alla banda, si vedono ritardo e calo di ampiezza.</p>
+      <figure>
+        <a href="../assets/img/azionamenti/posizione.png" target="_blank"><img src="../assets/img/azionamenti/posizione.png" alt="Risposta del controllo di posizione a un gradino e a riferimenti sinusoidali" loading="lazy"></a>
+        <figcaption>Controllo di posizione: gradino di π rad, sinusoide a 1,5 Hz e a 4 Hz.</figcaption>
+      </figure>
+
+      <h2 id="imparato">Cosa ho imparato</h2>
+      <p>Questo progetto mi ha fatto vedere da vicino come si costruisce un azionamento reale, dall'elettronica di potenza fino agli anelli di controllo. Ho preso confidenza con il controllo a tempo discreto sincronizzato con il PWM, lo stesso schema che gira sui microcontrollori e sui DSP degli inverter commerciali, e con il metodo per progettare anelli in cascata: scegliere le bande, ricavare i guadagni dal margine di fase e proteggere i regolatori con saturazioni e anti-windup. Ho anche imparato a non fidarmi dei parametri finché non li ho verificati: confrontare la simulazione con i dati di catalogo è stato il modo più semplice per accorgermi se il modello era coerente.</p>
+
+      <div class="pnext">
+        <a href="../index.html#progetti">← Tutti i progetti</a>
+        <a href="../index.html#contatti">Contattami →</a>
+      </div>
+    </article>
+
+    <aside class="facts">
+      <dl>
+        <dt>Contesto</dt><dd>Corso di Azionamenti elettrici ed elettronica di potenza, Politecnico di Torino</dd>
+        <dt>Periodo</dt><dd>A.A. 2024 – 2025</dd>
+        <dt>Tipo</dt><dd>Progetto individuale</dd>
+        <dt>Motore</dt><dd>SPM PE1R 90 S6 · 7,2 Nm · 1000 rpm</dd>
+        <dt>Strumenti</dt>
+        <dd><div class="chips" style="margin-top:6px"><span class="chip">MATLAB</span><span class="chip">Simulink</span><span class="chip">Simscape Electrical</span><span class="chip">Controllo d-q</span><span class="chip">PWM</span></div></dd>
+        <dt>In questa pagina</dt>
+        <dd><ul class="toc">
+          <li><a href="#obiettivo">L'obiettivo</a></li>
+          <li><a href="#modello">Dal datasheet al modello</a></li>
+          <li><a href="#cascata">Architettura</a></li>
+          <li><a href="#corrente">Corrente e coppia</a></li>
+          <li><a href="#velocita">Velocità</a></li>
+          <li><a href="#posizione">Posizione</a></li>
+          <li><a href="#imparato">Cosa ho imparato</a></li>
+        </ul></dd>
+      </dl>
+    </aside>
+  </div>
+</div>
+
+<footer>© 2026 Valerio Cubeddu</footer>
+</body>
+</html>

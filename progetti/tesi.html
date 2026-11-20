@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Controllo di trazione predittivo con reti neurali auto-adattive — Valerio Cubeddu</title>
+<meta name="description" content="Tesi magistrale al Politecnico di Torino: NMPC con preview della strada distillato in reti neurali che girano in real-time su dSPACE e si riaddestrano online.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="../index.html">Valerio <span>Cubeddu</span></a>
+    <ul>
+      <li><a href="../index.html#progetti">Progetti</a></li>
+      <li><a href="../index.html#esperienza">Esperienza</a></li>
+      <li><a href="../index.html#contatti">Contatti</a></li>
+    </ul>
+    <div class="lang"><button class="on">IT</button><button>EN</button></div>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <a class="back" href="../index.html#progetti">← Tutti i progetti</a>
+    <div class="eyebrow">Tesi magistrale · Politecnico di Torino · 2026</div>
+    <h1>Controllo di trazione predittivo con reti neurali auto-adattive</h1>
+    <p class="orig">Preview-based traction control using self-adaptive artificial intelligence algorithms</p>
+    <p class="lead">Un controllore predittivo che "vede" la strada davanti al veicolo funziona molto bene, ma è troppo pesante per l'hardware di bordo. L'ho trasformato in una rete neurale che gira in real-time su una centralina dSPACE, e che durante la guida si riaddestra da sola sui propri errori.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="pkpis">
+    <div class="kpi"><b>−87%</b><small>errore di slip (RMSE) su veicolo con la rete adattiva, contro −61% della rete statica</small></div>
+    <div class="kpi"><b>3,1 ms</b><small>tempo di calcolo medio della rete su dSPACE, il 62% del passo di 5 ms</small></div>
+    <div class="kpi"><b>&gt;91%</b><small>scenari Monte Carlo in cui la rete adattiva migliora il comfort</small></div>
+    <div class="kpi"><b>R² 0,85</b><small>fedeltà della rete LSTM al controllore NMPC</small></div>
+  </div>
+
+  <div class="pbody">
+    <article>
+
+      <h2 id="problema">Il problema</h2>
+      <p>Nei veicoli elettrici con un motore in ogni ruota la coppia si può modulare in pochi millisecondi, ruota per ruota. Questo permette di fare due cose: limitare lo slittamento delle ruote quando l'aderenza cala (controllo di trazione) e smorzare le oscillazioni di accelerazione causate da dossi e irregolarità (comfort longitudinale).</p>
+      <p>In letteratura i due obiettivi sono affrontati da controllori separati. Il controllo predittivo non lineare (NMPC), che può sfruttare la <em>preview</em> della strada e dell'aderenza davanti al veicolo, li gestirebbe insieme, ma risolve un problema di ottimizzazione a ogni passo ed è troppo oneroso per l'hardware automotive in tempo reale.</p>
+
+      <h2 id="architettura">Architettura di controllo</h2>
+      <p>Ho progettato un unico controllore per trazione e comfort, replicato sui due assi. Per ogni ruota la correzione di coppia viene calcolata dall'NMPC oppure, nella versione real-time, dalla rete neurale LSTM adattiva che lo sostituisce. Il modello del veicolo usato in simulazione è stato validato con dati sperimentali raccolti sul veicolo di prova.</p>
+      <figure>
+        <a href="../assets/img/tesi/architettura.png" target="_blank"><img src="../assets/img/tesi/architettura.png" alt="Schema dell'architettura di controllo con NMPC e rete LSTM adattiva per asse anteriore e posteriore" loading="lazy"></a>
+        <figcaption>Architettura di controllo: per ogni ruota la correzione di coppia arriva dall'NMPC o dalla rete LSTM adattiva, che riceve la preview del profilo stradale e dell'aderenza.</figcaption>
+      </figure>
+      <p>L'NMPC è sviluppato con <strong>acados</strong>: il solutore viene generato in codice C e integrato in Simulink come S-function. I pesi della funzione di costo sono calibrati con un algoritmo genetico accoppiato alla simulazione.</p>
+
+      <h2 id="imitation">Dall'NMPC alla rete neurale</h2>
+      <p>Per portare il comportamento dell'NMPC sull'hardware reale ho usato l'<strong>imitation learning</strong>: l'NMPC fa da "esperto", genera un dataset di manovre e una rete impara a riprodurne le decisioni. Ho confrontato tre architetture: una rete feed-forward (MLP), una ricorrente (LSTM) e, per la prima volta nel controllo della dinamica del veicolo a quanto mi risulta, una rete a spazio degli stati selettivo (Mamba).</p>
+      <p>La rete scelta è una LSTM a 4 strati da 64 unità, che riproduce la correzione di coppia dell'NMPC con un coefficiente di determinazione di 0,85. Con l'analisi <strong>SHAP</strong> ho verificato quali ingressi guidano le sue decisioni nei diversi regimi di guida, per rendere il controllore interpretabile e non una "scatola nera".</p>
+
+      <h2 id="retraining">Riaddestramento online</h2>
+      <p>Una rete addestrata offline può trovarsi in condizioni mai viste durante il training. Per questo ho sviluppato una strategia di riaddestramento online: gli strati LSTM restano congelati e viene aggiornato solo lo strato di uscita di ogni ruota, guidato da una funzione di perdita che combina gli indicatori di prestazione (KPI) misurati in anello chiuso.</p>
+      <p>A differenza degli schemi adattivi esistenti, l'NMPC non deve girare in parallelo come riferimento: la rete si corregge basandosi direttamente sugli errori misurati sul veicolo.</p>
+      <figure>
+        <a href="../assets/img/tesi/retraining.svg" target="_blank"><img src="../assets/img/tesi/retraining.svg" alt="Schema del riaddestramento online dello strato di uscita guidato da una somma pesata dei KPI" loading="lazy"></a>
+        <figcaption>Strategia di riaddestramento online: si misurano gli errori, si valutano i KPI del veicolo con una somma pesata e si aggiornano i pesi dello strato di uscita della rete.</figcaption>
+      </figure>
+
+      <h2 id="simulazione">Risultati in simulazione</h2>
+      <p>In una manovra con dosso e calo di aderenza, NMPC e LSTM riducono i KPI di accelerazione del 60–70% e quelli di slittamento del 76–89% rispetto al veicolo senza controllo. La LSTM ottiene risultati vicini all'NMPC ideale e migliori di un NMPC semplificato per girare in real-time. In un'analisi Monte Carlo su 360 scenari con parametri variati, la rete adattiva migliora i KPI di comfort in oltre il 91% dei casi e quelli di slittamento in quasi tutti.</p>
+      <figure>
+        <a href="../assets/img/tesi/sim_dosso_kpi.png" target="_blank"><img src="../assets/img/tesi/sim_dosso_kpi.png" alt="Grafico a barre della riduzione dei KPI per NMPC, NMPC real-time e LSTM" loading="lazy"></a>
+        <figcaption>Manovra con dosso e bassa aderenza: riduzione dei KPI di comfort (RMS, VDV) e di slittamento (RMSE) rispetto al veicolo passivo.</figcaption>
+      </figure>
+
+      <h2 id="veicolo">Prove sul veicolo</h2>
+      <p>Le reti sono state implementate su una centralina <strong>dSPACE MicroAutoBox III</strong> a bordo del veicolo di prova a quattro motori in-ruota del Politecnico di Torino. Il tempo di calcolo della rete resta tra 2,99 e 3,23 ms, ampiamente dentro il passo di campionamento di 5 ms.</p>
+      <p>Nella prova più significativa il veicolo accelera su un tratto a bassa aderenza lungo 4 m, il doppio dei tratti più lunghi visti in addestramento. Senza controllo la ruota slitta vistosamente; la rete statica riduce l'errore di slip del 61%, quella adattiva dell'87%. La rete adattiva compensa anche un riferimento di slip sbagliato inviato volutamente in ingresso, perché il riaddestramento si basa sull'errore misurato.</p>
+      <figure>
+        <video src="../assets/video/prova_4m.mp4" poster="../assets/video/prova_4m.jpg" controls muted playsinline preload="none" style="width:100%;border-radius:8px;display:block"></video>
+        <figcaption>Prova sul tratto a bassa aderenza di 4 m: veicolo senza controllo, con la rete statica e con la rete adattiva.</figcaption>
+      </figure>
+
+      <h2 id="imparato">Cosa ho imparato</h2>
+      <p>Sono molto soddisfatto di questo lavoro, perché mi ha portato dalla teoria fino al veicolo reale. Ho imparato molto sull'addestramento delle reti neurali, dalla preparazione dei dati alla scelta dell'architettura, e su cosa serve per far girare in tempo reale controlli basati su modello come l'NMPC: tempi di calcolo, semplificazioni del modello e passaggio dalla simulazione all'hardware.</p>
+
+      <div class="pnext">
+        <a href="../index.html#progetti">← Tutti i progetti</a>
+        <a href="../index.html#contatti">Contattami →</a>
+      </div>
+    </article>
+
+    <aside class="facts">
+      <dl>
+        <dt>Contesto</dt><dd>Tesi magistrale, Politecnico di Torino</dd>
+        <dt>Periodo</dt><dd>2025 – 2026</dd>
+        <dt>Relatore</dt><dd>Prof. Aldo Sorniotti</dd>
+        <dt>Il mio ruolo</dt><dd>Modello e validazione, NMPC, reti neurali, riaddestramento online, prove su veicolo</dd>
+        <dt>Strumenti</dt>
+        <dd><div class="chips" style="margin-top:6px"><span class="chip">MATLAB</span><span class="chip">Simulink</span><span class="chip">acados</span><span class="chip">LSTM · MLP · Mamba</span><span class="chip">SHAP</span><span class="chip">dSPACE MicroAutoBox III</span><span class="chip">ControlDesk</span></div></dd>
+        <dt>In questa pagina</dt>
+        <dd><ul class="toc">
+          <li><a href="#problema">Il problema</a></li>
+          <li><a href="#architettura">Architettura</a></li>
+          <li><a href="#imitation">Imitation learning</a></li>
+          <li><a href="#retraining">Riaddestramento online</a></li>
+          <li><a href="#simulazione">Simulazione</a></li>
+          <li><a href="#veicolo">Prove su veicolo</a></li>
+          <li><a href="#imparato">Cosa ho imparato</a></li>
+        </ul></dd>
+      </dl>
+    </aside>
+  </div>
+</div>
+
+<footer>© 2026 Valerio Cubeddu</footer>
+</body>
+</html>

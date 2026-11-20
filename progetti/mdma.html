@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meccanismi, camme e macchine automatiche — Valerio Cubeddu</title>
+<meta name="description" content="Laboratori di Meccanica delle macchine automatiche al Politecnico di Torino: sei esercitazioni di modellazione in MATLAB/Simulink e quattro prove sperimentali su meccanismi articolati, biella-manovella e camme.">
+<link rel="stylesheet" href="../assets/css/style.css?v=3">
+</head>
+<body>
+
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="../index.html">Valerio <span>Cubeddu</span></a>
+    <ul>
+      <li><a href="../index.html#progetti">Progetti</a></li>
+      <li><a href="../index.html#esperienza">Esperienza</a></li>
+      <li><a href="../index.html#contatti">Contatti</a></li>
+    </ul>
+    <div class="lang"><button class="on">IT</button><button>EN</button></div>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <a class="back" href="../index.html#progetti">← Tutti i progetti</a>
+    <div class="eyebrow">Meccanica delle macchine automatiche · Politecnico di Torino · 2024 – 2025</div>
+    <h1>Meccanismi, camme e macchine automatiche</h1>
+    <p class="lead">Dieci esercitazioni sui meccanismi che muovono le macchine automatiche: sei di modellazione cinematica e dinamica in MATLAB e Simulink, quattro su banchi prova in laboratorio, dove i modelli teorici sono stati confrontati con le misure.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="pkpis">
+    <div class="kpi"><b>6</b><small>laboratori informatici in MATLAB e Simulink</small></div>
+    <div class="kpi"><b>4</b><small>laboratori sperimentali su banchi prova</small></div>
+    <div class="kpi"><b>Camme</b><small>progetto delle leggi di moto, sintesi del profilo e vibrazioni della punteria</small></div>
+    <div class="kpi"><b>176</b><small>pagine di relazioni tecniche</small></div>
+  </div>
+
+  <div class="pbody">
+    <article>
+
+      <h2 id="esercitazioni">Le esercitazioni</h2>
+      <p>Sei esercitazioni di modellazione in MATLAB e Simulink e quattro prove su banchi reali, con calibrazione dei sensori, filtraggio dei segnali e confronto con il modello teorico. Sono ordinate dalla più complessa.</p>
+
+      <h3 id="l4">Sintesi di un sistema a camme</h3>
+      <span class="exp-tag">Simulazione</span>
+      <p>Dal moto richiesto alla forma della camma: confronto tra leggi ad accelerazione costante, cicloidale, biarmonica e polinomiale 3-4-5, poi un programma di sintesi analitica del profilo di una camma piana con punteria a rotella, con verifica dell'angolo di pressione e del raggio di curvatura per evitare il sottotaglio.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/mdma/l4_leggi.png" target="_blank"><img src="../assets/img/mdma/l4_leggi.png" alt="Confronto tra leggi di moto adimensionali" loading="lazy"></a>
+          <a href="../assets/img/mdma/l4_profilo.png" target="_blank"><img src="../assets/img/mdma/l4_profilo.png" alt="Profilo della camma ottenuto per sintesi con le posizioni della rotella" loading="lazy"></a>
+        </div>
+        <figcaption>Leggi di moto a confronto e profilo della camma generato dal programma di sintesi, con le posizioni successive della rotella.</figcaption>
+      </figure>
+
+      <h3 id="s3">Trasmissione a camme</h3>
+      <span class="exp-tag">Banco prova</span>
+      <p>Banco con camma, punteria a molla precaricata, volano e sensori di posizione. Abbiamo stimato l'errore costruttivo della camma, dell'ordine del decimo di millimetro, e studiato l'effetto della velocità di rotazione e del volano. Abbiamo poi analizzato le forze di contatto per prevedere il distacco tra camma e punteria, visibile nelle prove a velocità più alta.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/mdma/s3_banco.png" target="_blank"><img src="../assets/img/mdma/s3_banco.png" alt="Banco prova della trasmissione a camme con i componenti indicati" loading="lazy"></a>
+          <a href="../assets/img/mdma/s3_velocita.png" target="_blank"><img src="../assets/img/mdma/s3_velocita.png" alt="Alzata, velocità e accelerazione della punteria sperimentali e di progetto" loading="lazy"></a>
+        </div>
+        <figcaption>Il banco a camme e il confronto tra alzata, velocità e accelerazione della punteria misurate e di progetto.</figcaption>
+      </figure>
+
+      <h3 id="l6">Motoriduttore, intermittore e tavola rotante</h3>
+      <span class="exp-tag">Simulazione</span>
+      <p>Modello Simulink di una catena motore asincrono, volano, riduttore, intermittore e tavola rotante per un moto rotatorio intermittente. Si confrontano leggi dell'intermittore cicloidale e biarmonica e si studia come inerzia del volano e rapporto di trasmissione influenzano il moto della tavola.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/mdma/l6_schema.png" target="_blank"><img src="../assets/img/mdma/l6_schema.png" alt="Schema dell'intermittore con potenza e coppie in ingresso e uscita" loading="lazy"></a>
+          <a href="../assets/img/mdma/l6_tavola.png" target="_blank"><img src="../assets/img/mdma/l6_tavola.png" alt="Posizione, velocità e accelerazione della tavola rotante al variare dell'inerzia del volano" loading="lazy"></a>
+        </div>
+        <figcaption>L'intermittore come blocco del modello e il moto della tavola rotante al variare dell'inerzia del volano.</figcaption>
+      </figure>
+
+      <h3 id="l2">Sospensione posteriore di una mountain bike</h3>
+      <span class="exp-tag">Simulazione</span>
+      <p>Il retrotreno di una bici biammortizzata modellato come quadrilatero articolato con ammortizzatore pneumatico. Dall'analisi cinematica si ricava il legame tra corsa della ruota e compressione dell'ammortizzatore; in Simulink si studia la risposta dinamica a un gradino e in frequenza, al variare di smorzamento, massa del ciclista e pulsazione propria.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/mdma/l2_bici.png" target="_blank"><img src="../assets/img/mdma/l2_bici.png" alt="Schema del quadrilatero della sospensione sovrapposto alla foto della bici" loading="lazy"></a>
+          <a href="../assets/img/mdma/l2_gradino.png" target="_blank"><img src="../assets/img/mdma/l2_gradino.png" alt="Risposta della sospensione a un gradino del profilo stradale" loading="lazy"></a>
+        </div>
+        <figcaption>Il quadrilatero della sospensione e la risposta a un gradino del terreno: spostamento della massa sospesa (blu) rispetto all'ingresso (rosso).</figcaption>
+      </figure>
+
+      <h3 id="l5">Vibrazioni della punteria</h3>
+      <span class="exp-tag">Simulazione</span>
+      <p>La punteria modellata a parametri concentrati: massa, molla e due smorzatori, interno e verso la guida. In Simulink si studia la risposta a un gradino di accelerazione al variare di rigidezza e smorzamenti, il confronto tra diverse forme della legge di accelerazione e la risposta in frequenza.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/mdma/l5_modello.png" target="_blank"><img src="../assets/img/mdma/l5_modello.png" alt="Modello a parametri concentrati della punteria" loading="lazy"></a>
+          <a href="../assets/img/mdma/l5_vibrazioni.png" target="_blank"><img src="../assets/img/mdma/l5_vibrazioni.png" alt="Risposta della punteria a un gradino di accelerazione per diverse rigidezze" loading="lazy"></a>
+        </div>
+        <figcaption>Modello della punteria e risposta a un gradino di accelerazione per tre valori di rigidezza: l'estremo superiore della punteria vibra prima di assestarsi.</figcaption>
+      </figure>
+
+      <h3 id="s2">Biella-manovella su banco prova</h3>
+      <span class="exp-tag">Banco prova</span>
+      <p>Banco con motore in corrente continua, encoder e trasduttore lineare. Dopo la calibrazione dei sensori abbiamo ricavato alzata, velocità e accelerazione del piede di biella, filtrato i dati grezzi e confrontato nove prove, con diversi valori di eccentricità, raggio di manovella e velocità, con il modello teorico.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/mdma/s2_banco.png" target="_blank"><img src="../assets/img/mdma/s2_banco.png" alt="Componenti del banco prova biella-manovella" loading="lazy"></a>
+          <a href="../assets/img/mdma/s2_confronto.png" target="_blank"><img src="../assets/img/mdma/s2_confronto.png" alt="Alzata sperimentale e teorica del piede di biella" loading="lazy"></a>
+        </div>
+        <figcaption>Il banco biella-manovella e il confronto tra alzata sperimentale e teorica in funzione dell'angolo di manovella.</figcaption>
+      </figure>
+
+      <h3 id="s4">Glifo e quadrilatero articolato</h3>
+      <span class="exp-tag">Banco prova</span>
+      <p>Un quadrilatero articolato azionato da un glifo oscillante, con tre lunghezze del cedente. Dalle misure degli encoder abbiamo ricavato posizione, velocità e accelerazione del cedente e le abbiamo confrontate con il modello cinematico scritto a partire dalla geometria del banco.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/mdma/s4_glifo.png" target="_blank"><img src="../assets/img/mdma/s4_glifo.png" alt="Disegno del banco prova glifo e quadrilatero articolato" loading="lazy"></a>
+          <a href="../assets/img/mdma/s4_confronto.png" target="_blank"><img src="../assets/img/mdma/s4_confronto.png" alt="Grandezze geometriche del cedente sperimentali e teoriche" loading="lazy"></a>
+        </div>
+        <figcaption>Il banco glifo-quadrilatero e il confronto tra le grandezze geometriche del cedente misurate e calcolate.</figcaption>
+      </figure>
+
+      <h3 id="l3">Diagrammi di moto di un sistema a camme</h3>
+      <span class="exp-tag">Simulazione</span>
+      <p>Progetto della legge di moto di un sistema camma-punteria con profilo di velocità asimmetrico e con accelerazione trapezoidale modificata: diagrammi di alzata, velocità e accelerazione adimensionali, in funzione dell'angolo di camma e del tempo.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/mdma/l3_legge.png" target="_blank"><img src="../assets/img/mdma/l3_legge.png" alt="Legge di moto con fasi di salita, arresto, discesa e riposo" loading="lazy"></a>
+          <a href="../assets/img/mdma/l3_diagrammi.png" target="_blank"><img src="../assets/img/mdma/l3_diagrammi.png" alt="Alzata, velocità e accelerazione adimensionali per diversi parametri della legge trapezoidale" loading="lazy"></a>
+        </div>
+        <figcaption>Legge di moto intermittente (salita, arresto, discesa, riposo) e diagrammi adimensionali al variare dei parametri della legge trapezoidale modificata.</figcaption>
+      </figure>
+
+      <h3 id="l1">Biella-manovella</h3>
+      <span class="exp-tag">Simulazione</span>
+      <p>Cinematica di un biella-manovella eccentrico con manovella a velocità costante: posizione, velocità e accelerazione del piede di biella in forma dimensionale e adimensionale, con analisi parametrica su eccentricità, velocità angolare e lunghezza di biella, e animazione del meccanismo.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/mdma/l1_schema.png" target="_blank"><img src="../assets/img/mdma/l1_schema.png" alt="Schema del meccanismo biella-manovella eccentrico" loading="lazy"></a>
+          <a href="../assets/img/mdma/l1_inviluppo.png" target="_blank"><img src="../assets/img/mdma/l1_inviluppo.png" alt="Posizioni successive della biella nell'animazione MATLAB" loading="lazy"></a>
+        </div>
+        <figcaption>Schema del meccanismo e posizioni successive della biella ricavate dall'animazione in MATLAB.</figcaption>
+      </figure>
+
+      <h3 id="s1">Meccanismi storici</h3>
+      <span class="exp-tag">Banco prova</span>
+      <p>Modelli didattici di fine Ottocento che generano traiettorie rettilinee approssimate. Per ognuno abbiamo fatto il rilievo geometrico, calcolato i gradi di libertà, ricostruito il meccanismo nel software GIM e svolto analisi cinematica e parametrica delle traiettorie.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/mdma/s1_meccanismo.png" target="_blank"><img src="../assets/img/mdma/s1_meccanismo.png" alt="Meccanismo storico a traiettoria rettilinea approssimata" loading="lazy"></a>
+          <a href="../assets/img/mdma/s1_gim.png" target="_blank"><img src="../assets/img/mdma/s1_gim.png" alt="Modello del meccanismo nel software GIM con le traiettorie dei punti" loading="lazy"></a>
+        </div>
+        <figcaption>Uno dei meccanismi storici e il suo modello in GIM, con le traiettorie dei punti di interesse.</figcaption>
+      </figure>
+
+      <h2 id="imparato">Cosa ho imparato</h2>
+      <p>Questo corso mi ha dato gli strumenti per progettare il moto di una macchina automatica partendo dalle specifiche: scegliere la legge di moto, ricavare la geometria della camma, verificare angoli di pressione e vibrazioni. Le prove in laboratorio mi hanno insegnato che tra modello e realtà ci sono sempre errori costruttivi, rumore dei sensori e fenomeni come il distacco della punteria, e che servono calibrazione e filtraggio accurati per confrontare correttamente i dati con la teoria.</p>
+
+      <div class="pnext">
+        <a href="../index.html#progetti">← Tutti i progetti</a>
+        <a href="../index.html#contatti">Contattami →</a>
+      </div>
+    </article>
+
+    <aside class="facts">
+      <dl>
+        <dt>Contesto</dt><dd>Corso di Meccanica delle macchine automatiche, Politecnico di Torino</dd>
+        <dt>Periodo</dt><dd>A.A. 2024 – 2025</dd>
+        <dt>Strumenti</dt>
+        <dd><div class="chips" style="margin-top:6px"><span class="chip">MATLAB</span><span class="chip">Simulink</span><span class="chip">GIM</span><span class="chip">Acquisizione dati</span></div></dd>
+        <dt>In questa pagina</dt>
+        <dd><ul class="toc">
+          <li><a href="#esercitazioni">Le esercitazioni</a></li>
+          <li><a href="#l4">Sintesi camme</a></li>
+          <li><a href="#s3">Trasmissione a camme</a></li>
+          <li><a href="#l6">Tavola rotante</a></li>
+          <li><a href="#l2">Sospensione MTB</a></li>
+          <li><a href="#l5">Vibrazioni punteria</a></li>
+          <li><a href="#s2">Biella-manovella su banco</a></li>
+          <li><a href="#s4">Glifo-quadrilatero</a></li>
+          <li><a href="#l3">Diagrammi di moto</a></li>
+          <li><a href="#l1">Biella-manovella</a></li>
+          <li><a href="#s1">Meccanismi storici</a></li>
+          <li><a href="#imparato">Cosa ho imparato</a></li>
+        </ul></dd>
+      </dl>
+    </aside>
+  </div>
+</div>
+
+<footer>© 2026 Valerio Cubeddu</footer>
+</body>
+</html>

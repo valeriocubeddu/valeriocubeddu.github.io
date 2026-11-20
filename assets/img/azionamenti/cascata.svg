@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" font-family="Segoe UI, system-ui, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1d2430"/>
+    </marker>
+    <style>
+      .b{fill:#e8f0f8;stroke:#0E599B;stroke-width:2;rx:8}
+      .p{fill:#fff;stroke:#5b6575;stroke-width:2;rx:8}
+      .s{fill:#fff;stroke:#1d2430;stroke-width:2}
+      .l{stroke:#1d2430;stroke-width:2;fill:none}
+      .t{font-size:18px;fill:#1d2430;text-anchor:middle}
+      .tb{font-size:18px;fill:#0E599B;text-anchor:middle;font-weight:600}
+      .sm{font-size:14px;fill:#5b6575;text-anchor:middle}
+      .it{font-style:italic}
+    </style>
+  </defs>
+
+  <!-- riferimento -->
+  <text x="30" y="96" class="t it" text-anchor="start">θ*</text>
+  <line x1="55" y1="90" x2="83" y2="90" class="l" marker-end="url(#a)"/>
+  <circle cx="95" cy="90" r="12" class="s"/>
+  <text x="95" y="96" class="t">+</text>
+  <line x1="107" y1="90" x2="135" y2="90" class="l" marker-end="url(#a)"/>
+
+  <!-- posizione -->
+  <rect x="137" y="60" width="130" height="60" class="b"/>
+  <text x="202" y="88" class="tb">P</text>
+  <text x="202" y="108" class="sm">posizione · 5 Hz</text>
+  <line x1="267" y1="90" x2="303" y2="90" class="l" marker-end="url(#a)"/>
+  <text x="285" y="80" class="sm it">ω*</text>
+  <circle cx="315" cy="90" r="12" class="s"/>
+  <text x="315" y="96" class="t">+</text>
+  <line x1="327" y1="90" x2="355" y2="90" class="l" marker-end="url(#a)"/>
+
+  <!-- velocità -->
+  <rect x="357" y="60" width="150" height="60" class="b"/>
+  <text x="432" y="88" class="tb">PI + anti-windup</text>
+  <text x="432" y="108" class="sm">velocità · 50 Hz</text>
+  <line x1="507" y1="90" x2="543" y2="90" class="l" marker-end="url(#a)"/>
+  <text x="525" y="80" class="sm it">T*</text>
+
+  <!-- costante di coppia -->
+  <rect x="545" y="60" width="80" height="60" class="b"/>
+  <text x="585" y="96" class="tb">1/k<tspan font-size="13" dy="4">T</tspan></text>
+  <line x1="625" y1="90" x2="661" y2="90" class="l" marker-end="url(#a)"/>
+  <text x="643" y="80" class="sm it">i<tspan font-size="11" dy="3">q</tspan><tspan dy="-3">*</tspan></text>
+  <circle cx="673" cy="90" r="12" class="s"/>
+  <text x="673" y="96" class="t">+</text>
+  <line x1="685" y1="90" x2="713" y2="90" class="l" marker-end="url(#a)"/>
+
+  <!-- corrente -->
+  <rect x="715" y="60" width="150" height="60" class="b"/>
+  <text x="790" y="88" class="tb">PI d-q discreto</text>
+  <text x="790" y="108" class="sm">corrente · 500 Hz</text>
+  <line x1="865" y1="90" x2="901" y2="90" class="l" marker-end="url(#a)"/>
+  <text x="883" y="80" class="sm it">v<tspan font-size="11" dy="3">dq</tspan><tspan dy="-3">*</tspan></text>
+
+  <!-- PWM + inverter -->
+  <rect x="903" y="60" width="130" height="60" class="p"/>
+  <text x="968" y="88" class="t">PWM + inverter</text>
+  <text x="968" y="108" class="sm">560 V · 5 kHz</text>
+  <line x1="1033" y1="90" x2="1061" y2="90" class="l" marker-end="url(#a)"/>
+
+  <!-- motore -->
+  <rect x="1063" y="55" width="132" height="70" class="p"/>
+  <text x="1129" y="88" class="t">Motore SPM</text>
+  <text x="1129" y="108" class="sm">7,2 Nm · 1000 rpm</text>
+
+  <!-- retroazioni -->
+  <!-- corrente -->
+  <polyline points="1105,125 1105,165 673,165 673,102" class="l" marker-end="url(#a)"/>
+  <text x="900" y="158" class="sm it">i<tspan font-size="11" dy="3">d</tspan><tspan dy="-3">, i</tspan><tspan font-size="11" dy="3">q</tspan></text>
+  <!-- velocità -->
+  <polyline points="1135,125 1135,215 315,215 315,102" class="l" marker-end="url(#a)"/>
+  <text x="730" y="208" class="sm it">ω</text>
+  <!-- posizione -->
+  <polyline points="1165,125 1165,265 95,265 95,102" class="l" marker-end="url(#a)"/>
+  <text x="630" y="258" class="sm it">θ</text>
+
+  <text x="83" y="120" class="t">−</text>
+  <text x="303" y="120" class="t">−</text>
+  <text x="661" y="120" class="t">−</text>
+
+  <text x="600" y="305" class="sm">Ogni anello ha una banda di circa un decimo di quello interno: 500 Hz → 50 Hz → 5 Hz</text>
+</svg>

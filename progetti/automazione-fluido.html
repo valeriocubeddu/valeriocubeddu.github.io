@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Automazione pneumatica ed elettropneumatica — Valerio Cubeddu</title>
+<meta name="description" content="Laboratorio di Automazione a fluido al Politecnico di Torino: undici esercitazioni su PLC e Ladder, logica a relè, circuiti pneumatici, simulazione in Simcenter Amesim, valvole e cuscinetti ad aria.">
+<link rel="stylesheet" href="../assets/css/style.css?v=3">
+</head>
+<body>
+
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="../index.html">Valerio <span>Cubeddu</span></a>
+    <ul>
+      <li><a href="../index.html#progetti">Progetti</a></li>
+      <li><a href="../index.html#esperienza">Esperienza</a></li>
+      <li><a href="../index.html#contatti">Contatti</a></li>
+    </ul>
+    <div class="lang"><button class="on">IT</button><button>EN</button></div>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <a class="back" href="../index.html#progetti">← Tutti i progetti</a>
+    <div class="eyebrow">Automazione a fluido · Politecnico di Torino · 2024 – 2025</div>
+    <h1>Automazione pneumatica ed elettropneumatica</h1>
+    <p class="lead">Undici esercitazioni di laboratorio sull'automazione industriale a fluido: dalla programmazione di un PLC in Ladder alla logica a relè, dai circuiti pneumatici a sequenza alla simulazione in Simcenter Amesim, fino alla caratterizzazione sperimentale di valvole e cuscinetti ad aria.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="pkpis">
+    <div class="kpi"><b>11</b><small>esercitazioni su banchi prova e al calcolatore</small></div>
+    <div class="kpi"><b>PLC</b><small>programmazione Ladder di un PLC Siemens con il metodo dei relè ausiliari</small></div>
+    <div class="kpi"><b>Amesim</b><small>simulazione di circuiti pneumatici in Simcenter Amesim</small></div>
+    <div class="kpi"><b>ISO 6358</b><small>caratterizzazione della portata di valvole secondo normativa</small></div>
+  </div>
+
+  <div class="pbody">
+    <article>
+
+      <h2 id="esercitazioni">Le esercitazioni</h2>
+      <p>Ogni esperienza unisce progetto del circuito, montaggio sul banco e verifica del funzionamento. Dove possibile le misure sono state elaborate in MATLAB e confrontate con modelli teorici o normativi. Sono ordinate dalla più vicina all'automazione industriale.</p>
+
+      <h3 id="es7">Programmazione di un PLC in linguaggio Ladder</h3>
+      <span class="exp-tag">PLC · Automazione</span>
+      <p>Un banco con sei cilindri pneumatici, elettrovalvole mono e bistabili e finecorsa reed, gestito da un PLC Siemens. Dal diagramma movimento-fasi abbiamo ricavato il Grafcet, la versione contratta e la tabella dei relè ausiliari, poi scritto il programma Ladder per un ciclo semiautomatico, anche con temporizzatori, e lo abbiamo provato sul banco.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/fluido/es7_grafcet.png" target="_blank"><img src="../assets/img/fluido/es7_grafcet.png" alt="Grafcet contratto del ciclo a due cilindri" loading="lazy"></a>
+          <a href="../assets/img/fluido/es7_ladder.png" target="_blank"><img src="../assets/img/fluido/es7_ladder.png" alt="Programma Ladder con relè ausiliari e temporizzatore" loading="lazy"></a>
+        </div>
+        <figcaption>Grafcet contratto del ciclo e programma Ladder con relè ausiliari e temporizzatore TON.</figcaption>
+      </figure>
+
+      <h3 id="es6">Sistemi elettropneumatici con relè</h3>
+      <span class="exp-tag">Elettropneumatica</span>
+      <p>Funzioni logiche combinatorie e sequenziali realizzate con relè: OR, AND, memoria e limitatore di impulso. Su queste basi abbiamo progettato e cablato un circuito elettropneumatico che comanda due cilindri attraverso elettrovalvole e finecorsa, con lo schema a relè ricavato dal ciclo richiesto.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/fluido/es6_banco.jpg" target="_blank"><img src="../assets/img/fluido/es6_banco.jpg" alt="Pannello con relè, alimentatore e cablaggi del circuito elettropneumatico" loading="lazy"></a>
+          <a href="../assets/img/fluido/es6_schema.png" target="_blank"><img src="../assets/img/fluido/es6_schema.png" alt="Schema elettrico a relè del ciclo con due finecorsa" loading="lazy"></a>
+        </div>
+        <figcaption>Il pannello a relè cablato in laboratorio e lo schema elettrico del ciclo.</figcaption>
+      </figure>
+
+      <h3 id="es8">Simulazione di circuiti pneumatici in Simcenter Amesim</h3>
+      <span class="exp-tag">Simulazione</span>
+      <p>Due modelli multidominio: la carica e la scarica di un serbatoio attraverso un'elettrovalvola proporzionale e uno strozzatore, e la regolazione della velocità di un cilindro. Abbiamo analizzato pressioni, portate, forze e velocità del pistone al variare di volume del serbatoio, area di passaggio dello strozzatore e attrito viscoso.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/fluido/es8_modello.png" target="_blank"><img src="../assets/img/fluido/es8_modello.png" alt="Modello Amesim del circuito di regolazione della velocità di un cilindro" loading="lazy"></a>
+          <a href="../assets/img/fluido/es8_pressioni.png" target="_blank"><img src="../assets/img/fluido/es8_pressioni.png" alt="Pressione di carica e scarica del serbatoio al variare dell'area dello strozzatore" loading="lazy"></a>
+        </div>
+        <figcaption>Modello Amesim del circuito con cilindro e curve di pressione nella carica e scarica del serbatoio per diverse aree dello strozzatore.</figcaption>
+      </figure>
+
+      <h3 id="es11">Cuscinetti lubrificati ad aria</h3>
+      <span class="exp-tag">Misura · MATLAB</span>
+      <p>Confronto tra pattini pneumostatici a fori, a ragnature e porosi, poi prove su banco con cella di carico, comparatori e flussimetro. Dai dati, elaborati in MATLAB, abbiamo ricavato le caratteristiche statica, di carico, di consumo e di rigidezza al variare dell'altezza del meato, per due pressioni di alimentazione.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/fluido/es11_banco.jpg" target="_blank"><img src="../assets/img/fluido/es11_banco.jpg" alt="Banco prova del pattino pneumostatico con cella di carico e strumenti" loading="lazy"></a>
+          <a href="../assets/img/fluido/es11_portanza.png" target="_blank"><img src="../assets/img/fluido/es11_portanza.png" alt="Portanza del pattino in funzione dell'altezza del meato" loading="lazy"></a>
+        </div>
+        <figcaption>Il banco del pattino ad aria e la portanza in funzione del meato a 3,6 bar di alimentazione.</figcaption>
+      </figure>
+
+      <h3 id="es9">Tempi di risposta delle valvole e interfaccia proporzionale</h3>
+      <span class="exp-tag">Misura</span>
+      <p>Con trasduttori di pressione e oscilloscopio abbiamo misurato i ritardi di attivazione e disattivazione di una valvola 4/2 bistabile. Nella seconda parte abbiamo caratterizzato un'interfaccia elettronico-pneumatica proporzionale, cioè la pressione in uscita in funzione della tensione di comando, e valutato l'errore rispetto alla caratteristica teorica regolando le viti di zero e span.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/fluido/es9_oscilloscopio.jpg" target="_blank"><img src="../assets/img/fluido/es9_oscilloscopio.jpg" alt="Oscilloscopio usato per misurare i tempi di risposta" loading="lazy"></a>
+          <a href="../assets/img/fluido/es9_ritardo.png" target="_blank"><img src="../assets/img/fluido/es9_ritardo.png" alt="Segnali di comando e di uscita per il ritardo di attivazione della valvola" loading="lazy"></a>
+        </div>
+        <figcaption>L'oscilloscopio delle prove e il ritardo di attivazione della valvola tra comando e segnale di uscita.</figcaption>
+      </figure>
+
+      <h3 id="es5">Circuiti pneumatici a sequenziatori</h3>
+      <span class="exp-tag">Pneumatica</span>
+      <p>Cicli automatici a due cilindri comandati da moduli sequenziatori pneumatici, con finecorsa a leva e sensori virtuali NOT a soglia. Il ciclo prevede le modalità ciclo singolo e continuo e le condizioni di avvio.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/fluido/es5_banco.jpg" target="_blank"><img src="../assets/img/fluido/es5_banco.jpg" alt="Pannelli di comando e attuazione del circuito a sequenziatori" loading="lazy"></a>
+          <a href="../assets/img/fluido/es5_ciclo.png" target="_blank"><img src="../assets/img/fluido/es5_ciclo.png" alt="Schema del ciclo a quattro fasi con sequenziatori" loading="lazy"></a>
+        </div>
+        <figcaption>Il circuito montato sui pannelli e lo schema del ciclo a quattro fasi.</figcaption>
+      </figure>
+
+      <h3 id="es4">Comandi di base e circuiti pneumatici</h3>
+      <span class="exp-tag">Pneumatica</span>
+      <p>Dai comandi elementari, selettori OR e AND, ritorno automatico, ritorno temporizzato e comando in sequenza, fino a un circuito con due cilindri a doppio effetto che riproduce un ciclo reale, costruito a partire dal diagramma movimento-fasi.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/fluido/es4_banco.jpg" target="_blank"><img src="../assets/img/fluido/es4_banco.jpg" alt="Circuito pneumatico a due cilindri montato sul pannello" loading="lazy"></a>
+          <a href="../assets/img/fluido/es4_fasi.png" target="_blank"><img src="../assets/img/fluido/es4_fasi.png" alt="Diagramma movimento-fasi dei due cilindri" loading="lazy"></a>
+        </div>
+        <figcaption>Il circuito a due cilindri e il diagramma movimento-fasi da realizzare.</figcaption>
+      </figure>
+
+      <h3 id="es3">Portata delle valvole pneumatiche</h3>
+      <span class="exp-tag">Misura · Normativa</span>
+      <p>Curve di flusso di una valvola, cioè la portata in funzione della pressione di valle a pressione di monte fissata, misurate su un banco con orifizio tarato. Dai dati abbiamo calcolato la conduttanza e il rapporto critico secondo ISO 6358 e il coefficiente di valvola secondo N.B.S., confrontando le curve sperimentali con quelle da normativa.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/fluido/es3_banco.jpg" target="_blank"><img src="../assets/img/fluido/es3_banco.jpg" alt="Banco prova per la misura di portata delle valvole" loading="lazy"></a>
+          <a href="../assets/img/fluido/es3_curve.png" target="_blank"><img src="../assets/img/fluido/es3_curve.png" alt="Curva di flusso della valvola a 3,5 bar di monte" loading="lazy"></a>
+        </div>
+        <figcaption>Il banco di misura della portata e una curva di flusso a 3,5 bar di pressione di monte.</figcaption>
+      </figure>
+
+      <h3 id="es1">Cilindri pneumatici</h3>
+      <span class="exp-tag">Pneumatica</span>
+      <p>Misura delle forze di aderenza degli stantuffi di cilindri a semplice e doppio effetto, e regolazione della velocità con regolatori di flusso unidirezionali e valvole di scarico rapido in diverse configurazioni.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/fluido/es1_banco.jpg" target="_blank"><img src="../assets/img/fluido/es1_banco.jpg" alt="Circuito di regolazione della velocità di un cilindro" loading="lazy"></a>
+          <a href="../assets/img/fluido/es1_schema.png" target="_blank"><img src="../assets/img/fluido/es1_schema.png" alt="Schema del circuito con regolatore di flusso" loading="lazy"></a>
+        </div>
+        <figcaption>Circuito di regolazione della velocità montato e relativo schema pneumatico.</figcaption>
+      </figure>
+
+      <h3 id="es2">Valvole pneumatiche</h3>
+      <span class="exp-tag">Pneumatica</span>
+      <p>Azionamento di valvole unistabili e bistabili con segnali positivi e negativi, pressione minima di comando, circuito per rendere bistabile una valvola unistabile, limitatore di impulso e forza di azionamento di un finecorsa.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/fluido/es2_valvola.jpg" target="_blank"><img src="../assets/img/fluido/es2_valvola.jpg" alt="Valvola pneumatica provata in laboratorio" loading="lazy"></a>
+          <a href="../assets/img/fluido/es2_schema.png" target="_blank"><img src="../assets/img/fluido/es2_schema.png" alt="Schema della prova di pressione minima di comando" loading="lazy"></a>
+        </div>
+        <figcaption>Una delle valvole provate e lo schema della prova di pressione minima di comando.</figcaption>
+      </figure>
+
+      <h3 id="es10">Elemento fluidico bistabile, eiettori e ventose</h3>
+      <span class="exp-tag">Pneumatica · Vuoto</span>
+      <p>Caratteristica di alimentazione di un elemento fluidico bistabile basato sull'effetto parete, curva sperimentale di un eiettore per il vuoto e prove di forza di distacco su ventose rigide e a soffietto, usate nella manipolazione industriale.</p>
+      <figure>
+        <div class="duo">
+          <a href="../assets/img/fluido/es10_ventosa.jpg" target="_blank"><img src="../assets/img/fluido/es10_ventosa.jpg" alt="Ventosa a soffietto durante la prova di distacco" loading="lazy"></a>
+          <a href="../assets/img/fluido/es10_eiettore.png" target="_blank"><img src="../assets/img/fluido/es10_eiettore.png" alt="Schema di funzionamento di un eiettore" loading="lazy"></a>
+        </div>
+        <figcaption>Prova di distacco su una ventosa e principio di funzionamento dell'eiettore.</figcaption>
+      </figure>
+
+      <h2 id="imparato">Cosa ho imparato</h2>
+      <p>Questo laboratorio mi ha fatto passare dallo schema alla macchina che funziona: leggere e disegnare circuiti pneumatici ed elettropneumatici, cablarli sul banco, tradurre un ciclo in Grafcet e poi in un programma Ladder per PLC. Allo stesso tempo ho imparato a caratterizzare i componenti con misure e normative, e a usare la simulazione per prevedere come cambia il circuito al variare dei parametri.</p>
+
+      <div class="pnext">
+        <a href="../index.html#progetti">← Tutti i progetti</a>
+        <a href="../index.html#contatti">Contattami →</a>
+      </div>
+    </article>
+
+    <aside class="facts">
+      <dl>
+        <dt>Contesto</dt><dd>Corso di Automazione a fluido, Politecnico di Torino</dd>
+        <dt>Periodo</dt><dd>A.A. 2024 – 2025</dd>
+        <dt>Strumenti</dt>
+        <dd><div class="chips" style="margin-top:6px"><span class="chip">PLC Siemens</span><span class="chip">Ladder</span><span class="chip">Grafcet</span><span class="chip">Simcenter Amesim</span><span class="chip">MATLAB</span><span class="chip">Oscilloscopio</span></div></dd>
+        <dt>In questa pagina</dt>
+        <dd><ul class="toc">
+          <li><a href="#esercitazioni">Le esercitazioni</a></li>
+          <li><a href="#es7">PLC e Ladder</a></li>
+          <li><a href="#es6">Elettropneumatica a relè</a></li>
+          <li><a href="#es8">Simulazione Amesim</a></li>
+          <li><a href="#es11">Cuscinetti ad aria</a></li>
+          <li><a href="#es9">Tempi di risposta</a></li>
+          <li><a href="#es5">Sequenziatori</a></li>
+          <li><a href="#es4">Circuiti pneumatici</a></li>
+          <li><a href="#es3">Portata valvole</a></li>
+          <li><a href="#es1">Cilindri</a></li>
+          <li><a href="#es2">Valvole</a></li>
+          <li><a href="#es10">Fluidica e vuoto</a></li>
+          <li><a href="#imparato">Cosa ho imparato</a></li>
+        </ul></dd>
+      </dl>
+    </aside>
+  </div>
+</div>
+
+<footer>© 2026 Valerio Cubeddu</footer>
+</body>
+</html>

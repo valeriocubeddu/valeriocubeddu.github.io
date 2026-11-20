@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Valerio Cubeddu — Ingegnere meccanico · Portfolio</title>
+<link rel="stylesheet" href="assets/css/style.css?v=6">
+</head>
+<body>
+
+
+<nav>
+  <div class="wrap">
+    <div class="logo">Valerio <span>Cubeddu</span></div>
+    <ul>
+      <li><a href="#lavoro">Lavoro</a></li>
+      <li><a href="#progetti">Progetti</a></li>
+      <li><a href="progetti/tesi.html">Tesi</a></li>
+      <li><a href="#esperienza">Esperienza</a></li>
+      <li><a href="#contatti">Contatti</a></li>
+    </ul>
+    <div class="lang"><button class="on">IT</button><button>EN</button></div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <svg class="bg" viewBox="0 0 600 500" fill="none" stroke="#fff" stroke-width="2">
+    <path d="M0 400 C80 400 100 120 180 120 S280 330 360 330 S460 180 600 180"/>
+    <path d="M0 440 C90 440 120 200 200 200 S300 360 380 360 S480 240 600 240" opacity=".6"/>
+    <circle cx="180" cy="120" r="6" fill="#fff"/><circle cx="360" cy="330" r="6" fill="#fff"/>
+    <rect x="420" y="40" width="140" height="80" rx="8"/><rect x="440" y="140" width="100" height="50" rx="6"/>
+    <path d="M490 120v20M560 80h30v110h-50"/>
+  </svg>
+  <div class="wrap">
+    <div class="avatar" style="background-image:url(assets/img/foto.jpg);background-position:center 30%" role="img" aria-label="Foto di Valerio Cubeddu"></div>
+    <div>
+      <h1>Valerio Cubeddu</h1>
+      <p class="role">Ingegnere meccanico · Controllo dei sistemi e automazione</p>
+      <div class="degree"><b>Laurea magistrale in Ingegneria Meccanica</b><span><b>indirizzo Automazione</b></span><span>Politecnico di Torino</span></div>
+      <p class="pitch">Sviluppo modelli e controlli per veicoli elettrici, dalla simulazione in MATLAB/Simulink alla prova su veicolo reale, con un occhio all'intelligenza artificiale e all'ottimizzazione dei processi produttivi.</p>
+      <div class="btns">
+        <a class="btn primary" href="#progetti">Guarda i progetti</a>
+        <a class="btn ghost" href="assets/cv/CV_Valerio_Cubeddu_IT.pdf" target="_blank">Scarica il CV (PDF)</a>
+        <a class="btn ghost" href="#" data-link="linkedin">LinkedIn</a>
+      </div>
+      <div class="tags"><span>Vehicle dynamics</span><span>NMPC</span><span>Machine learning</span><span>MATLAB/Simulink</span><span>dSPACE</span><span>Lean / MES</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- FEATURED -->
+<section id="tesi">
+  <div class="wrap">
+    <div class="eyebrow">Progetto in evidenza · Tesi magistrale 2026</div>
+    <div class="featured">
+      <div class="vis" style="padding:0;background:#fff"><img src="assets/img/tesi/prova_veicolo.jpg" alt="Prova sul veicolo con la rete LSTM adattiva: il veicolo sul tratto a bassa aderenza e il grafico dello slittamento quasi completo" style="width:100%;display:block"></div>
+      <div class="body">
+        <h3>Controllo di trazione predittivo con reti neurali auto-adattive</h3>
+        <p style="margin:0;color:var(--muted)">Un NMPC con preview della strada è troppo pesante per l'hardware di bordo: l'ho distillato in una rete neurale che gira in real-time e si riaddestra da sola durante la guida.</p>
+        <div class="kpis">
+          <div class="kpi"><b>−87%</b><small>RMSE di slip su veicolo con rete adattiva</small></div>
+          <div class="kpi"><b>&gt;91%</b><small>scenari Monte Carlo con comfort migliorato</small></div>
+          <div class="kpi"><b>R² 0,85</b><small>fedeltà della LSTM all'NMPC</small></div>
+        </div>
+        <div class="chips"><span class="chip">acados</span><span class="chip">MATLAB/Simulink</span><span class="chip">LSTM · Mamba</span><span class="chip">SHAP</span><span class="chip">dSPACE MicroAutoBox III</span></div>
+        <p style="margin:22px 0 0"><a href="progetti/tesi.html">Leggi il caso studio →</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK EXPERIENCE -->
+<section id="lavoro" style="padding-top:10px">
+  <div class="wrap">
+    <h2>Esperienze professionali</h2>
+    <p class="sub">Dove ho applicato quello che ho studiato.</p>
+    <div class="work">
+      <div class="job">
+        <div class="jh"><img src="assets/img/loghi/logo_azimut.png" alt="Logo Azimut Yachts"><div><div class="meta">Set – Dic 2025 · Tirocinio</div><h4>Azimut Yachts</h4></div></div>
+        <p>Attività nell'ufficio di Miglioramento Continuo, focalizzata sul monitoraggio del ciclo produttivo tramite sistema MES. Analisi dei dati di campo per il calcolo dei KPI di produzione, l'identificazione delle inefficienze e l'ottimizzazione dei processi.</p>
+        <div class="chips"><span class="chip">MES</span><span class="chip">KPI di produzione</span><span class="chip">Lean</span></div>
+      </div>
+      <div class="job">
+        <div class="jh"><img src="assets/img/loghi/logo_minerva.png" alt="Logo Minerva Education AI"><div><div class="meta">Set – Dic 2025 · Collaborazione</div><h4>Minerva Education AI</h4></div></div>
+        <p>Sviluppo di un'applicazione EdTech basata su intelligenza artificiale. Progettazione e implementazione di un algoritmo basato su Large Language Models per la generazione automatizzata e personalizzata di presentazioni didattiche.</p>
+        <div class="chips"><span class="chip">LLM</span><span class="chip">Python</span><span class="chip">EdTech</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS GRID -->
+<section id="progetti" style="padding-top:20px">
+  <div class="wrap">
+    <h2>Progetti</h2>
+    <p class="sub">Progetti universitari, tesi e attività in team. Clicca su un progetto per i dettagli.</p>
+    <div class="filters" id="filters">
+      <button class="on" data-f="all">Tutti</button>
+      <button data-f="ctrl">Controllo &amp; veicolo</button>
+      <button data-f="mech">Meccatronica</button>
+      <button data-f="design">Progettazione &amp; FEM</button>
+    </div>
+    <div class="grid" id="grid">
+      <a class="card" data-c="ctrl" href="progetti/tesi.html">
+        <div class="thumb" style="background-image:url(assets/img/tesi/retraining.svg);background-color:#fff;background-size:contain;background-repeat:no-repeat"></div>
+        <div class="c"><div class="meta">2026 · Tesi magistrale</div><h4>Controllo di trazione predittivo con reti neurali auto-adattive</h4><p>NMPC distillato in una rete LSTM che gira su dSPACE e si riaddestra online.</p><div class="chips"><span class="chip">acados</span><span class="chip">LSTM</span><span class="chip">dSPACE</span></div></div>
+      </a>
+      <a class="card" data-c="ctrl" href="progetti/adas.html">
+        <div class="thumb" style="background-image:url(assets/img/adas/anim_skidpad_60.png);background-color:#fff;background-size:contain;background-repeat:no-repeat;background-position:center"></div>
+        <div class="c"><div class="meta">2025 · Controllo</div><h4>Cruise control adattivo e path tracking per un veicolo elettrico</h4><p>ACC con commutazione velocità/distanza e path tracking LQR con feedforward di curvatura.</p><div class="chips"><span class="chip">Simulink</span><span class="chip">LQR</span><span class="chip">PID</span></div></div>
+      </a>
+      <a class="card" data-c="ctrl" href="progetti/dinamica-veicolo.html">
+        <div class="thumb" style="background-image:url(assets/img/veicolo/pneumatico.png);background-color:#fff;background-size:cover;background-position:left center"></div>
+        <div class="c"><div class="meta">2024 · Veicolo</div><h4>Modelli per la dinamica del veicolo</h4><p>Veicolo completo con rollio e differenziale, modello a bicicletta, pneumatico Pacejka, frenata con EBD e comfort.</p><div class="chips"><span class="chip">Simulink</span><span class="chip">Pacejka</span><span class="chip">Dinamica laterale</span></div></div>
+      </a>
+      <a class="card" data-c="mech" href="progetti/azionamenti.html">
+        <div class="thumb" style="background-image:url(assets/img/azionamenti/velocita.png);background-color:#fff;background-size:contain;background-repeat:no-repeat;background-position:center"></div>
+        <div class="c"><div class="meta">2025 · Azionamenti elettrici</div><h4>Azionamento di un motore sincrono a magneti permanenti</h4><p>Controllo di corrente, coppia, velocità e posizione con inverter trifase, dal datasheet alla simulazione.</p><div class="chips"><span class="chip">Simulink</span><span class="chip">Controllo d-q</span></div></div>
+      </a>
+      <a class="card" data-c="mech" href="progetti/meccatronica.html">
+        <div class="thumb" style="background-image:url(assets/img/meccatronica/ema_banco.png);background-color:#fff;background-size:cover;background-position:center"></div>
+        <div class="c"><div class="meta">2024 – 2025 · Meccatronica</div><h4>Servosistemi: prove sperimentali e modellazione</h4><p>Sei esperienze su banchi pneumatici, elettrici e idraulici, con modelli Simulink validati sulle misure.</p><div class="chips"><span class="chip">Simulink</span><span class="chip">LabVIEW</span><span class="chip">PID</span></div></div>
+      </a>
+      <a class="card" data-c="mech" href="progetti/automazione-fluido.html">
+        <div class="thumb" style="background-image:url(assets/img/fluido/es6_banco.jpg);background-color:#fff;background-size:cover;background-position:center"></div>
+        <div class="c"><div class="meta">2024 – 2025 · Automazione</div><h4>Automazione pneumatica ed elettropneumatica</h4><p>PLC in Ladder, logica a relè, circuiti pneumatici e simulazione in Amesim.</p><div class="chips"><span class="chip">PLC</span><span class="chip">Ladder</span><span class="chip">Amesim</span></div></div>
+      </a>
+      <a class="card" data-c="mech" href="progetti/mdma.html">
+        <div class="thumb" style="background-image:url(assets/img/mdma/l4_profilo.png);background-color:#fff;background-size:contain;background-repeat:no-repeat;background-position:center"></div>
+        <div class="c"><div class="meta">2024 – 2025 · Macchine automatiche</div><h4>Meccanismi, camme e macchine automatiche</h4><p>Sei modelli MATLAB/Simulink e quattro prove su banco: camme, biella-manovella, intermittori.</p><div class="chips"><span class="chip">MATLAB</span><span class="chip">Simulink</span><span class="chip">Camme</span></div></div>
+      </a>
+      <a class="card" data-c="design" href="progetti/fem-timone.html">
+        <div class="thumb" style="background-image:url(assets/img/fem/attacco_mesh.png);background-color:#fff;background-size:cover;background-position:center"></div>
+        <div class="c"><div class="meta">2023 · PoliTo Sailing Team</div><h4>Modello FEM in composito del timone di un Moth</h4><p>Mesh a gusci, laminati in carbonio e vetro, carichi da CFD e contatto tra verticale e foil.</p><div class="chips"><span class="chip">HyperMesh</span><span class="chip">OptiStruct</span><span class="chip">Compositi</span></div></div>
+      </a>
+      <a class="card" data-c="mech" href="progetti/tesi-triennale.html">
+        <div class="thumb" style="background-image:url(assets/img/triennale/test_pareti.png);background-color:#fff;background-size:cover;background-position:center"></div>
+        <div class="c"><div class="meta">2022 – 2023 · Tesi triennale</div><h4>Programmi LabVIEW per misure termofluidodinamiche</h4><p>Acquisizione dati con Keithley 3706 per tre esperimenti di convezione e perdite di carico.</p><div class="chips"><span class="chip">LabVIEW</span><span class="chip">NI-VISA</span><span class="chip">Acquisizione dati</span></div></div>
+      </a>
+      <a class="card" data-c="design" href="progetti/riduttore.html">
+        <div class="thumb" style="background-image:url(assets/img/riduttore/riduttore.png);background-color:#fff;background-size:contain;background-repeat:no-repeat;background-position:center"></div>
+        <div class="c"><div class="meta">2024 · Progettazione</div><h4>Progetto di un riduttore coassiale a due stadi</h4><p>Ruote elicoidali, alberi, cuscinetti e carcassa, con verifiche statiche e a fatica secondo ISO.</p><div class="chips"><span class="chip">ISO 6336</span><span class="chip">Fatica</span><span class="chip">CAD</span></div></div>
+      </a>
+      <a class="card" data-c="design" href="progetti/hvac.html">
+        <div class="thumb" style="background-image:url(assets/img/aaft/uta_inverno.png);background-color:#fff;background-size:contain;background-repeat:no-repeat;background-position:center"></div>
+        <div class="c"><div class="meta">2025 · Impianti termotecnici</div><h4>Impianto di climatizzazione aria-acqua per un edificio universitario</h4><p>Carichi termici, UTA, cicli frigoriferi, reti, analisi energetica ed exergetica.</p><div class="chips"><span class="chip">HVAC</span><span class="chip">CoolPack</span><span class="chip">ε-NTU</span></div></div>
+      </a>
+      <!-- CarSim FOC: da completare quando ci sono i materiali
+      <div class="card" data-c="ctrl">
+        <div class="thumb" style="background:linear-gradient(135deg,#1b2d45,#46607f)">TRACCIATO CARSIM<span class="ph">segnaposto</span></div>
+        <div class="c"><div class="meta">2023 · Veicolo</div><h4>Veicolo elettrico in CarSim con controllo FOC</h4><p>Motore elettrico, Direct Field Oriented Control e controllo del differenziale.</p><div class="chips"><span class="chip">CarSim</span><span class="chip">FOC</span></div></div>
+      </div>
+      -->
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE + SKILLS -->
+<section id="esperienza">
+  <div class="wrap two">
+    <div>
+      <h2>Esperienza e formazione</h2>
+      <p class="sub">Il percorso in breve.</p>
+      <div class="tl">
+        <div class="it"><div class="when">2023 – 2026</div><h4>Laurea magistrale in Ingegneria Meccanica, indirizzo Automazione</h4><p>Politecnico di Torino</p></div>
+        <div class="it"><div class="when">Set – Dic 2025</div><h4>Tirocinio, Azimut Yachts</h4><p>Miglioramento continuo, MES e KPI di produzione</p></div>
+        <div class="it"><div class="when">Set – Dic 2025</div><h4>Collaborazione, Minerva Education AI</h4><p>Algoritmi basati su LLM per l'EdTech</p></div>
+        <div class="it"><div class="when">2023</div><h4>PoliTo Sailing Team</h4><p>Dipartimento strutture, analisi FEM</p></div>
+        <div class="it"><div class="when">2019 – 2023</div><h4>Laurea triennale in Ingegneria Meccanica, con lode</h4><p>Università di Roma Tor Vergata</p></div>
+      </div>
+    </div>
+    <div>
+      <h2>Competenze</h2>
+      <p class="sub">Strumenti che uso più spesso.</p>
+      <div class="skill"><div class="row"><span>MATLAB &amp; Simulink</span></div><div class="bar"><i style="width:85%"></i></div></div>
+      <div class="skill"><div class="row"><span>Python</span></div><div class="bar"><i style="width:80%"></i></div></div>
+      <div class="skill"><div class="row"><span>C / C++</span></div><div class="bar"><i style="width:65%"></i></div></div>
+      <div class="skill"><div class="row"><span>LabVIEW</span></div><div class="bar"><i style="width:65%"></i></div></div>
+      <div class="skill"><div class="row"><span>Fusion 360 · SolidWorks</span></div><div class="bar"><i style="width:45%"></i></div></div>
+      <div class="skill"><div class="row"><span>CarSim · dSPACE · acados</span></div><div class="bar"><i style="width:50%"></i></div></div>
+      <div class="soft"><span>Problem solving</span><span>Pensiero analitico</span><span>Lavoro in team</span><span>Autonomia</span><span>Comunicazione tecnica</span><span>Adattabilità</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contatti">
+  <div class="wrap">
+    <h2>Parliamone</h2>
+    <p>Sono disponibile per nuove opportunità a Torino o con trasferimento.</p>
+    <div class="btns" style="justify-content:center">
+      <a class="btn primary" href="mailto:valerio.cubeddu2001@gmail.com">Scrivimi una mail</a>
+      <a class="btn ghost" href="#" data-link="linkedin">LinkedIn</a>
+      <a class="btn ghost" href="assets/cv/CV_Valerio_Cubeddu_IT.pdf" target="_blank">Scarica il CV</a>
+    </div>
+    <p class="links-row">Portfolio online: <a href="#" data-link="portfolio"><span data-link-text="portfolio"></span></a></p>
+  </div>
+</section>
+<footer>© 2026 Valerio Cubeddu</footer>
+
+<script>
+  document.getElementById('filters').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    document.querySelectorAll('#filters button').forEach(x => x.classList.toggle('on', x === b));
+    const f = b.dataset.f;
+    document.querySelectorAll('#grid .card').forEach(c => c.classList.toggle('hidden', f !== 'all' && c.dataset.c !== f));
+  });
+  document.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('.lang button').forEach(x => x.classList.toggle('on', x === b));
+  }));
+</script>
+<script src="assets/links.js"></script>
+</body>
+</html>

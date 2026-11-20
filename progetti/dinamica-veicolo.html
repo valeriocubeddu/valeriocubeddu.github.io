@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modelli per la dinamica del veicolo — Valerio Cubeddu</title>
+<meta name="description" content="Esercitazioni di Meccanica del veicolo al Politecnico di Torino: modello di veicolo completo con rollio e differenziale, modello a bicicletta, pneumatico Pacejka, frenata con EBD e comfort a quattro gradi di libertà in MATLAB/Simulink.">
+<link rel="stylesheet" href="../assets/css/style.css?v=4">
+</head>
+<body>
+
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="../index.html">Valerio <span>Cubeddu</span></a>
+    <ul>
+      <li><a href="../index.html#progetti">Progetti</a></li>
+      <li><a href="../index.html#esperienza">Esperienza</a></li>
+      <li><a href="../index.html#contatti">Contatti</a></li>
+    </ul>
+    <div class="lang"><button class="on">IT</button><button>EN</button></div>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <a class="back" href="../index.html#progetti">← Tutti i progetti</a>
+    <div class="eyebrow">Meccanica del veicolo · Politecnico di Torino · 2024</div>
+    <h1>Modelli per la dinamica del veicolo</h1>
+    <p class="lead">Una serie di modelli MATLAB/Simulink per studiare come si comporta un'automobile in curva, in frenata e sulle irregolarità della strada: dal veicolo completo con rollio, motore e differenziale al modello a bicicletta, dallo pneumatico di Pacejka alla ripartizione elettronica della frenata, fino al comfort di marcia.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="pkpis">
+    <div class="kpi"><b>5</b><small>modelli, dal pneumatico al veicolo completo</small></div>
+    <div class="kpi"><b>~1 g</b><small>accelerazione laterale limite raggiunta nella sterzata a rampa</small></div>
+    <div class="kpi"><b>×2</b><small>differenza di guadagno di imbardata a 250 km/h spostando il baricentro di ±10 cm</small></div>
+    <div class="kpi"><b>1,2 / 12 Hz</b><small>frequenze di cassa e di ruota nel modello di comfort</small></div>
+  </div>
+
+  <div class="pbody">
+    <article>
+
+      <h2 id="completo">Veicolo completo: curva, rollio e differenziale</h2>
+      <p>Il modello più completo descrive l'auto con imbardata, deriva e rollio della cassa, quattro ruote con pneumatico di Pacejka e trasferimenti di carico, motore con cambio, differenziale autobloccante, impianto frenante e sterzo. Il pilota comanda volante, acceleratore, freno e marcia, e il modello si può provare su manovre standard: sterzata a gradino, a rampa, sweep, steering pad e partenza su fondo a aderenza diversa tra i due lati.</p>
+      <p>Ho usato il modello per confrontare configurazioni diverse; i grafici di questa pagina vengono dalle simulazioni.</p>
+      <figure class="narrow">
+        <a href="../assets/img/veicolo/schema_simulink.png" target="_blank"><img src="../assets/img/veicolo/schema_simulink.png" alt="Schema Simulink di primo livello del modello di veicolo completo" loading="lazy"></a>
+        <figcaption>Primo livello del modello Simulink: pilota, motore e trasmissione, impianto frenante, sterzo e veicolo con il terreno.</figcaption>
+      </figure>
+
+      <h3>Sottosterzo: trazione e barre antirollio</h3>
+      <p>Con una sterzata a rampa a 100 km/h si ricava la caratteristica di sottosterzo: quanto angolo volante serve, oltre a quello puramente geometrico, per ogni livello di accelerazione laterale. Nella zona lineare le curve coincidono; verso il limite la trazione posteriore sottosterza meno e arriva a circa 1 g, mentre anteriore e integrale saturano prima l'assale davanti. Spostare rigidezza a rollio sulla barra anteriore carica di più le ruote anteriori esterne e aumenta il sottosterzo.</p>
+      <figure>
+        <a href="../assets/img/veicolo/sottosterzo.png" target="_blank"><img src="../assets/img/veicolo/sottosterzo.png" alt="Caratteristica di sottosterzo per diverse trazioni e ripartizioni della rigidezza a rollio" loading="lazy"></a>
+        <figcaption>Angolo volante dinamico in funzione dell'accelerazione laterale, sterzata a rampa di 15°/s a 100 km/h. A sinistra le tre trazioni, a destra la quota di rigidezza a rollio affidata alla barra anteriore.</figcaption>
+      </figure>
+
+      <h3>Risposta a una sterzata a gradino</h3>
+      <p>A 100 km/h con una sterzata a gradino la velocità di imbardata ha un picco del 25% sopra il valore di regime e alcune oscillazioni prima di assestarsi. L'angolo di assetto segue lo stesso andamento, mentre il rollio si porta rapidamente a circa 4°, ben smorzato dalle sospensioni.</p>
+      <figure>
+        <a href="../assets/img/veicolo/gradino.png" target="_blank"><img src="../assets/img/veicolo/gradino.png" alt="Velocità di imbardata, angolo di assetto e rollio in una sterzata a gradino" loading="lazy"></a>
+        <figcaption>Sterzata a gradino a 100 km/h, trazione anteriore: velocità di imbardata, angolo di assetto e angolo di rollio.</figcaption>
+      </figure>
+
+      <h3>Differenziale su fondo a aderenza diversa</h3>
+      <p>Partendo in seconda a 30 km/h con le ruote destre su un fondo scivoloso (μ = 0,3) e il volante fermo, si accelera a fondo. Con il differenziale aperto la coppia è limitata dalla ruota che slitta e l'auto procede quasi dritta. Con un autobloccante la coppia passa alla ruota che ha aderenza: si accelera meglio, ma la differenza di spinta tra i due lati fa imbardare l'auto, che senza correzioni del pilota devia di circa 40 m su 300.</p>
+      <figure>
+        <a href="../assets/img/veicolo/musplit.png" target="_blank"><img src="../assets/img/veicolo/musplit.png" alt="Traiettoria e velocità di imbardata in accelerazione su fondo mu-split" loading="lazy"></a>
+        <figcaption>Accelerazione a fondo su μ-split con differenziale aperto e autobloccante con torque bias ratio 3: traiettoria e velocità di imbardata.</figcaption>
+      </figure>
+
+      <h2 id="bicicletta">Modello a bicicletta</h2>
+      <p>Il modello lineare a due gradi di libertà, deriva e imbardata, è la base per capire la stabilità in curva. Le rigidezze di deriva degli assali si ricavano dal carico statico su ogni ruota, interpolando la curva dello pneumatico. Ho scritto il modello in spazio di stato e calcolato guadagni stazionari, poli, frequenze e smorzamenti al variare della velocità.</p>
+      <p>Spostare il baricentro di 10 cm cambia il comportamento: avanzato, il veicolo diventa sottosterzante e il guadagno di imbardata cala con la velocità; arretrato, diventa sovrasterzante, il guadagno cresce e il veicolo diventerebbe instabile oltre una velocità critica, qui circa 410 km/h.</p>
+      <figure class="narrow">
+        <a href="../assets/img/veicolo/bicicletta.png" target="_blank"><img src="../assets/img/veicolo/bicicletta.png" alt="Guadagno di imbardata in funzione della velocità per tre posizioni del baricentro" loading="lazy"></a>
+        <figcaption>Guadagno stazionario di imbardata rispetto a quello cinematico V/L, per tre posizioni del baricentro.</figcaption>
+      </figure>
+
+      <h2 id="pneumatico">Pneumatico: modello di Pacejka</h2>
+      <p>Lo pneumatico 225/50 R17 è descritto con la Magic Formula di Pacejka '96. Nel modello Simulink si impongono scorrimento, angolo di deriva, carico verticale e aderenza, e si ottengono forza longitudinale, laterale e momento di autoallineamento. Le curve mostrano il picco di forza intorno al 10% di scorrimento e a 7° di deriva, il calo di aderenza relativa al crescere del carico e, in combinata, come frenare o accelerare riduce la forza laterale disponibile.</p>
+      <figure>
+        <a href="../assets/img/veicolo/pneumatico.png" target="_blank"><img src="../assets/img/veicolo/pneumatico.png" alt="Curve del modello di pneumatico Pacejka: forza longitudinale, laterale e combinata" loading="lazy"></a>
+        <figcaption>Forza longitudinale e laterale per quattro carichi verticali, e forza laterale in funzione di quella longitudinale per tre angoli di deriva.</figcaption>
+      </figure>
+
+      <h2 id="frenata">Frenata e ripartizione elettronica (EBD)</h2>
+      <p>Il modello di dinamica longitudinale simula una frenata da 100 km/h con tre strategie: ripartizione fissa della coppia tra gli assali, correttore di frenata con valvola limitatrice e EBD, un controllore PID che regola la coppia posteriore per mantenere lo scorrimento delle ruote dietro poco sotto quello delle anteriori. L'obiettivo è stare vicino alla parabola di frenatura ideale e non bloccare mai per prime le ruote posteriori, che renderebbero l'auto instabile.</p>
+      <p>Il confronto tra due ripartizioni fisse mostra perché serve una regolazione. In frenata il carico si trasferisce sull'anteriore: con una ripartizione 50:50 l'assale posteriore riceve troppa coppia, i punti si allontanano dalla parabola e le ruote dietro arrivano all'11% di scorrimento, vicine al bloccaggio. Con 70:30 la frenata segue la parabola, ma solo per quella decelerazione e quel carico: correttore ed EBD servono ad adattare la ripartizione alle condizioni reali.</p>
+      <figure>
+        <a href="../assets/img/veicolo/frenata.png" target="_blank"><img src="../assets/img/veicolo/frenata.png" alt="Forze frenanti rispetto alla parabola ideale e velocità delle ruote per due ripartizioni fisse" loading="lazy"></a>
+        <figcaption>Frenata da 100 km/h a circa 0,65 g con ripartizione 50:50 e 70:30: forze frenanti normalizzate rispetto alla parabola ideale e velocità di veicolo e ruote.</figcaption>
+      </figure>
+
+      <h2 id="comfort">Comfort: modello a quattro gradi di libertà</h2>
+      <p>Per il comfort di marcia il veicolo è un modello piano con scuotimento e beccheggio della cassa e lo spostamento verticale delle due ruote. Dall'analisi modale escono due modi di cassa intorno a 1,2–1,3 Hz e due modi di ruota tra 12 e 14 Hz. Variando lo smorzamento degli ammortizzatori dall'1% al 150% del valore nominale si vede che i modi di ruota sono quelli più sensibili, mentre le frequenze di cassa cambiano poco. Il modello calcola poi le risposte in frequenza e la risposta a un profilo stradale casuale descritto dalla sua densità spettrale.</p>
+      <figure>
+        <a href="../assets/img/veicolo/modi_comfort.png" target="_blank"><img src="../assets/img/veicolo/modi_comfort.png" alt="I quattro modi propri del modello di comfort" loading="lazy"></a>
+        <figcaption>I quattro modi propri: scuotimento e beccheggio della cassa, poi i due modi di ruota.</figcaption>
+      </figure>
+      <figure>
+        <a href="../assets/img/veicolo/smorzatori.png" target="_blank"><img src="../assets/img/veicolo/smorzatori.png" alt="Effetto dello smorzamento degli ammortizzatori su frequenze e fattori di smorzamento" loading="lazy"></a>
+        <figcaption>Frequenze smorzate e fattori di smorzamento dei quattro modi al variare del coefficiente degli ammortizzatori, normalizzato sul valore nominale.</figcaption>
+      </figure>
+      <p>Prima di questo modello ho costruito in Simulink i modelli di quarto di veicolo a uno e due gradi di libertà, da cui si parte per capire l'effetto di molla, ammortizzatore e pneumatico.</p>
+
+      <h2 id="imparato">Cosa ho imparato</h2>
+      <p>Queste esercitazioni mi hanno dato un metodo per studiare un veicolo partendo dal modello più semplice che risponde alla domanda, e aggiungendo complessità solo quando serve: il modello a bicicletta per la stabilità, il veicolo completo per il comportamento al limite, il modello a quattro gradi di libertà per il comfort. Ho imparato soprattutto a leggere i risultati con la fisica in mente, per capire perché una scelta di progetto cambia il comportamento dell'auto.</p>
+
+      <div class="pnext">
+        <a href="../index.html#progetti">← Tutti i progetti</a>
+        <a href="../index.html#contatti">Contattami →</a>
+      </div>
+    </article>
+
+    <aside class="facts">
+      <dl>
+        <dt>Contesto</dt><dd>Corso di Meccanica del veicolo, Politecnico di Torino</dd>
+        <dt>Periodo</dt><dd>2024</dd>
+        <dt>Strumenti</dt>
+        <dd><div class="chips" style="margin-top:6px"><span class="chip">MATLAB</span><span class="chip">Simulink</span><span class="chip">Pacejka</span></div></dd>
+        <dt>In questa pagina</dt>
+        <dd><ul class="toc">
+          <li><a href="#completo">Veicolo completo</a></li>
+          <li><a href="#bicicletta">Modello a bicicletta</a></li>
+          <li><a href="#pneumatico">Pneumatico</a></li>
+          <li><a href="#frenata">Frenata ed EBD</a></li>
+          <li><a href="#comfort">Comfort</a></li>
+          <li><a href="#imparato">Cosa ho imparato</a></li>
+        </ul></dd>
+      </dl>
+    </aside>
+  </div>
+</div>
+
+<footer>© 2026 Valerio Cubeddu</footer>
+</body>
+</html>

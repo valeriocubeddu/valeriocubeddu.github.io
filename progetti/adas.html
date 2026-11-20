@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cruise control adattivo e path tracking per un veicolo elettrico — Valerio Cubeddu</title>
+<meta name="description" content="Laboratori del corso Autonomous Driving Systems al Politecnico di Torino: cruise control adattivo con commutazione velocità/distanza e path tracking con LQR e feedforward di curvatura, in Simulink.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="../index.html">Valerio <span>Cubeddu</span></a>
+    <ul>
+      <li><a href="../index.html#progetti">Progetti</a></li>
+      <li><a href="../index.html#esperienza">Esperienza</a></li>
+      <li><a href="../index.html#contatti">Contatti</a></li>
+    </ul>
+    <div class="lang"><button class="on">IT</button><button>EN</button></div>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <a class="back" href="../index.html#progetti">← Tutti i progetti</a>
+    <div class="eyebrow">Laboratori · Autonomous Driving Systems · Politecnico di Torino · 2025</div>
+    <h1>Cruise control adattivo e path tracking per un veicolo elettrico</h1>
+    <p class="lead">Due funzioni di guida assistita sviluppate in Simulink su modelli di veicolo con pneumatici non lineari: un cruise control adattivo che mantiene velocità e distanza di sicurezza, e un controllore di sterzo LQR che fa seguire al veicolo una traiettoria anche in manovre di evitamento ostacolo.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="pkpis">
+    <div class="kpi"><b>2</b><small>modalità del cruise control, velocità e distanza, con commutazione a isteresi</small></div>
+    <div class="kpi"><b>1,6 s</b><small>tempo di distanziamento mantenuto dal veicolo che precede</small></div>
+    <div class="kpi"><b>28 cm</b><small>errore laterale massimo nell'evitamento ostacolo a 60 km/h</small></div>
+    <div class="kpi"><b>&lt;20 cm</b><small>errore laterale massimo sullo skidpad a 40 e 60 km/h</small></div>
+  </div>
+
+  <div class="pbody">
+    <article>
+
+      <h2 id="contesto">Il contesto</h2>
+      <p>Nel corso di Autonomous Driving Systems i laboratori chiedevano di progettare, su modelli di veicolo forniti, i controllori di due funzioni ADAS: il controllo longitudinale con il cruise control adattivo e il controllo laterale con il path tracking. I modelli includono la dinamica delle ruote e pneumatici con formula di Pacejka, quindi i controllori vanno provati anche dove il comportamento del veicolo non è più lineare.</p>
+
+      <h2 id="acc">Cruise control adattivo</h2>
+      <p>Il controllore di alto livello calcola un'accelerazione desiderata e lavora in due modalità. In <strong>controllo di velocità</strong> un PID insegue la velocità impostata dal guidatore. Quando si avvicina un veicolo, entra il <strong>controllo di distanza</strong>: un secondo PID mantiene una distanza obiettivo pari a una distanza minima di 4 m più la velocità per un tempo di distanziamento di 1,6 s.</p>
+      <p>Il passaggio tra le due modalità usa una logica con isteresi, per evitare che il controllore commuti di continuo quando la distanza è vicina alla soglia. Il livello basso converte l'accelerazione desiderata in coppia alle ruote tramite il modello inverso del veicolo: inerzia, resistenza aerodinamica, rotolamento e pendenza.</p>
+      <figure>
+        <a href="../assets/img/adas/acc.png" target="_blank"><img src="../assets/img/adas/acc.png" alt="Velocità e distanza del veicolo con cruise control adattivo che segue un veicolo a velocità variabile" loading="lazy"></a>
+        <figcaption>Il veicolo accelera fino alla velocità impostata, raggiunge quello che lo precede e passa al controllo di distanza (zone colorate), seguendone le oscillazioni di velocità. Quando il veicolo davanti accelera, torna al controllo di velocità.</figcaption>
+      </figure>
+
+      <h2 id="path">Path tracking con LQR</h2>
+      <p>Per il controllo laterale ho usato un regolatore <strong>LQR</strong> basato sul modello monotraccia scritto negli errori rispetto alla traiettoria: errore laterale, errore di imbardata e le loro derivate. Il controllore trova a ogni passo il punto della traiettoria più vicino al veicolo, calcola gli errori e comanda lo sterzo delle ruote anteriori; un PI separato regola la velocità tramite la coppia ai motori.</p>
+      <p>Le prove sono su due percorsi: un evitamento ostacolo con spostamento laterale di 5 m e uno skidpad a otto. Il controllore gira a 50 Hz su un modello di veicolo completo a quattro ruote, come una centralina reale.</p>
+
+      <h2 id="revisione">Revisione del controllore</h2>
+      <p>La prima versione funzionava bene nell'evitamento ostacolo a 40 km/h, con un errore massimo di 3 cm, ma usciva di traiettoria a 60 km/h e accumulava errore sullo skidpad. Rivedendo il progetto ho individuato e corretto tre punti:</p>
+      <ul>
+        <li><strong>Rigidezza di deriva degli pneumatici.</strong> Nel modello usato per calcolare i guadagni avevo inserito il fattore di forma della formula di Pacejka al posto della rigidezza di deriva vera, che si ottiene da B·C·D·F<sub>z</sub> ed è oltre 100 volte più grande. Con i valori corretti, circa 119.000 e 167.000 N/rad per ruota, il progetto LQR rispecchia il veicolo reale.</li>
+        <li><strong>Feedforward di curvatura e progetto discreto.</strong> Ho aggiunto un termine di sterzo in anticipo calcolato dalla curvatura del riferimento e dal gradiente di sottosterzo, così l'LQR deve correggere solo gli errori residui. I guadagni sono ora calcolati in tempo discreto alla frequenza di 50 Hz del controllore, con più peso sull'errore di imbardata.</li>
+        <li><strong>Errore laterale geometrico.</strong> L'errore laterale era ottenuto integrando la sua derivata, quindi su un percorso lungo derivava lentamente: il controllore credeva di essere sulla traiettoria mentre se ne allontanava. Ora è calcolato come distanza con segno dal punto di riferimento più vicino.</li>
+      </ul>
+      <figure>
+        <a href="../assets/img/adas/anim_ostacolo_60.png" target="_blank"><img src="../assets/img/adas/anim_ostacolo_60.png" alt="Animazione del veicolo nell'evitamento ostacolo a 60 km/h prima e dopo la correzione del controllore" loading="lazy"></a>
+        <figcaption>Animazione del simulatore, evitamento ostacolo a 60 km/h: punti rossi = traiettoria di riferimento, cerchi neri = posizioni del veicolo. La versione iniziale perde la traiettoria, quella corretta la segue con un errore massimo di 28 cm.</figcaption>
+      </figure>
+      <figure>
+        <a href="../assets/img/adas/anim_skidpad_60.png" target="_blank"><img src="../assets/img/adas/anim_skidpad_60.png" alt="Animazione del veicolo sullo skidpad a 60 km/h prima e dopo la correzione del controllore" loading="lazy"></a>
+        <figcaption>Skidpad a 60 km/h: con la versione iniziale il veicolo si allontana dai cerchi di riferimento, con quella corretta resta entro 19 cm.</figcaption>
+      </figure>
+      <figure>
+        <a href="../assets/img/adas/errori_ostacolo_60.png" target="_blank"><img src="../assets/img/adas/errori_ostacolo_60.png" alt="Errori laterale e di imbardata nel tempo per il controllore corretto nell'evitamento ostacolo a 60 km/h" loading="lazy"></a>
+        <figcaption>Errori nel tempo generati dal post-processing per la versione corretta a 60 km/h: errore laterale, errore di imbardata e loro derivate, con massimo e RMSE.</figcaption>
+      </figure>
+      <p>A 40 km/h la versione iniziale era più precisa nell'evitamento ostacolo (3 cm contro 13 cm) grazie a guadagni più aggressivi, ma solo quella corretta resta sotto i 30 cm in tutte e quattro le prove, a 40 e 60 km/h su entrambi i percorsi.</p>
+      <p>Oltre i 60 km/h l'evitamento ostacolo richiede accelerazioni laterali vicine ai 9 m/s², cioè il limite di aderenza degli pneumatici: lì un LQR progettato su un modello lineare non basta più, e serve un controllore che tenga conto dei limiti, come un MPC.</p>
+
+      <h2 id="imparato">Cosa ho imparato</h2>
+      <p>Questi laboratori mi hanno fatto capire quanto un controllore dipenda dal modello su cui è progettato: un parametro sbagliato nel modello degli pneumatici o una stima dell'errore che deriva bastano a far fallire un regolatore che, nel caso più semplice, sembrava funzionare benissimo. Ho imparato a provare i controllori su scenari diversi e più severi di quello di progetto, e a cercare la causa di un comportamento strano nei dati della simulazione invece di ritoccare i guadagni a tentativi.</p>
+
+      <div class="pnext">
+        <a href="../index.html#progetti">← Tutti i progetti</a>
+        <a href="../index.html#contatti">Contattami →</a>
+      </div>
+    </article>
+
+    <aside class="facts">
+      <dl>
+        <dt>Contesto</dt><dd>Corso di Autonomous Driving Systems, Politecnico di Torino</dd>
+        <dt>Periodo</dt><dd>Marzo – maggio 2025</dd>
+        <dt>Tipo</dt><dd>Laboratori, sviluppati individualmente</dd>
+        <dt>Strumenti</dt>
+        <dd><div class="chips" style="margin-top:6px"><span class="chip">MATLAB</span><span class="chip">Simulink</span><span class="chip">LQR</span><span class="chip">PID</span><span class="chip">Pacejka</span></div></dd>
+        <dt>In questa pagina</dt>
+        <dd><ul class="toc">
+          <li><a href="#contesto">Il contesto</a></li>
+          <li><a href="#acc">Cruise control adattivo</a></li>
+          <li><a href="#path">Path tracking con LQR</a></li>
+          <li><a href="#revisione">Revisione del controllore</a></li>
+          <li><a href="#imparato">Cosa ho imparato</a></li>
+        </ul></dd>
+      </dl>
+    </aside>
+  </div>
+</div>
+
+<footer>© 2026 Valerio Cubeddu</footer>
+</body>
+</html>

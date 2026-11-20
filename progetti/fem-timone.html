@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modello FEM in composito del timone di un foiling Moth — Valerio Cubeddu</title>
+<meta name="description" content="PoliTo Sailing Team, dipartimento strutture: modello a elementi finiti in HyperMesh e OptiStruct del timone in composito di un foiling Moth per la SuMoth Challenge.">
+<link rel="stylesheet" href="../assets/css/style.css?v=4">
+</head>
+<body>
+
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="../index.html">Valerio <span>Cubeddu</span></a>
+    <ul>
+      <li><a href="../index.html#progetti">Progetti</a></li>
+      <li><a href="../index.html#esperienza">Esperienza</a></li>
+      <li><a href="../index.html#contatti">Contatti</a></li>
+    </ul>
+    <div class="lang"><button class="on">IT</button><button>EN</button></div>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <a class="back" href="../index.html#progetti">← Tutti i progetti</a>
+    <div class="eyebrow">PoliTo Sailing Team · Dipartimento strutture · 2023</div>
+    <h1>Modello FEM in composito del timone di un foiling Moth</h1>
+    <p class="lead">Nel dipartimento strutture del team, che progetta e costruisce una barca a vela con foil per la SuMoth Challenge, ho imparato HyperMesh e OptiStruct lavorando sul timone: dalla geometria alla mesh a gusci, dalla definizione dei laminati in carbonio e vetro ai carichi idrodinamici e al contatto tra verticale e foil.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="pkpis">
+    <div class="kpi"><b>~710.000</b><small>elementi guscio nella mesh del timone</small></div>
+    <div class="kpi"><b>2</b><small>componenti, verticale e foil, uniti da un contatto non lineare</small></div>
+    <div class="kpi"><b>~50/50</b><small>carbonio e vetro nei laminati, come richiesto dal regolamento</small></div>
+    <div class="kpi"><b>1,5–2</b><small>coefficienti di sicurezza sui carichi da CFD</small></div>
+  </div>
+
+  <div class="pbody">
+    <article>
+
+      <h2 id="contesto">Il contesto</h2>
+      <p>Il timone di un Moth con foil è una lama verticale lunga circa 1,7 m con un'ala orizzontale in fondo, il foil, che contribuisce a sollevare la barca dall'acqua. Deve essere rigido, perché le flessioni cambiano l'assetto e quindi la portanza, e il più leggero possibile. Il regolamento della SuMoth Challenge impone inoltre di usare una quota rilevante di fibra di vetro accanto al carbonio, per ragioni di sostenibilità.</p>
+      <p>Il lavoro era un'esercitazione di formazione del dipartimento, fatta su HyperMesh in parte sul mio PC e in parte su quello dell'università. Mi è servito per imparare il flusso completo di un'analisi su una struttura in composito.</p>
+      <figure>
+        <div class="duo" style="grid-template-columns:1fr 3fr">
+          <a href="../assets/img/fem/timone.png" target="_blank"><img src="../assets/img/fem/timone.png" alt="Modello a gusci del timone completo, verticale e foil" loading="lazy" style="max-height:440px;object-fit:contain;border:none"></a>
+          <a href="../assets/img/fem/attacco_mesh.png" target="_blank"><img src="../assets/img/fem/attacco_mesh.png" alt="Dettaglio della mesh nella zona di attacco tra verticale e foil" loading="lazy"></a>
+        </div>
+        <figcaption>Il modello del timone e il dettaglio della mesh nella zona in cui il verticale si innesta sul foil, dove gli elementi si infittiscono per seguire la geometria.</figcaption>
+      </figure>
+
+      <h2 id="mesh">Geometria e mesh</h2>
+      <p>Partendo dalle superfici CAD ho pulito la geometria e generato una mesh di elementi guscio, prevalentemente quadrangolari, sulle superfici esterne di verticale e foil. Il timone è un guscio in composito riempito di schiuma, quindi un modello a gusci con le proprietà del laminato descrive bene il comportamento a flessione e torsione con un costo di calcolo contenuto. La mesh è più fine nella zona di raccordo e nell'innesto, dove si concentrano le tensioni.</p>
+
+      <h2 id="laminati">Laminati in composito</h2>
+      <p>La laminazione è divisa in zone: le pelli che coprono tutta la superficie della pala, i rinforzi locali dove i carichi sono più alti, il longherone lungo il verticale e lo "zoccoletto", l'incastro conico che collega verticale e foil. Ogni zona ha la sua sequenza di strati di carbonio e vetro unidirezionali e biassiali, che nel modello diventano proprietà composite assegnate agli elementi.</p>
+      <figure>
+        <a href="../assets/img/fem/foil_laminazione.png" target="_blank"><img src="../assets/img/fem/foil_laminazione.png" alt="Zone di laminazione sul foil visto dall'alto" loading="lazy"></a>
+        <figcaption>Il foil visto dall'alto con l'idea della laminazione a zone: le pelli coprono tutta la superficie e i rinforzi si sovrappongono, sempre più stretti, verso la radice, dove il momento flettente è massimo. Estensioni indicative.</figcaption>
+      </figure>
+      <p>Le proprietà dei materiali vengono dalla campagna di prove sui provini fatta dal team:</p>
+      <table class="tbl">
+        <thead><tr><th>Proprietà</th><th>Carbonio UD 400 g/m²</th><th>Carbonio biax 200 g/m²</th><th>Vetro UD 160 g/m²</th></tr></thead>
+        <tbody>
+          <tr><td>Modulo E₁ [MPa]</td><td>163.480</td><td>15.520</td><td>57.200</td></tr>
+          <tr><td>Modulo E₂ [MPa]</td><td>8.190</td><td>15.520</td><td>—</td></tr>
+          <tr><td>Resistenza a trazione X<sub>t</sub> [MPa]</td><td>1.890</td><td>139</td><td>1.200</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="carichi">Carichi, vincoli e contatto</h2>
+      <p>I carichi idrodinamici vengono dalle analisi CFD del team, in due condizioni: una nominale, a 4 m/s con 7° di incidenza e 15° di sbandamento, e una critica, a 5,2 m/s. Per tenere conto degli effetti dinamici si applica un coefficiente di sicurezza di 2 nella condizione nominale e di 1,5 in quella critica. Il verticale è incastrato nei nodi che corrispondono all'interfaccia con lo scafo. Verticale e foil sono due componenti separati, collegati da un contatto non lineare nello zoccoletto: così il modello trasmette le forze attraverso le superfici dell'incastro come nella realtà, invece di trattare il timone come un pezzo unico.</p>
+
+      <h2 id="imparato">Cosa ho imparato</h2>
+      <p>È stato il mio primo modello FEM di una struttura reale in composito. Ho imparato a preparare una mesh di qualità su una geometria complessa, a tradurre una tavola di laminazione in proprietà del modello e a pensare a come vincoli e contatti cambiano il risultato. Ho anche visto quanto conta il dialogo con chi si occupa di fluidodinamica e di costruzione: i carichi arrivano dalla CFD e la laminazione deve poter essere realizzata in cantiere.</p>
+
+      <div class="pnext">
+        <a href="../index.html#progetti">← Tutti i progetti</a>
+        <a href="../index.html#contatti">Contattami →</a>
+      </div>
+    </article>
+
+    <aside class="facts">
+      <dl>
+        <dt>Contesto</dt><dd>PoliTo Sailing Team, dipartimento strutture</dd>
+        <dt>Periodo</dt><dd>2023</dd>
+        <dt>Strumenti</dt>
+        <dd><div class="chips" style="margin-top:6px"><span class="chip">HyperMesh</span><span class="chip">OptiStruct</span><span class="chip">Compositi</span></div></dd>
+        <dt>In questa pagina</dt>
+        <dd><ul class="toc">
+          <li><a href="#contesto">Il contesto</a></li>
+          <li><a href="#mesh">Geometria e mesh</a></li>
+          <li><a href="#laminati">Laminati in composito</a></li>
+          <li><a href="#carichi">Carichi e contatto</a></li>
+          <li><a href="#imparato">Cosa ho imparato</a></li>
+        </ul></dd>
+      </dl>
+    </aside>
+  </div>
+</div>
+
+<footer>© 2026 Valerio Cubeddu</footer>
+</body>
+</html>
