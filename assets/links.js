@@ -2,7 +2,7 @@
 // Usati in home dai pulsanti con data-link="linkedin" / data-link="portfolio".
 window.LINKS = {
   linkedin: '',   // es. 'https://www.linkedin.com/in/...'
-  portfolio: 'https://valeriocubo-dev.github.io'   // es. 'https://....up.railway.app' (indirizzo pubblico di questo sito)
+  portfolio: 'https://valeriocubeddu.github.io'   // es. 'https://....up.railway.app' (indirizzo pubblico di questo sito)
 };
 document.querySelectorAll('[data-link]').forEach(a => {
   const url = window.LINKS[a.dataset.link];
