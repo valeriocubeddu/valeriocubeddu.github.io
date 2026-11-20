@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Permanent magnet synchronous motor drive — Valerio Cubeddu</title>
+<meta name="description" content="Electric Drives course project at Politecnico di Torino: current, torque, speed and position control of an SPM motor with a three-phase inverter, simulated in Simulink.">
+<link rel="stylesheet" href="../../assets/css/style.css?v=7">
+</head>
+<body>
+
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="../index.html">Valerio <span>Cubeddu</span></a>
+    <ul>
+      <li><a href="../index.html#progetti">Projects</a></li>
+      <li><a href="../index.html#esperienza">Experience</a></li>
+      <li><a href="../index.html#contatti">Contact</a></li>
+    </ul>
+    <div class="lang"><a href="../../progetti/azionamenti.html" lang="it">IT</a><a href="azionamenti.html" class="on" lang="en">EN</a></div>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <a class="back" href="../index.html#progetti">← All projects</a>
+    <div class="eyebrow">Exam project · Electric Drives and Power Electronics · Politecnico di Torino · 2025</div>
+    <h1>Permanent magnet synchronous motor drive</h1>
+    <p class="lead">I took the datasheet of a commercial brushless motor and built its complete drive in Simulink: three-phase inverter, current control in the d-q frame, then the torque, speed and position loops, each one sized and verified with dedicated tests.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="pkpis">
+    <div class="kpi"><b>4</b><small>control loops: current, torque, speed and position</small></div>
+    <div class="kpi"><b>0.6 ms</b><small>current rise time, with a 500 Hz loop bandwidth</small></div>
+    <div class="kpi"><b>50 Hz · 60°</b><small>crossover and phase margin of the speed loop</small></div>
+    <div class="kpi"><b>&lt;80 rpm</b><small>speed dip at 1000 rpm with a rated-torque step, back to the reference in about 20 ms</small></div>
+  </div>
+
+  <div class="pbody">
+    <article>
+
+      <h2 id="obiettivo">The goal</h2>
+      <p>The final project of the course asked us to size, simulate and verify a three-phase drive with a two-level inverter and a surface permanent magnet synchronous motor (SPM). The starting point was a basic model with current control only; each student was given a different commercial motor, in my case a <strong>PE1R 90 S6</strong> rated 7.2 Nm at 1000 rpm.</p>
+      <p>The work took four steps: adapting the model to the real motor, verifying the current control, adding torque control, then speed and position control.</p>
+
+      <h2 id="modello">From the datasheet to the model</h2>
+      <p>From the catalogue I derived the electrical and mechanical parameters of the machine. The synchronous inductance is obtained from the leakage and magnetising inductances, while the magnet flux comes from the no-load voltage: at zero current the phase voltage depends only on the magnets and on the electrical speed. The result is λ<sub>PM</sub> ≈ 0.754 Vs and a torque constant k<sub>T</sub> = 3/2 · p · λ<sub>PM</sub> ≈ 3.39 Nm/A.</p>
+      <p>The motor and the inverter (6 IGBTs with freewheeling diodes, 560 V DC link, 5 kHz switching) are modelled with Simscape Electrical components. The control, instead, is entirely discrete-time and runs once per PWM period, as on a real microcontroller or DSP.</p>
+
+      <h2 id="cascata">Control architecture</h2>
+      <p>The loops are in cascade: each one generates the reference for the inner one. To stay stable and decoupled, each loop has a bandwidth of about one tenth of the loop inside it.</p>
+      <figure>
+        <a href="../../assets/img/azionamenti/cascata.svg" target="_blank"><img src="../../assets/img/azionamenti/cascata.svg" alt="Block diagram of the cascaded position, speed, torque and current loops" loading="lazy"></a>
+        <figcaption>Cascade control: position (P) → speed (PI) → torque (1/k<sub>T</sub>) → current in the d-q frame (PI) → PWM and inverter.</figcaption>
+      </figure>
+
+      <h2 id="corrente">Current and torque control</h2>
+      <p>The given current regulator was a PI in the d-q frame with anti-windup and saturation at the maximum inverter voltage. I verified it with three tests: steady-state reference tracking, step response and no-load voltage. With a 500 Hz bandwidth the current goes from 10 to 90% of the step in about 0.6 ms; reducing the bandwidth to 150 Hz takes about 2.5 ms. At zero current and rated speed the required voltage is entirely on the q axis and is about 284 V line-to-line, within about 2% of the 290 V in the catalogue: a confirmation that the parameters derived from the datasheet are consistent.</p>
+      <figure>
+        <a href="../../assets/img/azionamenti/corrente.png" target="_blank"><img src="../../assets/img/azionamenti/corrente.png" alt="Step response of the iq current with two different bandwidths" loading="lazy"></a>
+        <figcaption>0.5 A step on the i<sub>q</sub> current at 1000 rpm, with 500 Hz and 150 Hz bandwidth. The ripple is due to PWM switching.</figcaption>
+      </figure>
+      <p>Torque control is a direct pass-through: in an SPM motor torque depends only on i<sub>q</sub>, so it is enough to divide the requested torque by k<sub>T</sub>, keeping i<sub>d</sub> = 0. Precisely because it adds no dynamics, the torque loop has the same bandwidth as the current loop.</p>
+
+      <h2 id="velocita">Speed control</h2>
+      <p>For the speed loop the mechanical model changes: the speed is no longer imposed on the motor, which instead receives a load torque, and the speed results from the balance with the inertia. I designed a PI with anti-windup and saturation at the motor's maximum torque, computing the gains from the open-loop function to get a 50 Hz crossover and a 60° phase margin.</p>
+      <p>The tests check the step to 1000 rpm, the effect of the phase margin, the maximum speed reachable before saturation, and the <strong>dynamic stiffness</strong>: when a torque step equal to the rated torque arrives, the speed drops for an instant and the PI brings it back to the reference.</p>
+      <figure>
+        <a href="../../assets/img/azionamenti/velocita.png" target="_blank"><img src="../../assets/img/azionamenti/velocita.png" alt="Speed response to a step and to a torque disturbance, with 60 and 10 degree phase margin" loading="lazy"></a>
+        <figcaption>Speed step to 1000 rpm and, after 0.4 s, a 7.2 Nm load torque step. At start-up the torque saturates at the motor limit; with a 10° phase margin the response becomes very oscillatory.</figcaption>
+      </figure>
+
+      <h2 id="posizione">Position control</h2>
+      <p>Seen from outside, the closed speed loop behaves like a pure integrator. For this reason a proportional regulator is enough for position, with a 5 Hz crossover. I verified it with a π rad step and with sinusoidal references: at 1.5 Hz the position tracks the reference well; at 4 Hz, close to the bandwidth, delay and amplitude reduction appear.</p>
+      <figure>
+        <a href="../../assets/img/azionamenti/posizione.png" target="_blank"><img src="../../assets/img/azionamenti/posizione.png" alt="Response of the position control to a step and to sinusoidal references" loading="lazy"></a>
+        <figcaption>Position control: π rad step, sine wave at 1.5 Hz and at 4 Hz.</figcaption>
+      </figure>
+
+      <h2 id="imparato">What I learned</h2>
+      <p>This project showed me up close how a real drive is built, from power electronics to the control loops. I became familiar with discrete-time control synchronised with the PWM, the same scheme that runs on the microcontrollers and DSPs of commercial inverters, and with the method for designing cascaded loops: choosing the bandwidths, deriving the gains from the phase margin and protecting the regulators with saturations and anti-windup. I also learned not to trust parameters until I have verified them: comparing the simulation with catalogue data was the simplest way to notice whether the model was consistent.</p>
+
+      <div class="pnext">
+        <a href="../index.html#progetti">← All projects</a>
+        <a href="../index.html#contatti">Contact me →</a>
+      </div>
+    </article>
+
+    <aside class="facts">
+      <dl>
+        <dt>Context</dt><dd>Electric Drives and Power Electronics course, Politecnico di Torino</dd>
+        <dt>Period</dt><dd>Academic year 2024 – 2025</dd>
+        <dt>Type</dt><dd>Individual project</dd>
+        <dt>Motor</dt><dd>SPM PE1R 90 S6 · 7.2 Nm · 1000 rpm</dd>
+        <dt>Tools</dt>
+        <dd><div class="chips" style="margin-top:6px"><span class="chip">MATLAB</span><span class="chip">Simulink</span><span class="chip">Simscape Electrical</span><span class="chip">d-q control</span><span class="chip">PWM</span></div></dd>
+        <dt>On this page</dt>
+        <dd><ul class="toc">
+          <li><a href="#obiettivo">The goal</a></li>
+          <li><a href="#modello">From datasheet to model</a></li>
+          <li><a href="#cascata">Architecture</a></li>
+          <li><a href="#corrente">Current and torque</a></li>
+          <li><a href="#velocita">Speed</a></li>
+          <li><a href="#posizione">Position</a></li>
+          <li><a href="#imparato">What I learned</a></li>
+        </ul></dd>
+      </dl>
+    </aside>
+  </div>
+</div>
+
+<footer>© 2026 Valerio Cubeddu</footer>
+</body>
+</html>

@@ -21,8 +21,8 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:6
 nav ul{display:flex;gap:26px;list-style:none;margin:0;padding:0;font-size:15px}
 nav ul a{color:var(--muted)} nav ul a:hover{color:var(--blue);text-decoration:none}
 .lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;font-size:13px}
-.lang button{border:0;background:none;padding:5px 11px;cursor:pointer;color:var(--muted)}
-.lang button.on{background:var(--blue);color:#fff}
+.lang button,.lang a{border:0;background:none;padding:5px 11px;cursor:pointer;color:var(--muted)}
+.lang button.on,.lang a.on{background:var(--blue);color:#fff}
 
 /* HERO (home) */
 .hero{background:linear-gradient(135deg,#0b3f70 0%,#0E599B 55%,#1f74c0 100%);color:#fff;padding:84px 0 92px;position:relative;overflow:hidden}
@@ -165,3 +165,5 @@ figure img{width:100%;display:block}
 .hero .degree{display:inline-flex;flex-wrap:wrap;align-items:center;gap:0;margin:-4px 0 18px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);border-radius:10px;padding:8px 14px;font-size:15px}
 .hero .degree b{font-weight:700}
 .hero .degree span::before{content:"·";margin:0 9px;opacity:.7}
+
+.lang a{text-decoration:none;display:block}

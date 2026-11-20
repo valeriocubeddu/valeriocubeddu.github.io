@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Composite FEM model of a foiling Moth rudder — Valerio Cubeddu</title>
+<meta name="description" content="PoliTo Sailing Team, structures department: finite element model in HyperMesh and OptiStruct of the composite rudder of a foiling Moth for the SuMoth Challenge.">
+<link rel="stylesheet" href="../../assets/css/style.css?v=7">
+</head>
+<body>
+
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="../index.html">Valerio <span>Cubeddu</span></a>
+    <ul>
+      <li><a href="../index.html#progetti">Projects</a></li>
+      <li><a href="../index.html#esperienza">Experience</a></li>
+      <li><a href="../index.html#contatti">Contact</a></li>
+    </ul>
+    <div class="lang"><a href="../../progetti/fem-timone.html" lang="it">IT</a><a href="fem-timone.html" class="on" lang="en">EN</a></div>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <a class="back" href="../index.html#progetti">← All projects</a>
+    <div class="eyebrow">PoliTo Sailing Team · Structures department · 2023</div>
+    <h1>Composite FEM model of a foiling Moth rudder</h1>
+    <p class="lead">In the structures department of the team, which designs and builds a foiling sailboat for the SuMoth Challenge, I learned HyperMesh and OptiStruct by working on the rudder: from the geometry to the shell mesh, from the definition of the carbon and glass laminates to the hydrodynamic loads and the contact between the vertical and the foil.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="pkpis">
+    <div class="kpi"><b>~710,000</b><small>shell elements in the rudder mesh</small></div>
+    <div class="kpi"><b>2</b><small>components, vertical and foil, joined by a nonlinear contact</small></div>
+    <div class="kpi"><b>~50/50</b><small>carbon and glass in the laminates, as required by the rules</small></div>
+    <div class="kpi"><b>1.5–2</b><small>safety factors on the CFD loads</small></div>
+  </div>
+
+  <div class="pbody">
+    <article>
+
+      <h2 id="contesto">Context</h2>
+      <p>The rudder of a foiling Moth is a vertical blade about 1.7 m long with a horizontal wing at the bottom, the foil, which helps lift the boat out of the water. It has to be stiff, because bending changes the attitude and therefore the lift, and as light as possible. The SuMoth Challenge rules also require a significant share of glass fibre alongside carbon, for sustainability reasons.</p>
+      <p>The work was a training exercise of the department, done in HyperMesh partly on my PC and partly on the university's. It taught me the complete workflow of an analysis on a composite structure.</p>
+      <figure>
+        <div class="duo" style="grid-template-columns:1fr 3fr">
+          <a href="../../assets/img/fem/timone.png" target="_blank"><img src="../../assets/img/fem/timone.png" alt="Shell model of the complete rudder, vertical and foil" loading="lazy" style="max-height:440px;object-fit:contain;border:none"></a>
+          <a href="../../assets/img/fem/attacco_mesh.png" target="_blank"><img src="../../assets/img/fem/attacco_mesh.png" alt="Detail of the mesh in the joint area between the vertical and the foil" loading="lazy"></a>
+        </div>
+        <figcaption>The rudder model and the detail of the mesh where the vertical joins the foil, where the elements get denser to follow the geometry.</figcaption>
+      </figure>
+
+      <h2 id="mesh">Geometry and mesh</h2>
+      <p>Starting from the CAD surfaces I cleaned up the geometry and generated a mesh of shell elements, mostly quadrilateral, on the outer surfaces of the vertical and the foil. The rudder is a composite shell filled with foam, so a shell model with the laminate properties describes its bending and torsional behaviour well at a reasonable computational cost. The mesh is finer in the fillet and in the joint, where stresses concentrate.</p>
+
+      <h2 id="laminati">Composite laminates</h2>
+      <p>The layup is divided into zones: the skins covering the whole blade surface, local reinforcements where loads are higher, the spar along the vertical, and the "socket", the tapered joint that connects the vertical to the foil. Each zone has its own stacking sequence of unidirectional and biaxial carbon and glass plies, which in the model become composite properties assigned to the elements.</p>
+      <figure>
+        <a href="../../assets/img/fem/foil_laminazione.png" target="_blank"><img src="../../assets/img/fem/foil_laminazione.png" alt="Layup zones on the foil seen from above" loading="lazy"></a>
+        <figcaption>The foil seen from above with the idea of the zoned layup: the skins cover the whole surface and the reinforcements overlap, increasingly narrow, towards the root, where the bending moment is highest. Extents are indicative.</figcaption>
+      </figure>
+      <p>The material properties come from the team's test campaign on specimens:</p>
+      <table class="tbl">
+        <thead><tr><th>Property</th><th>Carbon UD 400 g/m²</th><th>Carbon biax 200 g/m²</th><th>Glass UD 160 g/m²</th></tr></thead>
+        <tbody>
+          <tr><td>Modulus E₁ [MPa]</td><td>163,480</td><td>15,520</td><td>57,200</td></tr>
+          <tr><td>Modulus E₂ [MPa]</td><td>8,190</td><td>15,520</td><td>—</td></tr>
+          <tr><td>Tensile strength X<sub>t</sub> [MPa]</td><td>1,890</td><td>139</td><td>1,200</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="carichi">Loads, constraints and contact</h2>
+      <p>The hydrodynamic loads come from the team's CFD analyses, in two conditions: a nominal one, at 4 m/s with 7° of incidence and 15° of heel, and a critical one, at 5.2 m/s. To account for dynamic effects, a safety factor of 2 is applied in the nominal condition and 1.5 in the critical one. The vertical is clamped at the nodes corresponding to the interface with the hull. The vertical and the foil are two separate components, connected by a nonlinear contact in the socket: this way the model transmits the forces through the joint surfaces as in reality, instead of treating the rudder as a single piece.</p>
+
+      <h2 id="imparato">What I learned</h2>
+      <p>It was my first FEM model of a real composite structure. I learned to prepare a good-quality mesh on a complex geometry, to translate a layup table into model properties and to think about how constraints and contacts change the result. I also saw how much the dialogue with the people working on fluid dynamics and manufacturing matters: the loads come from CFD, and the layup must be something the workshop can actually build.</p>
+
+      <div class="pnext">
+        <a href="../index.html#progetti">← All projects</a>
+        <a href="../index.html#contatti">Contact me →</a>
+      </div>
+    </article>
+
+    <aside class="facts">
+      <dl>
+        <dt>Context</dt><dd>PoliTo Sailing Team, structures department</dd>
+        <dt>Period</dt><dd>2023</dd>
+        <dt>Tools</dt>
+        <dd><div class="chips" style="margin-top:6px"><span class="chip">HyperMesh</span><span class="chip">OptiStruct</span><span class="chip">Composites</span></div></dd>
+        <dt>On this page</dt>
+        <dd><ul class="toc">
+          <li><a href="#contesto">Context</a></li>
+          <li><a href="#mesh">Geometry and mesh</a></li>
+          <li><a href="#laminati">Composite laminates</a></li>
+          <li><a href="#carichi">Loads and contact</a></li>
+          <li><a href="#imparato">What I learned</a></li>
+        </ul></dd>
+      </dl>
+    </aside>
+  </div>
+</div>
+
+<footer>© 2026 Valerio Cubeddu</footer>
+</body>
+</html>

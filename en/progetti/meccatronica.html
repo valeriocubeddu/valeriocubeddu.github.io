@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Servo systems: experimental tests and modelling — Valerio Cubeddu</title>
+<meta name="description" content="Mechatronics lab at Politecnico di Torino: six sessions on real test benches, from PWM-driven pneumatic valves to electric and hydraulic servo actuators, with Simulink models validated against experimental data.">
+<link rel="stylesheet" href="../../assets/css/style.css?v=7">
+</head>
+<body>
+
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="../index.html">Valerio <span>Cubeddu</span></a>
+    <ul>
+      <li><a href="../index.html#progetti">Projects</a></li>
+      <li><a href="../index.html#esperienza">Experience</a></li>
+      <li><a href="../index.html#contatti">Contact</a></li>
+    </ul>
+    <div class="lang"><a href="../../progetti/meccatronica.html" lang="it">IT</a><a href="meccatronica.html" class="on" lang="en">EN</a></div>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <a class="back" href="../index.html#progetti">← All projects</a>
+    <div class="eyebrow">Mechatronics lab · Politecnico di Torino · 2024 – 2025</div>
+    <h1>Servo systems: experimental tests and modelling</h1>
+    <p class="lead">Six sessions on real pneumatic, electric and hydraulic test benches. In each one we acquired data in the lab, built a model in MATLAB/Simulink and identified the physical parameters by comparing simulation and measurements.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="pkpis">
+    <div class="kpi"><b>6</b><small>sessions on laboratory test benches</small></div>
+    <div class="kpi"><b>3</b><small>actuation technologies: pneumatic, electric and hydraulic</small></div>
+    <div class="kpi"><b>MATLAB</b><small>Simulink models and parameter identification by optimisation</small></div>
+    <div class="kpi"><b>107</b><small>pages of group technical report</small></div>
+  </div>
+
+  <div class="pbody">
+    <article>
+
+      <h2 id="metodo">The method</h2>
+      <p>All sessions follow the same path: bench tests with sinusoidal, square-wave or chirp signals; data acquisition and processing in MATLAB; a model of the system in Simulink; estimation of the parameters that cannot be measured directly, such as friction, damping, resistances and equivalent masses, by minimising the gap between model and measurements with <code>fminsearch</code> or with Simulink Parameter Estimator. The validated model is then used to study the control, the frequency response and the effect of the parameters.</p>
+
+      <h2 id="pwm">1 · PWM-driven digital valves</h2>
+      <span class="exp-tag">Pneumatics</span>
+      <p>Closed-loop pressure control of a tank with two on/off electro-pneumatic valves, one for filling and one for exhaust. Modulating the duty cycle with PWM gives an average behaviour similar to that of a proportional valve. In the Simulink model we optimised the pipe resistance, the polytropic exponent and the valve conductances, using separate sets of tests for estimation and for validation.</p>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/meccatronica/pwm_banco.png" target="_blank"><img src="../../assets/img/meccatronica/pwm_banco.png" alt="Test bench with tank, electro-pneumatic valves and pressure transducer" loading="lazy"></a>
+          <a href="../../assets/img/meccatronica/pwm_quadra.png" target="_blank"><img src="../../assets/img/meccatronica/pwm_quadra.png" alt="Simulated pressure and set point in the square-wave test" loading="lazy"></a>
+        </div>
+        <figcaption>Pneumatic test bench and validated model in a square-wave test. Exhaust is slower than filling because the available pressure drop is smaller.</figcaption>
+      </figure>
+
+      <h2 id="sensore">2 · Six-axis force and torque sensor</h2>
+      <span class="exp-tag">Measurement</span>
+      <p>A dynamometer with a Stewart platform structure: six single-axis transducers connected by spherical joints between two plates. We excited it with a mass-spring system, with a natural frequency of about 2.45 Hz, and acquired the signals at sampling rates from 2.5 to 1000 Hz to verify the Nyquist theorem. The physical parameters, i.e. mass, stiffness, lever arm and damping, were obtained by fitting the signals, first with an undamped model and then with damping.</p>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/meccatronica/6assi_sensore.png" target="_blank"><img src="../../assets/img/meccatronica/6assi_sensore.png" alt="Six-axis force sensor with Stewart platform structure" loading="lazy"></a>
+          <a href="../../assets/img/meccatronica/6assi_fit.png" target="_blank"><img src="../../assets/img/meccatronica/6assi_fit.png" alt="Measured force and optimised model force at 100 Hz sampling" loading="lazy"></a>
+        </div>
+        <figcaption>The six-axis sensor and the comparison between the measured force (F<sub>exp</sub>) and that of the optimised model (F<sub>opt</sub>), sampled at 100 Hz.</figcaption>
+      </figure>
+
+      <h2 id="iswec">3 · ISWEC on a Stewart platform</h2>
+      <span class="exp-tag">Robotics · wave energy</span>
+      <p>The ISWEC (Inertial Sea Wave Energy Converter) extracts energy from waves using the gyroscopic effect. In the lab the hull motion is reproduced by a six-degree-of-freedom Stewart platform with electromechanical actuators and a cRIO controller. We analysed chirp and sinusoidal tests in heave and pitch, with the platform loaded and unloaded, deriving the Bode diagrams and estimating the translating mass as friction and damping vary.</p>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/meccatronica/iswec_giroscopio.png" target="_blank"><img src="../../assets/img/meccatronica/iswec_giroscopio.png" alt="Diagram of the ISWEC gyroscope with its rotation axes" loading="lazy"></a>
+          <a href="../../assets/img/meccatronica/iswec_bode.png" target="_blank"><img src="../../assets/img/meccatronica/iswec_bode.png" alt="Bode diagrams of the platform in a heave chirp test, loaded and unloaded" loading="lazy"></a>
+        </div>
+        <figcaption>Principle of the ISWEC gyroscope and Bode diagrams from a 100 mm heave chirp test, with the platform loaded and unloaded.</figcaption>
+      </figure>
+
+      <h2 id="elettrico">4 · Electric servo system in position control</h2>
+      <span class="exp-tag">Electric</span>
+      <p>A printer carriage driven by a DC motor through a toothed belt, position-controlled with a PID on a myRIO board and LabVIEW. We acquired responses to sinusoidal set points from 0.5 to 10 Hz and to square waves with different gains. Then we identified, in sequence, the motor resistance and inductance, viscous damping and Coulomb friction, discarding tests with no physical meaning, and compared model and measurements in the frequency domain as well.</p>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/meccatronica/servo_el_banco.png" target="_blank"><img src="../../assets/img/meccatronica/servo_el_banco.png" alt="Electric servo system bench with carriage, motor and acquisition" loading="lazy"></a>
+          <a href="../../assets/img/meccatronica/servo_el_fit.png" target="_blank"><img src="../../assets/img/meccatronica/servo_el_fit.png" alt="Measured and simulated position with optimised damping and friction" loading="lazy"></a>
+        </div>
+        <figcaption>Test bench and comparison between experimental position and the model with optimised damping c and friction F<sub>ad</sub>.</figcaption>
+      </figure>
+
+      <h2 id="ema">5 · Test bench for EMA flight control actuators</h2>
+      <span class="exp-tag">Hydraulics · aerospace</span>
+      <p>A bench developed in the European research project ASTIB (Clean Sky 2) to test electromechanical flight control actuators. A force-controlled hydraulic actuator, supplied at 140 bar, simulates the aerodynamic loads on the position-controlled EMA. We studied the nonlinear model of the bench, with servovalve, bypass orifice, load actuator and control law, compared it with the acquisitions and analysed the effect of servovalve opening, oil temperature and connection stiffnesses.</p>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/meccatronica/ema_banco.png" target="_blank"><img src="../../assets/img/meccatronica/ema_banco.png" alt="EMA test bench with actuator under test, servo actuator block and frame" loading="lazy"></a>
+          <a href="../../assets/img/meccatronica/ema_lvt.png" target="_blank"><img src="../../assets/img/meccatronica/ema_lvt.png" alt="Actuator speed measured and simulated by the nonlinear model" loading="lazy"></a>
+        </div>
+        <figcaption>The EMA bench and the servo actuator speed measured (red) and simulated by the nonlinear model (black): the two curves almost overlap.</figcaption>
+      </figure>
+
+      <h2 id="idraulico">6 · Hydraulic position control</h2>
+      <span class="exp-tag">Hydraulics</span>
+      <p>A linear hydraulic servo actuator on an upright test rig, used for static and dynamic tests. From the sinusoidal and square-wave tests we studied the effect of the PID gains: increasing K<sub>p</sub> reduces the error and widens the bandwidth, but beyond a certain value the system oscillates. We then estimated the moving mass by fitting the inertial force, about 1.2 kg, and verified that the model reproduces the frequency response up to the bandwidth.</p>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/meccatronica/idr_kp.png" target="_blank"><img src="../../assets/img/meccatronica/idr_kp.png" alt="Square-wave response of the hydraulic servo actuator as the proportional gain varies" loading="lazy"></a>
+          <a href="../../assets/img/meccatronica/idr_bode.png" target="_blank"><img src="../../assets/img/meccatronica/idr_bode.png" alt="Simulated and experimental frequency response of the hydraulic servo actuator" loading="lazy"></a>
+        </div>
+        <figcaption>Square-wave response as K<sub>p</sub> increases, and comparison between simulated and experimental frequency response.</figcaption>
+      </figure>
+
+      <h2 id="imparato">What I learned</h2>
+      <p>This lab put me in front of real test benches, with their noise, friction and nonlinearities. I learned that a model is only as good as its validation: choosing different tests to estimate and to verify the parameters, recognising when a result makes no physical sense, and understanding the link between sampling rate, system bandwidth and data quality. Working on different technologies, pneumatic, electric and hydraulic, showed me how the same analysis method applies to very different systems.</p>
+
+      <div class="pnext">
+        <a href="../index.html#progetti">← All projects</a>
+        <a href="../index.html#contatti">Contact me →</a>
+      </div>
+    </article>
+
+    <aside class="facts">
+      <dl>
+        <dt>Context</dt><dd>Mechatronics course, Politecnico di Torino</dd>
+        <dt>Period</dt><dd>October 2024 – February 2025</dd>
+        <dt>Type</dt><dd>Group lab (team of three students), shared technical report</dd>
+        <dt>Tools</dt>
+        <dd><div class="chips" style="margin-top:6px"><span class="chip">MATLAB</span><span class="chip">Simulink</span><span class="chip">Parameter Estimator</span><span class="chip">LabVIEW</span><span class="chip">myRIO</span><span class="chip">PID</span></div></dd>
+        <dt>On this page</dt>
+        <dd><ul class="toc">
+          <li><a href="#metodo">The method</a></li>
+          <li><a href="#pwm">PWM valves</a></li>
+          <li><a href="#sensore">Six-axis sensor</a></li>
+          <li><a href="#iswec">ISWEC</a></li>
+          <li><a href="#elettrico">Electric servo</a></li>
+          <li><a href="#ema">EMA bench</a></li>
+          <li><a href="#idraulico">Hydraulic servo</a></li>
+          <li><a href="#imparato">What I learned</a></li>
+        </ul></dd>
+      </dl>
+    </aside>
+  </div>
+</div>
+
+<footer>© 2026 Valerio Cubeddu</footer>
+</body>
+</html>

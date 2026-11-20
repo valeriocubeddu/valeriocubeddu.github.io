@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LabVIEW programs for thermo-fluid dynamic measurements — Valerio Cubeddu</title>
+<meta name="description" content="BSc thesis at the University of Rome Tor Vergata: LabVIEW programs that interface the Keithley 3706 data acquisition system with a PC for three experiments of the applied thermodynamics lab.">
+<link rel="stylesheet" href="../../assets/css/style.css?v=7">
+</head>
+<body>
+
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="../index.html">Valerio <span>Cubeddu</span></a>
+    <ul>
+      <li><a href="../index.html#progetti">Projects</a></li>
+      <li><a href="../index.html#esperienza">Experience</a></li>
+      <li><a href="../index.html#contatti">Contact</a></li>
+    </ul>
+    <div class="lang"><a href="../../progetti/tesi-triennale.html" lang="it">IT</a><a href="tesi-triennale.html" class="on" lang="en">EN</a></div>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <a class="back" href="../index.html#progetti">← All projects</a>
+    <div class="eyebrow">BSc thesis · University of Rome Tor Vergata · 2022 – 2023</div>
+    <h1>LabVIEW programs for thermo-fluid dynamic measurements</h1>
+    <p class="lead">I connected the Keithley 3706 data acquisition system to a PC and wrote in LabVIEW the programs for three experiments of the industrial applied thermodynamics lab: natural convection between two walls, forced convection in a lattice duct and pressure losses in a duct. The programs configure the instruments, acquire and display the measurements in real time and save them to file.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="pkpis">
+    <div class="kpi"><b>3</b><small>lab experiments, each with a dedicated program</small></div>
+    <div class="kpi"><b>14</b><small>type J thermocouples acquired in the natural convection experiment</small></div>
+    <div class="kpi"><b>6</b><small>wall spacings tested, from 0.5 to 7 cm</small></div>
+    <div class="kpi"><b>110/110 cum laude</b><small>graduation mark</small></div>
+  </div>
+
+  <div class="pbody">
+    <article>
+
+      <h2 id="obiettivo">The goal</h2>
+      <p>The lab had a Keithley 3706 data acquisition system with a multiplexer card, but no software to use it in its tests. My task was to write the programs that control it from the PC, one for each experiment, starting from scratch: communication with the instrument, channel configuration, acquisition, display and data saving.</p>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/triennale/intercapedine.jpg" target="_blank"><img src="../../assets/img/triennale/intercapedine.jpg" alt="Apparatus for natural convection between two vertical walls" loading="lazy"></a>
+          <a href="../../assets/img/triennale/multiplexer.jpg" target="_blank"><img src="../../assets/img/triennale/multiplexer.jpg" alt="Terminal block of the multiplexer card wired to the thermocouples" loading="lazy"></a>
+        </div>
+        <figcaption>The apparatus for natural convection between two heated vertical walls, and the terminal block of the multiplexer card wired to the thermocouples.</figcaption>
+      </figure>
+
+      <h2 id="acquisizione">The acquisition system</h2>
+      <p>The 3721 multiplexer card routes the instrument signals to the Keithley channels; each channel is identified by slot and number, for example 1012 is channel 12 of slot 1. The integration time is set to 1 PLC, i.e. 16.67 ms with 60 Hz mains: the interval in which measurement noise is lowest.</p>
+      <p>The instrument is programmed in Lua. From the PC, LabVIEW communicates with it through NI-VISA, the interface that translates commands into a format the Keithley understands, and through the 3706 driver library, which groups the VISA functions into specific subroutines. For the parts the drivers did not cover I sent Lua commands directly, for example to run the scan and read the measurement buffer.</p>
+
+      <h2 id="esperimento1">Experiment 1: natural convection between two walls</h2>
+      <p>Two facing vertical walls are heated by resistors powered by two DC supplies. There are 6 thermocouples on the first wall and 5 on the second, plus two for the inlet and outlet air and one on the outer surface. We tested six wall spacings, from 0.5 to 7 cm.</p>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/triennale/sezione.png" target="_blank"><img src="../../assets/img/triennale/sezione.png" alt="Diagram of the test section with the two walls" loading="lazy"></a>
+          <a href="../../assets/img/triennale/termocoppie_pareti.png" target="_blank"><img src="../../assets/img/triennale/termocoppie_pareti.png" alt="Position of the thermocouples on the walls" loading="lazy"></a>
+        </div>
+        <figcaption>Test section: heated length L, adiabatic sections upstream and downstream, wall spacing s. On the right, the position of the thermocouples on one wall, in centimetres.</figcaption>
+      </figure>
+      <p>The thermal power of each heater is computed from the voltage across it and the current, which is derived from the voltage drop across a 0.1 Ω shunt in series. Besides the thermocouples, the program therefore acquires the voltages across shunts and heaters of both circuits.</p>
+      <figure class="narrow">
+        <a href="../../assets/img/triennale/circuito.png" target="_blank"><img src="../../assets/img/triennale/circuito.png" alt="Heater circuit with power supply and shunt" loading="lazy"></a>
+        <figcaption>Circuit of a heater: the voltages across heater and shunt go to the acquisition system together with the thermocouples.</figcaption>
+      </figure>
+
+      <h3>The program</h3>
+      <p>The program panel has two parts. In the configuration you set the scan parameters for shunts, heaters and thermocouples, the waiting time between scans and the output file, and you read live the current, resistance and power of each wall. The output shows the plots of the wall temperatures, the average temperatures and the air temperatures, and the tables with all the scans. At the end of the test the data are saved to file in columns ready for processing.</p>
+      <figure class="narrow">
+        <a href="../../assets/img/triennale/pannello_intercapedine.png" target="_blank"><img src="../../assets/img/triennale/pannello_intercapedine.png" alt="Front panel of the natural convection program" loading="lazy"></a>
+        <figcaption>Front panel of the program: configuration at the top, temperature plots and scan tables below.</figcaption>
+      </figure>
+      <figure>
+        <a href="../../assets/img/triennale/codice.png" target="_blank"><img src="../../assets/img/triennale/codice.png" alt="Block diagram of the main program" loading="lazy"></a>
+        <figcaption>Block diagram of the main program: initialisation on the left, scan loop in the middle, file saving on the right.</figcaption>
+      </figure>
+      <p>I split the code into reusable subroutines. Scan.vi configures and runs a scan over a list of channels; Termocoppia_J.vi converts the thermocouple voltage into temperature with the NIST reference polynomial, T = Σ cᵢVⁱ. I wrote the same conversion for type E, K, N, R, S and T thermocouples too, so the programs can be adapted to other sensors.</p>
+      <figure>
+        <a href="../../assets/img/triennale/termocoppia_j.png" target="_blank"><img src="../../assets/img/triennale/termocoppia_j.png" alt="Block diagram of the conversion subroutine for type J thermocouples" loading="lazy"></a>
+        <figcaption>Termocoppia_J.vi: the voltage in microvolts goes through the polynomial with the type J coefficients and returns the temperature in degrees Celsius.</figcaption>
+      </figure>
+
+      <h3>Problems to solve</h3>
+      <p>The first tests stopped with VISA timeout errors: reading started before the instrument had finished the scan, or the wrong number of bytes was expected. I tuned the timeouts and the bytes to read, and made the program read the buffer only up to the last written index instead of in full. The Keithley handles at most 576 channels per scan, a limit to respect when building the lists. For LabVIEW crashes I also looked for causes in reports from other users of the same instrument.</p>
+
+      <h3>Tests and results</h3>
+      <p>For each wall spacing the test followed four phases: heating with both walls, saving at steady state, switching off the second wall, saving again at steady state. The program recorded the entire temperature history.</p>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/triennale/test_pareti.png" target="_blank"><img src="../../assets/img/triennale/test_pareti.png" alt="Thermocouple temperatures during a test" loading="lazy"></a>
+          <a href="../../assets/img/triennale/test_medie.png" target="_blank"><img src="../../assets/img/triennale/test_medie.png" alt="Average temperatures of the two walls during a test" loading="lazy"></a>
+        </div>
+        <figcaption>A test as seen by the program: on the left the temperatures of all thermocouples, on the right the averages of the two walls. Heating, steady state and the switch-off of the second wall are visible.</figcaption>
+      </figure>
+      <p>From the steady-state temperatures we derived the Nusselt number, which measures how much convection increases heat transfer compared with conduction alone, as the spacing varies. With only one wall heated, heat transfer is stronger. With both heated, at small spacings the two hot air flows interfere and the Nusselt number drops sharply, then stabilises beyond 3 cm.</p>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/triennale/nusselt.png" target="_blank"><img src="../../assets/img/triennale/nusselt.png" alt="Nusselt number as a function of wall spacing" loading="lazy"></a>
+          <a href="../../assets/img/triennale/nusselt_ra.png" target="_blank"><img src="../../assets/img/triennale/nusselt_ra.png" alt="Ratio between Nusselt and Rayleigh as a function of wall spacing" loading="lazy"></a>
+        </div>
+        <figcaption>Nusselt number and Nusselt/Rayleigh ratio as spacing s varies, with one wall heated (red) and with both (yellow and blue).</figcaption>
+      </figure>
+
+      <h2 id="esperimento2">Experiment 2: forced convection in a lattice duct</h2>
+      <p>The second apparatus is an 8 cm long duct with an internal lattice structure, crossed by an air flow and heated by a resistor. The thermocouples are above and below the duct and also measure the inlet and outlet air. The heating circuit is the same as in the first experiment, so I reused the subroutines, adapting the panel and channel lists.</p>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/triennale/condotto.jpg" target="_blank"><img src="../../assets/img/triennale/condotto.jpg" alt="Insulated and instrumented lattice duct" loading="lazy"></a>
+          <a href="../../assets/img/triennale/condotto_3d.png" target="_blank"><img src="../../assets/img/triennale/condotto_3d.png" alt="Model of the duct with the internal lattice structure" loading="lazy"></a>
+        </div>
+        <figcaption>The insulated and instrumented duct and its model, 70 × 15 mm cross-section, with the internal lattice structure.</figcaption>
+      </figure>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/triennale/condotto_sonde.png" target="_blank"><img src="../../assets/img/triennale/condotto_sonde.png" alt="Position of the thermocouples above and below the duct" loading="lazy"></a>
+          <a href="../../assets/img/triennale/pannello_condotto.png" target="_blank"><img src="../../assets/img/triennale/pannello_condotto.png" alt="Front panel of the duct program" loading="lazy"></a>
+        </div>
+        <figcaption>Position of the thermocouples above and below the duct, and the panel of the dedicated program.</figcaption>
+      </figure>
+
+      <h2 id="esperimento3">Experiment 3: pressure losses in a duct</h2>
+      <p>In the third experiment the pressure drop along a duct is measured with a Dwyer 629C03 differential transducer, which has a 0–25 psid range and an accuracy of 0.5% of full scale. I wrote a subroutine that converts the transducer output into pressure and a program that acquires it together with the air temperatures.</p>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/triennale/perdite.jpg" target="_blank"><img src="../../assets/img/triennale/perdite.jpg" alt="Bench for measuring pressure losses" loading="lazy"></a>
+          <a href="../../assets/img/triennale/pannello_perdite.png" target="_blank"><img src="../../assets/img/triennale/pannello_perdite.png" alt="Front panel of the pressure loss program" loading="lazy"></a>
+        </div>
+        <figcaption>The pressure loss bench and the program panel, with pressure and temperature plots.</figcaption>
+      </figure>
+
+      <h2 id="imparato">What I learned</h2>
+      <p>It was my first project in which software had to work on a real instrument, later used by others. I learned to read the documentation of an acquisition system, to make different layers talk to each other, from LabVIEW to VISA to the instrument's Lua commands, and to write modular code that could be reused across experiments. The communication errors taught me to look for the cause methodically instead of working around it.</p>
+
+      <div class="pnext">
+        <a href="../index.html#progetti">← All projects</a>
+        <a href="../index.html#contatti">Contact me →</a>
+      </div>
+    </article>
+
+    <aside class="facts">
+      <dl>
+        <dt>Context</dt><dd>BSc thesis in Mechanical Engineering, University of Rome Tor Vergata</dd>
+        <dt>Supervisor</dt><dd>Ing. Ivano Petracci</dd>
+        <dt>Period</dt><dd>2022 – 2023</dd>
+        <dt>Tools</dt>
+        <dd><div class="chips" style="margin-top:6px"><span class="chip">LabVIEW</span><span class="chip">NI-VISA</span><span class="chip">Lua</span><span class="chip">Keithley 3706</span></div></dd>
+        <dt>On this page</dt>
+        <dd><ul class="toc">
+          <li><a href="#obiettivo">The goal</a></li>
+          <li><a href="#acquisizione">The acquisition system</a></li>
+          <li><a href="#esperimento1">Natural convection</a></li>
+          <li><a href="#esperimento2">Forced convection</a></li>
+          <li><a href="#esperimento3">Pressure losses</a></li>
+          <li><a href="#imparato">What I learned</a></li>
+        </ul></dd>
+      </dl>
+    </aside>
+  </div>
+</div>
+
+<footer>© 2026 Valerio Cubeddu</footer>
+</body>
+</html>

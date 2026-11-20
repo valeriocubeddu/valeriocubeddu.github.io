@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Air-water HVAC system for a university building — Valerio Cubeddu</title>
+<meta name="description" content="Advanced Applied Thermodynamics course project: thermal loads, air handling unit, refrigeration cycles, distribution networks, energy and exergy analysis and heat exchanger for a Politecnico di Torino building.">
+<link rel="stylesheet" href="../../assets/css/style.css?v=7">
+</head>
+<body>
+
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="../index.html">Valerio <span>Cubeddu</span></a>
+    <ul>
+      <li><a href="../index.html#progetti">Projects</a></li>
+      <li><a href="../index.html#esperienza">Experience</a></li>
+      <li><a href="../index.html#contatti">Contact</a></li>
+    </ul>
+    <div class="lang"><a href="../../progetti/hvac.html" lang="it">IT</a><a href="hvac.html" class="on" lang="en">EN</a></div>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <a class="back" href="../index.html#progetti">← All projects</a>
+    <div class="eyebrow">Advanced Applied Thermodynamics · Politecnico di Torino · 2025</div>
+    <h1>Air-water HVAC system for a university building</h1>
+    <p class="lead">The complete design of the heating and cooling system of a building of the Energy Department of Politecnico di Torino: from the thermal loads to the air handling unit, from the refrigeration cycles to the water and air networks, up to the energy, economic and exergy analysis and the sizing of the fan-coil heat exchanger.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="pkpis">
+    <div class="kpi"><b>283 kW</b><small>design summer thermal load of the building</small></div>
+    <div class="kpi"><b>54,000 m³/h</b><small>air flow rate of the laboratories' AHU, distributed by 24 diffusers</small></div>
+    <div class="kpi"><b>−14%</b><small>summer operating costs with the Superbonus energy-efficiency measures</small></div>
+    <div class="kpi"><b>49%</b><small>share of the AHU exergy losses in the cooling coil</small></div>
+  </div>
+
+  <div class="pbody">
+    <article>
+
+      <h2 id="edificio">The building and the system</h2>
+      <p>The building has two zones with different needs. The laboratories are conditioned by an air handling unit (AHU) that supplies treated air through ducts; the offices have one fan coil per room, fed by a water network. For summer cooling we planned two separate refrigeration cycles, because the two systems work at very different temperatures: the AHU air has to be brought from 24 °C to about 4 °C, the fan-coil water from 12 °C to 7 °C.</p>
+
+      <h2 id="carichi">Thermal loads and AHU</h2>
+      <p>From the geometric survey we computed the loads due to transmission through walls, roof and windows, to ventilation and to solar radiation on the glazed surfaces, keeping laboratories and offices separate. The total load is about 283 kW in summer and 145 kW in winter.</p>
+      <p>On these values we sized the AHU coils, i.e. preheating, humidification, cooling and reheating, plotting the moist-air transformations on the psychrometric chart for the two seasonal cases.</p>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/aaft/uta_inverno.png" target="_blank"><img src="../../assets/img/aaft/uta_inverno.png" alt="Diagram of the air handling unit in the winter case" loading="lazy"></a>
+          <a href="../../assets/img/aaft/psicrometrico.png" target="_blank"><img src="../../assets/img/aaft/psicrometrico.png" alt="Moist-air transformations on the psychrometric chart" loading="lazy"></a>
+        </div>
+        <figcaption>Diagram of the AHU in the winter case, with mixing, coils and fans, and the air transformations on the psychrometric chart.</figcaption>
+      </figure>
+
+      <h2 id="frigo">Refrigeration cycles</h2>
+      <p>Both cycles are single-stage vapour-compression cycles with R134a, condensing at the outdoor temperature of 30.5 °C. For the cycle that feeds the AHU, with a compressor isentropic efficiency of 0.8, we obtained a COP of about 3.7 and a compression ratio of 4.2. The cycles were plotted and checked with CoolPack.</p>
+      <figure>
+        <a href="../../assets/img/aaft/ciclo_r134a.png" target="_blank"><img src="../../assets/img/aaft/ciclo_r134a.png" alt="AHU refrigeration cycle on the R134a pressure-enthalpy diagram" loading="lazy"></a>
+        <figcaption>Refrigeration cycle feeding the AHU cooling coil on the R134a pressure-enthalpy diagram.</figcaption>
+      </figure>
+
+      <h2 id="reti">Distribution networks</h2>
+      <p>For the offices we selected the fan coils from a catalogue and sized the water network: flow rates for each office, pipe diameters, and distributed and local pressure losses along the most unfavourable path, up to the choice of the pump. For the laboratories we sized the rectangular air ducts on the winter flow rate, the highest, limiting the velocity at the outlets to 8 m/s to keep noise down.</p>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/aaft/rete_uffici.png" target="_blank"><img src="../../assets/img/aaft/rete_uffici.png" alt="Floor plan of the office floor with the water supply and return network" loading="lazy"></a>
+          <a href="../../assets/img/aaft/montanti.png" target="_blank"><img src="../../assets/img/aaft/montanti.png" alt="Diagram of the supply and return risers over the five floors" loading="lazy"></a>
+        </div>
+        <figcaption>Water network of an office floor and diagram of the supply and return risers over the five levels of the building.</figcaption>
+      </figure>
+
+      <h2 id="energia">Energy analysis and Superbonus</h2>
+      <p>Using the typical daily load curve of a commercial building, we estimated the summer consumption and operating costs of chillers and fans. Then we simulated the measures of the Italian Superbonus 110% incentive: with external wall insulation the wall transmittance drops from 1.41 to 0.21 W/m²K, transmission loads roughly halve and the required air and water flow rates decrease. The daily operating cost goes down from about €126 to €109. The COP, instead, stays almost unchanged, because thermal load and compressor power decrease together.</p>
+      <figure>
+        <a href="../../assets/img/aaft/costi_superbonus.png" target="_blank"><img src="../../assets/img/aaft/costi_superbonus.png" alt="Daily summer operating costs before and after the Superbonus measures" loading="lazy"></a>
+        <figcaption>Daily summer operating costs by item, for the current building and with the energy-efficiency measures.</figcaption>
+      </figure>
+
+      <h2 id="exergia">Exergy analysis</h2>
+      <p>The exergy balance, for the whole system and component by component, shows where most of the energy quality is lost. In the refrigeration cycles the irreversibilities are concentrated in the compressor, condenser and expansion valve, and the overall exergy efficiency is around 26–28%. In the AHU, with an overall efficiency of 33%, almost half of the irreversibilities are in the cooling coil and another significant part in the fan: these are the components to work on first.</p>
+      <figure>
+        <a href="../../assets/img/aaft/exergia_uta.png" target="_blank"><img src="../../assets/img/aaft/exergia_uta.png" alt="Breakdown of exergy losses among the AHU components" loading="lazy"></a>
+        <figcaption>Breakdown of exergy losses in the AHU: cooling coil 49%, fan 45%.</figcaption>
+      </figure>
+
+      <h2 id="scambiatore">Fan-coil heat exchanger</h2>
+      <p>Finally, using the ε-NTU method, we sized the cross-flow finned copper coil of the fan coil in the winter condition, the most demanding one. We computed the air-side and water-side convective coefficients from the Colburn factors, then the fin efficiency and the overall heat transfer coefficient, about 480 W/m²K. The result is a heat transfer area of 0.33 m² and an eight-row coil 0.81 m long and 0.30 m high.</p>
+
+      <h2 id="imparato">What I learned</h2>
+      <p>This project showed me the complete path of a building services system, where each choice depends on the previous one: from loads to flow rates, from flow rates to components, from components to costs. The exergy analysis in particular taught me to look beyond the energy balance to understand where a system really wastes energy, and the Superbonus comparison taught me to evaluate an intervention from an economic point of view too.</p>
+
+      <div class="pnext">
+        <a href="../index.html#progetti">← All projects</a>
+        <a href="../index.html#contatti">Contact me →</a>
+      </div>
+    </article>
+
+    <aside class="facts">
+      <dl>
+        <dt>Context</dt><dd>Advanced Applied Thermodynamics course, Politecnico di Torino</dd>
+        <dt>Period</dt><dd>2025</dd>
+        <dt>Tools</dt>
+        <dd><div class="chips" style="margin-top:6px"><span class="chip">CoolPack</span><span class="chip">Psychrometric chart</span><span class="chip">ε-NTU</span></div></dd>
+        <dt>On this page</dt>
+        <dd><ul class="toc">
+          <li><a href="#edificio">Building and system</a></li>
+          <li><a href="#carichi">Thermal loads and AHU</a></li>
+          <li><a href="#frigo">Refrigeration cycles</a></li>
+          <li><a href="#reti">Distribution networks</a></li>
+          <li><a href="#energia">Energy and Superbonus</a></li>
+          <li><a href="#exergia">Exergy analysis</a></li>
+          <li><a href="#scambiatore">Heat exchanger</a></li>
+          <li><a href="#imparato">What I learned</a></li>
+        </ul></dd>
+      </dl>
+    </aside>
+  </div>
+</div>
+
+<footer>© 2026 Valerio Cubeddu</footer>
+</body>
+</html>

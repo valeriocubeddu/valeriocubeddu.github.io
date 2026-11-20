@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vehicle dynamics models — Valerio Cubeddu</title>
+<meta name="description" content="Vehicle Mechanics coursework at Politecnico di Torino: full vehicle model with roll and differential, bicycle model, Pacejka tyre, braking with EBD and a four-degree-of-freedom ride comfort model in MATLAB/Simulink.">
+<link rel="stylesheet" href="../../assets/css/style.css?v=7">
+</head>
+<body>
+
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="../index.html">Valerio <span>Cubeddu</span></a>
+    <ul>
+      <li><a href="../index.html#progetti">Projects</a></li>
+      <li><a href="../index.html#esperienza">Experience</a></li>
+      <li><a href="../index.html#contatti">Contact</a></li>
+    </ul>
+    <div class="lang"><a href="../../progetti/dinamica-veicolo.html" lang="it">IT</a><a href="dinamica-veicolo.html" class="on" lang="en">EN</a></div>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <a class="back" href="../index.html#progetti">← All projects</a>
+    <div class="eyebrow">Vehicle Mechanics · Politecnico di Torino · 2024</div>
+    <h1>Vehicle dynamics models</h1>
+    <p class="lead">A set of MATLAB/Simulink models to study how a car behaves when cornering, braking and driving over road irregularities: from the full vehicle with roll, engine and differential to the bicycle model, from the Pacejka tyre to electronic brake-force distribution, up to ride comfort.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="pkpis">
+    <div class="kpi"><b>5</b><small>models, from the tyre to the full vehicle</small></div>
+    <div class="kpi"><b>~1 g</b><small>limit lateral acceleration reached in the ramp steer</small></div>
+    <div class="kpi"><b>×2</b><small>difference in yaw gain at 250 km/h when moving the centre of gravity by ±10 cm</small></div>
+    <div class="kpi"><b>1.2 / 12 Hz</b><small>body and wheel frequencies in the ride comfort model</small></div>
+  </div>
+
+  <div class="pbody">
+    <article>
+
+      <h2 id="completo">Full vehicle: cornering, roll and differential</h2>
+      <p>The most complete model describes the car with yaw, sideslip and body roll, four wheels with Pacejka tyres and load transfers, an engine with gearbox, a limited-slip differential, the braking system and the steering. The driver controls steering wheel, throttle, brake and gear, and the model can be run on standard manoeuvres: step steer, ramp steer, sweep, steering pad and a launch on a surface with different grip on the two sides.</p>
+      <p>I used the model to compare different configurations; the plots on this page come from the simulations.</p>
+      <figure class="narrow">
+        <a href="../../assets/img/veicolo/schema_simulink.png" target="_blank"><img src="../../assets/img/veicolo/schema_simulink.png" alt="Top-level Simulink diagram of the full vehicle model" loading="lazy"></a>
+        <figcaption>Top level of the Simulink model: driver, engine and driveline, braking system, steering, and vehicle with the ground.</figcaption>
+      </figure>
+
+      <h3>Understeer: driveline layout and anti-roll bars</h3>
+      <p>A ramp steer at 100 km/h gives the understeer characteristic: how much steering-wheel angle is needed, beyond the purely geometric one, for each level of lateral acceleration. In the linear range the curves coincide; towards the limit, rear-wheel drive understeers less and reaches about 1 g, while front-wheel and all-wheel drive saturate the front axle first. Shifting roll stiffness to the front anti-roll bar loads the outer front wheels more and increases understeer.</p>
+      <figure>
+        <a href="../../assets/img/veicolo/sottosterzo.png" target="_blank"><img src="../../assets/img/veicolo/sottosterzo.png" alt="Understeer characteristic for different driveline layouts and roll stiffness distributions" loading="lazy"></a>
+        <figcaption>Dynamic steering-wheel angle as a function of lateral acceleration, ramp steer at 15°/s at 100 km/h. Left: the three driveline layouts; right: the share of roll stiffness given to the front bar.</figcaption>
+      </figure>
+
+      <h3>Step steer response</h3>
+      <p>At 100 km/h with a step steer, the yaw rate peaks 25% above its steady-state value and oscillates a few times before settling. The sideslip angle follows the same pattern, while the roll angle quickly reaches about 4°, well damped by the suspension.</p>
+      <figure>
+        <a href="../../assets/img/veicolo/gradino.png" target="_blank"><img src="../../assets/img/veicolo/gradino.png" alt="Yaw rate, sideslip angle and roll in a step steer" loading="lazy"></a>
+        <figcaption>Step steer at 100 km/h, front-wheel drive: yaw rate, sideslip angle and roll angle.</figcaption>
+      </figure>
+
+      <h3>Differential on a split-friction surface</h3>
+      <p>Starting in second gear at 30 km/h with the right wheels on a slippery surface (μ = 0.3) and the steering wheel held still, the car accelerates at full throttle. With an open differential, torque is limited by the slipping wheel and the car goes almost straight. With a limited-slip differential, torque goes to the wheel that has grip: acceleration is better, but the difference in thrust between the two sides makes the car yaw, and without driver corrections it deviates by about 40 m over 300.</p>
+      <figure>
+        <a href="../../assets/img/veicolo/musplit.png" target="_blank"><img src="../../assets/img/veicolo/musplit.png" alt="Trajectory and yaw rate when accelerating on a mu-split surface" loading="lazy"></a>
+        <figcaption>Full-throttle acceleration on μ-split with an open differential and a limited-slip differential with torque bias ratio 3: trajectory and yaw rate.</figcaption>
+      </figure>
+
+      <h2 id="bicicletta">Bicycle model</h2>
+      <p>The linear two-degree-of-freedom model, sideslip and yaw, is the basis for understanding cornering stability. The axle cornering stiffnesses are derived from the static load on each wheel by interpolating the tyre curve. I wrote the model in state space and computed steady-state gains, poles, frequencies and damping ratios as the speed varies.</p>
+      <p>Moving the centre of gravity by 10 cm changes the behaviour: moved forward, the vehicle becomes understeering and the yaw gain drops with speed; moved back, it becomes oversteering, the gain grows and the vehicle would become unstable above a critical speed, here about 410 km/h.</p>
+      <figure class="narrow">
+        <a href="../../assets/img/veicolo/bicicletta.png" target="_blank"><img src="../../assets/img/veicolo/bicicletta.png" alt="Yaw gain as a function of speed for three positions of the centre of gravity" loading="lazy"></a>
+        <figcaption>Steady-state yaw gain relative to the kinematic gain V/L, for three positions of the centre of gravity.</figcaption>
+      </figure>
+
+      <h2 id="pneumatico">Tyre: Pacejka model</h2>
+      <p>The 225/50 R17 tyre is described with the Pacejka '96 Magic Formula. In the Simulink model, slip ratio, slip angle, vertical load and grip are imposed, and the longitudinal force, lateral force and self-aligning moment are obtained. The curves show the force peak at around 10% slip and 7° slip angle, the drop in relative grip as the load increases and, in combined slip, how braking or accelerating reduces the available lateral force.</p>
+      <figure>
+        <a href="../../assets/img/veicolo/pneumatico.png" target="_blank"><img src="../../assets/img/veicolo/pneumatico.png" alt="Curves of the Pacejka tyre model: longitudinal, lateral and combined force" loading="lazy"></a>
+        <figcaption>Longitudinal and lateral force for four vertical loads, and lateral force as a function of longitudinal force for three slip angles.</figcaption>
+      </figure>
+
+      <h2 id="frenata">Braking and electronic brake-force distribution (EBD)</h2>
+      <p>The longitudinal dynamics model simulates braking from 100 km/h with three strategies: a fixed torque split between the axles, a brake proportioning valve, and EBD, a PID controller that regulates the rear torque to keep the slip of the rear wheels just below that of the front ones. The goal is to stay close to the ideal braking parabola and never lock the rear wheels first, which would make the car unstable.</p>
+      <p>Comparing two fixed splits shows why regulation is needed. Under braking, load shifts to the front: with a 50:50 split the rear axle gets too much torque, the points move away from the parabola and the rear wheels reach 11% slip, close to locking. With 70:30 braking follows the parabola, but only for that deceleration and that load: the proportioning valve and EBD are there to adapt the split to real conditions.</p>
+      <figure>
+        <a href="../../assets/img/veicolo/frenata.png" target="_blank"><img src="../../assets/img/veicolo/frenata.png" alt="Braking forces compared with the ideal parabola and wheel speeds for two fixed splits" loading="lazy"></a>
+        <figcaption>Braking from 100 km/h at about 0.65 g with a 50:50 and a 70:30 split: braking forces normalised against the ideal parabola, and vehicle and wheel speeds.</figcaption>
+      </figure>
+
+      <h2 id="comfort">Ride comfort: four-degree-of-freedom model</h2>
+      <p>For ride comfort the vehicle is a planar model with body bounce and pitch and the vertical displacement of the two wheels. The modal analysis gives two body modes at around 1.2–1.3 Hz and two wheel modes between 12 and 14 Hz. Varying the damper coefficient from 1% to 150% of its nominal value shows that the wheel modes are the most sensitive, while the body frequencies change little. The model then computes the frequency responses and the response to a random road profile described by its power spectral density.</p>
+      <figure>
+        <a href="../../assets/img/veicolo/modi_comfort.png" target="_blank"><img src="../../assets/img/veicolo/modi_comfort.png" alt="The four natural modes of the ride comfort model" loading="lazy"></a>
+        <figcaption>The four natural modes: body bounce and pitch, then the two wheel modes.</figcaption>
+      </figure>
+      <figure>
+        <a href="../../assets/img/veicolo/smorzatori.png" target="_blank"><img src="../../assets/img/veicolo/smorzatori.png" alt="Effect of damper coefficient on frequencies and damping ratios" loading="lazy"></a>
+        <figcaption>Damped frequencies and damping ratios of the four modes as the damper coefficient varies, normalised on the nominal value.</figcaption>
+      </figure>
+      <p>Before this model I built the one- and two-degree-of-freedom quarter-car models in Simulink, the starting point for understanding the effect of spring, damper and tyre.</p>
+
+      <h2 id="imparato">What I learned</h2>
+      <p>This coursework gave me a method for studying a vehicle: start from the simplest model that answers the question and add complexity only when needed — the bicycle model for stability, the full vehicle for behaviour at the limit, the four-degree-of-freedom model for comfort. Above all I learned to read the results with the physics in mind, to understand why a design choice changes how the car behaves.</p>
+
+      <div class="pnext">
+        <a href="../index.html#progetti">← All projects</a>
+        <a href="../index.html#contatti">Contact me →</a>
+      </div>
+    </article>
+
+    <aside class="facts">
+      <dl>
+        <dt>Context</dt><dd>Vehicle Mechanics course, Politecnico di Torino</dd>
+        <dt>Period</dt><dd>2024</dd>
+        <dt>Tools</dt>
+        <dd><div class="chips" style="margin-top:6px"><span class="chip">MATLAB</span><span class="chip">Simulink</span><span class="chip">Pacejka</span></div></dd>
+        <dt>On this page</dt>
+        <dd><ul class="toc">
+          <li><a href="#completo">Full vehicle</a></li>
+          <li><a href="#bicicletta">Bicycle model</a></li>
+          <li><a href="#pneumatico">Tyre</a></li>
+          <li><a href="#frenata">Braking and EBD</a></li>
+          <li><a href="#comfort">Ride comfort</a></li>
+          <li><a href="#imparato">What I learned</a></li>
+        </ul></dd>
+      </dl>
+    </aside>
+  </div>
+</div>
+
+<footer>© 2026 Valerio Cubeddu</footer>
+</body>
+</html>

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Valerio Cubeddu — Ingegnere meccanico · Portfolio</title>
-<link rel="stylesheet" href="assets/css/style.css?v=6">
+<link rel="stylesheet" href="assets/css/style.css?v=7">
 </head>
 <body>
 
@@ -19,7 +19,7 @@
       <li><a href="#esperienza">Esperienza</a></li>
       <li><a href="#contatti">Contatti</a></li>
     </ul>
-    <div class="lang"><button class="on">IT</button><button>EN</button></div>
+    <div class="lang"><a href="index.html" class="on" lang="it">IT</a><a href="en/index.html" lang="en">EN</a></div>
   </div>
 </nav>
 
@@ -206,9 +206,6 @@
     const f = b.dataset.f;
     document.querySelectorAll('#grid .card').forEach(c => c.classList.toggle('hidden', f !== 'all' && c.dataset.c !== f));
   });
-  document.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => {
-    document.querySelectorAll('.lang button').forEach(x => x.classList.toggle('on', x === b));
-  }));
 </script>
 <script src="assets/links.js"></script>
 </body>

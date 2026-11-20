@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design of a two-stage coaxial gear reducer — Valerio Cubeddu</title>
+<meta name="description" content="Machine Design course project at Politecnico di Torino: sizing and verification of helical gears, shafts, bearings, keys and housing of a two-stage coaxial gear reducer.">
+<link rel="stylesheet" href="../../assets/css/style.css?v=7">
+</head>
+<body>
+
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="../index.html">Valerio <span>Cubeddu</span></a>
+    <ul>
+      <li><a href="../index.html#progetti">Projects</a></li>
+      <li><a href="../index.html#esperienza">Experience</a></li>
+      <li><a href="../index.html#contatti">Contact</a></li>
+    </ul>
+    <div class="lang"><a href="../../progetti/riduttore.html" lang="it">IT</a><a href="riduttore.html" class="on" lang="en">EN</a></div>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <a class="back" href="../index.html#progetti">← All projects</a>
+    <div class="eyebrow">Machine Design · Politecnico di Torino · 2024</div>
+    <h1>Design of a two-stage coaxial gear reducer</h1>
+    <p class="lead">The complete design of a parallel-axis helical gear reducer, taking a commercial model as reference: static and fatigue sizing and verification of gears and shafts to ISO standards, choice of bearings and lubricant, keys, assembly and housing dimensions.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="pkpis">
+    <div class="kpi"><b>12.5 : 1</b><small>reduction ratio achieved, within 2% of the nominal one</small></div>
+    <div class="kpi"><b>ISO 6336</b><small>fatigue verification of the gears for tooth-root bending and pitting</small></div>
+    <div class="kpi"><b>&gt;25,000 h</b><small>SKF-adjusted life of all bearings</small></div>
+    <div class="kpi"><b>143 × 87 mm</b><small>gear set envelope, within the limits of the reference model</small></div>
+  </div>
+
+  <div class="pbody">
+    <article>
+
+      <h2 id="specifiche">Specifications</h2>
+      <p>The reference is a commercial two-stage coaxial reducer with a nominal ratio of 12.27, 900 rpm input, 62 Nm output and 0.34 kW continuous power. The design had to fit within the envelope of the model, guarantee at least 25,000 hours of bearing life and withstand the radial load from the driven machine on the output shaft.</p>
+      <figure>
+        <a href="../../assets/img/riduttore/riduttore.png" target="_blank"><img src="../../assets/img/riduttore/riduttore.png" alt="Section of the two-stage coaxial reducer coupled to the electric motor" loading="lazy"></a>
+        <figcaption>Section of a two-stage coaxial reducer coupled to an IEC electric motor, the configuration of the reference model.</figcaption>
+      </figure>
+      <p>For the input and output shafts we chose C45 quenched and tempered steel; for the gears and the intermediate shaft, case-hardened 16MnCr5.</p>
+
+      <h2 id="ruote">Gears</h2>
+      <p>The minimum number of teeth comes from the interference limit, the module from the Lewis formula, for bending, and the Hertz formula, for contact; then the next standard module is chosen. With the final tooth numbers the ratio is 12.49, within 2% of the nominal one, and the coaxiality condition is met to within a few thousandths of a millimetre. We checked the transverse and overlap contact ratios, then static and fatigue strength, for tooth-root bending and pitting, to ISO 6336-1 with all the correction factors.</p>
+
+      <figure>
+        <a href="../../assets/img/riduttore/forze.png" target="_blank"><img src="../../assets/img/riduttore/forze.png" alt="Diagram of the meshing forces on the three shafts" loading="lazy"></a>
+        <figcaption>Meshing forces (tangential, radial and axial) and torques on the three shafts, with the positions of bearings A–G.</figcaption>
+      </figure>
+      <figure class="narrow">
+        <a href="../../assets/img/riduttore/ingombri.png" target="_blank"><img src="../../assets/img/riduttore/ingombri.png" alt="Coaxial arrangement of the four gears and envelope" loading="lazy"></a>
+        <figcaption>Coaxial arrangement of the four gears: the centre distance is the same for both stages; dimensions A and H are the limits to respect.</figcaption>
+      </figure>
+
+      <h2 id="alberi">Shafts</h2>
+      <p>Shaft sizing is iterative: a first design in torsion only, then in combined bending and torsion with the load diagrams, and finally the static check with the Tresca criterion. The intermediate shaft, the most heavily loaded, was also checked for fatigue at the critical sections, with notch, size and surface finish effects and the Haigh diagram. The pinion on the intermediate shaft is machined integrally, because a keyway would have weakened the hub too much.</p>
+
+      <figure>
+        <a href="../../assets/img/riduttore/albero.png" target="_blank"><img src="../../assets/img/riduttore/albero.png" alt="Shaft geometry with shoulders and dimensions" loading="lazy"></a>
+        <figcaption>Geometry of a shaft with shoulders, bearing seats and axial dimensions.</figcaption>
+      </figure>
+      <figure class="narrow">
+        <a href="../../assets/img/riduttore/haigh.png" target="_blank"><img src="../../assets/img/riduttore/haigh.png" alt="Haigh diagram for the fatigue check of the intermediate shaft" loading="lazy"></a>
+        <figcaption>Fatigue check of the intermediate shaft on the Haigh diagram: the operating points of the critical sections stay within the endurance limit.</figcaption>
+      </figure>
+
+      <h2 id="cuscinetti">Bearings, lubrication and keys</h2>
+      <p>We chose deep-groove ball bearings, checked statically and for life. The basic rating life was adjusted with the SKF method, which accounts for lubricant viscosity and contamination. With ISO VG 460 oil, chosen on the most heavily loaded shaft, all bearings exceed the required 25,000 hours. The keys, to UNI 6604, are sized for contact pressure and shear.</p>
+
+      <figure>
+        <a href="../../assets/img/riduttore/cuscinetti.png" target="_blank"><img src="../../assets/img/riduttore/cuscinetti.png" alt="Sections of the bearing assemblies on the three shafts" loading="lazy"></a>
+        <figcaption>Bearing assembly on the three shafts: circlips, lock nuts, spacers and shoulders that lock each bearing on the shaft and, where needed, in the housing.</figcaption>
+      </figure>
+
+      <h2 id="montaggio">Assembly and housing</h2>
+      <p>We defined the assembly sequence of the shafts into the three housing elements and how each bearing is locked: only the axially loaded one is also constrained in the housing, with a flange or circlip, while the other is left free to accommodate thermal expansion. The gears are keyed and held axially between a shoulder and a spacer.</p>
+
+      <figure>
+        <a href="../../assets/img/riduttore/assieme.png" target="_blank"><img src="../../assets/img/riduttore/assieme.png" alt="Assembly sequence of the shafts into the housing elements" loading="lazy"></a>
+        <figcaption>Assembly sequence of the three shafts into the three housing elements (A, B, C).</figcaption>
+      </figure>
+
+      <h2 id="imparato">What I learned</h2>
+      <p>This project let me experience mechanical design as it really is: iterative, with choices that affect each other and standards to apply carefully. I learned to move from calculation to drawing, thinking from the start about how the components will be assembled and locked, and to balance strength, envelope and ease of manufacture.</p>
+
+      <div class="pnext">
+        <a href="../index.html#progetti">← All projects</a>
+        <a href="../index.html#contatti">Contact me →</a>
+      </div>
+    </article>
+
+    <aside class="facts">
+      <dl>
+        <dt>Context</dt><dd>Machine Design course, Politecnico di Torino</dd>
+        <dt>Period</dt><dd>2024</dd>
+        <dt>Tools</dt>
+        <dd><div class="chips" style="margin-top:6px"><span class="chip">ISO 6336</span><span class="chip">SKF method</span><span class="chip">3D CAD</span></div></dd>
+        <dt>On this page</dt>
+        <dd><ul class="toc">
+          <li><a href="#specifiche">Specifications</a></li>
+          <li><a href="#ruote">Gears</a></li>
+          <li><a href="#alberi">Shafts</a></li>
+          <li><a href="#cuscinetti">Bearings and keys</a></li>
+          <li><a href="#montaggio">Assembly and housing</a></li>
+          <li><a href="#imparato">What I learned</a></li>
+        </ul></dd>
+      </dl>
+    </aside>
+  </div>
+</div>
+
+<footer>© 2026 Valerio Cubeddu</footer>
+</body>
+</html>

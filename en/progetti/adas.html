@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adaptive cruise control and path tracking for an electric vehicle — Valerio Cubeddu</title>
+<meta name="description" content="Labs of the Autonomous Driving Systems course at Politecnico di Torino: adaptive cruise control with speed/distance switching and path tracking with LQR and curvature feedforward, in Simulink.">
+<link rel="stylesheet" href="../../assets/css/style.css?v=7">
+</head>
+<body>
+
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="../index.html">Valerio <span>Cubeddu</span></a>
+    <ul>
+      <li><a href="../index.html#progetti">Projects</a></li>
+      <li><a href="../index.html#esperienza">Experience</a></li>
+      <li><a href="../index.html#contatti">Contact</a></li>
+    </ul>
+    <div class="lang"><a href="../../progetti/adas.html" lang="it">IT</a><a href="adas.html" class="on" lang="en">EN</a></div>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <a class="back" href="../index.html#progetti">← All projects</a>
+    <div class="eyebrow">Labs · Autonomous Driving Systems · Politecnico di Torino · 2025</div>
+    <h1>Adaptive cruise control and path tracking for an electric vehicle</h1>
+    <p class="lead">Two driver-assistance functions developed in Simulink on vehicle models with nonlinear tyres: an adaptive cruise control that keeps the set speed and a safe distance, and an LQR steering controller that makes the vehicle follow a trajectory, including obstacle-avoidance manoeuvres.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="pkpis">
+    <div class="kpi"><b>2</b><small>cruise control modes, speed and distance, with hysteresis switching</small></div>
+    <div class="kpi"><b>1.6 s</b><small>time gap kept from the vehicle ahead</small></div>
+    <div class="kpi"><b>28 cm</b><small>maximum lateral error in obstacle avoidance at 60 km/h</small></div>
+    <div class="kpi"><b>&lt;20 cm</b><small>maximum lateral error on the skidpad at 40 and 60 km/h</small></div>
+  </div>
+
+  <div class="pbody">
+    <article>
+
+      <h2 id="contesto">Context</h2>
+      <p>In the Autonomous Driving Systems course, the labs asked us to design, on given vehicle models, the controllers of two ADAS functions: longitudinal control with adaptive cruise control, and lateral control with path tracking. The models include wheel dynamics and tyres with the Pacejka formula, so the controllers have to be tested also where the vehicle behaviour is no longer linear.</p>
+
+      <h2 id="acc">Adaptive cruise control</h2>
+      <p>The high-level controller computes a desired acceleration and works in two modes. In <strong>speed control</strong> a PID tracks the speed set by the driver. When the vehicle closes in on another one, <strong>distance control</strong> takes over: a second PID keeps a target distance equal to a minimum distance of 4 m plus the speed times a time gap of 1.6 s.</p>
+      <p>Switching between the two modes uses hysteresis logic, so that the controller does not keep toggling when the distance is close to the threshold. The low level converts the desired acceleration into wheel torque through the inverse vehicle model: inertia, aerodynamic drag, rolling resistance and road grade.</p>
+      <figure>
+        <a href="../../assets/img/adas/acc.png" target="_blank"><img src="../../assets/img/adas/acc.png" alt="Speed and distance of the vehicle with adaptive cruise control following a vehicle at variable speed" loading="lazy"></a>
+        <figcaption>The vehicle accelerates up to the set speed, catches up with the one ahead and switches to distance control (coloured zones), following its speed oscillations. When the vehicle ahead accelerates away, it goes back to speed control.</figcaption>
+      </figure>
+
+      <h2 id="path">Path tracking with LQR</h2>
+      <p>For lateral control I used an <strong>LQR</strong> regulator based on the single-track model written in terms of the errors with respect to the trajectory: lateral error, yaw error and their derivatives. At each step the controller finds the trajectory point closest to the vehicle, computes the errors and commands the front-wheel steering; a separate PI regulates the speed through the motor torque.</p>
+      <p>The tests use two paths: an obstacle avoidance with a 5 m lateral shift and a figure-eight skidpad. The controller runs at 50 Hz on a full four-wheel vehicle model, like a real control unit.</p>
+
+      <h2 id="revisione">Revising the controller</h2>
+      <p>The first version worked well in obstacle avoidance at 40 km/h, with a maximum error of 3 cm, but left the trajectory at 60 km/h and accumulated error on the skidpad. Reviewing the design, I found and fixed three issues:</p>
+      <ul>
+        <li><strong>Tyre cornering stiffness.</strong> In the model used to compute the gains I had entered the shape factor of the Pacejka formula instead of the actual cornering stiffness, which is given by B·C·D·F<sub>z</sub> and is more than 100 times larger. With the correct values, about 119,000 and 167,000 N/rad per wheel, the LQR design matches the real vehicle.</li>
+        <li><strong>Curvature feedforward and discrete design.</strong> I added a feedforward steering term computed from the curvature of the reference and from the understeer gradient, so the LQR only has to correct the residual errors. The gains are now computed in discrete time at the controller's 50 Hz rate, with more weight on the yaw error.</li>
+        <li><strong>Geometric lateral error.</strong> The lateral error was obtained by integrating its derivative, so on a long path it slowly drifted: the controller thought it was on the trajectory while moving away from it. It is now computed as the signed distance from the closest reference point.</li>
+      </ul>
+      <figure>
+        <a href="../../assets/img/adas/anim_ostacolo_60.png" target="_blank"><img src="../../assets/img/adas/anim_ostacolo_60.png" alt="Animation of the vehicle in obstacle avoidance at 60 km/h before and after the controller fix" loading="lazy"></a>
+        <figcaption>Simulator animation, obstacle avoidance at 60 km/h: red dots = reference trajectory, black circles = vehicle positions. The initial version loses the trajectory; the corrected one follows it with a maximum error of 28 cm.</figcaption>
+      </figure>
+      <figure>
+        <a href="../../assets/img/adas/anim_skidpad_60.png" target="_blank"><img src="../../assets/img/adas/anim_skidpad_60.png" alt="Animation of the vehicle on the skidpad at 60 km/h before and after the controller fix" loading="lazy"></a>
+        <figcaption>Skidpad at 60 km/h: with the initial version the vehicle drifts away from the reference circles; with the corrected one it stays within 19 cm.</figcaption>
+      </figure>
+      <figure>
+        <a href="../../assets/img/adas/errori_ostacolo_60.png" target="_blank"><img src="../../assets/img/adas/errori_ostacolo_60.png" alt="Lateral and yaw errors over time for the corrected controller in obstacle avoidance at 60 km/h" loading="lazy"></a>
+        <figcaption>Errors over time from the post-processing of the corrected version at 60 km/h: lateral error, yaw error and their derivatives, with maximum and RMSE.</figcaption>
+      </figure>
+      <p>At 40 km/h the initial version was more precise in obstacle avoidance (3 cm against 13 cm) thanks to more aggressive gains, but only the corrected one stays below 30 cm in all four tests, at 40 and 60 km/h on both paths.</p>
+      <p>Above 60 km/h obstacle avoidance requires lateral accelerations close to 9 m/s², which is the grip limit of the tyres: there an LQR designed on a linear model is no longer enough, and a controller that accounts for the limits, such as an MPC, is needed.</p>
+
+      <h2 id="imparato">What I learned</h2>
+      <p>These labs showed me how much a controller depends on the model it is designed on: a wrong parameter in the tyre model or a drifting error estimate is enough to make a regulator fail that, in the simplest case, seemed to work perfectly. I learned to test controllers on scenarios that are different from, and harsher than, the design case, and to look for the cause of strange behaviour in the simulation data instead of tweaking the gains by trial and error.</p>
+
+      <div class="pnext">
+        <a href="../index.html#progetti">← All projects</a>
+        <a href="../index.html#contatti">Contact me →</a>
+      </div>
+    </article>
+
+    <aside class="facts">
+      <dl>
+        <dt>Context</dt><dd>Autonomous Driving Systems course, Politecnico di Torino</dd>
+        <dt>Period</dt><dd>March – May 2025</dd>
+        <dt>Type</dt><dd>Labs, developed individually</dd>
+        <dt>Tools</dt>
+        <dd><div class="chips" style="margin-top:6px"><span class="chip">MATLAB</span><span class="chip">Simulink</span><span class="chip">LQR</span><span class="chip">PID</span><span class="chip">Pacejka</span></div></dd>
+        <dt>On this page</dt>
+        <dd><ul class="toc">
+          <li><a href="#contesto">Context</a></li>
+          <li><a href="#acc">Adaptive cruise control</a></li>
+          <li><a href="#path">Path tracking with LQR</a></li>
+          <li><a href="#revisione">Revising the controller</a></li>
+          <li><a href="#imparato">What I learned</a></li>
+        </ul></dd>
+      </dl>
+    </aside>
+  </div>
+</div>
+
+<footer>© 2026 Valerio Cubeddu</footer>
+</body>
+</html>

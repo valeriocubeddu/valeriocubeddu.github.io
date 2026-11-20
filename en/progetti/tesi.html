@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Predictive traction control with self-adapting neural networks — Valerio Cubeddu</title>
+<meta name="description" content="MSc thesis at Politecnico di Torino: an NMPC with road preview distilled into neural networks that run in real time on dSPACE and retrain online.">
+<link rel="stylesheet" href="../../assets/css/style.css?v=7">
+</head>
+<body>
+
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="../index.html">Valerio <span>Cubeddu</span></a>
+    <ul>
+      <li><a href="../index.html#progetti">Projects</a></li>
+      <li><a href="../index.html#esperienza">Experience</a></li>
+      <li><a href="../index.html#contatti">Contact</a></li>
+    </ul>
+    <div class="lang"><a href="../../progetti/tesi.html" lang="it">IT</a><a href="tesi.html" class="on" lang="en">EN</a></div>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <a class="back" href="../index.html#progetti">← All projects</a>
+    <div class="eyebrow">MSc thesis · Politecnico di Torino · 2026</div>
+    <h1>Predictive traction control with self-adapting neural networks</h1>
+    <p class="orig">Preview-based traction control using self-adaptive artificial intelligence algorithms</p>
+    <p class="lead">A predictive controller that "sees" the road ahead of the vehicle works very well, but it is too heavy for the on-board hardware. I turned it into a neural network that runs in real time on a dSPACE control unit and, while driving, retrains itself on its own errors.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="pkpis">
+    <div class="kpi"><b>−87%</b><small>slip error (RMSE) on the vehicle with the adaptive network, against −61% for the static network</small></div>
+    <div class="kpi"><b>3.1 ms</b><small>average computation time of the network on dSPACE, 62% of the 5 ms step</small></div>
+    <div class="kpi"><b>&gt;91%</b><small>Monte Carlo scenarios in which the adaptive network improves comfort</small></div>
+    <div class="kpi"><b>R² 0.85</b><small>fidelity of the LSTM network to the NMPC controller</small></div>
+  </div>
+
+  <div class="pbody">
+    <article>
+
+      <h2 id="problema">The problem</h2>
+      <p>In electric vehicles with one motor per wheel, torque can be modulated within a few milliseconds, wheel by wheel. This makes two things possible: limiting wheel slip when grip drops (traction control) and damping the acceleration oscillations caused by bumps and road irregularities (longitudinal comfort).</p>
+      <p>In the literature the two goals are handled by separate controllers. Nonlinear model predictive control (NMPC), which can exploit a <em>preview</em> of the road and of the grip ahead of the vehicle, could handle both together, but it solves an optimisation problem at every step and is too demanding for real-time automotive hardware.</p>
+
+      <h2 id="architettura">Control architecture</h2>
+      <p>I designed a single controller for traction and comfort, replicated on both axles. For each wheel the torque correction is computed by the NMPC or, in the real-time version, by the adaptive LSTM neural network that replaces it. The vehicle model used in simulation was validated against experimental data collected on the test vehicle.</p>
+      <figure>
+        <a href="../../assets/img/tesi/architettura.png" target="_blank"><img src="../../assets/img/tesi/architettura.png" alt="Diagram of the control architecture with NMPC and adaptive LSTM network for the front and rear axles" loading="lazy"></a>
+        <figcaption>Control architecture: for each wheel the torque correction comes from the NMPC or from the adaptive LSTM network, which receives the preview of the road profile and of the grip.</figcaption>
+      </figure>
+      <p>The NMPC is developed with <strong>acados</strong>: the solver is generated as C code and integrated into Simulink as an S-function. The weights of the cost function are tuned with a genetic algorithm coupled with the simulation.</p>
+
+      <h2 id="imitation">From the NMPC to the neural network</h2>
+      <p>To bring the behaviour of the NMPC onto real hardware I used <strong>imitation learning</strong>: the NMPC acts as the "expert", generates a dataset of manoeuvres, and a network learns to reproduce its decisions. I compared three architectures: a feed-forward network (MLP), a recurrent one (LSTM) and, to my knowledge for the first time in vehicle dynamics control, a selective state-space network (Mamba).</p>
+      <p>The chosen network is a 4-layer LSTM with 64 units, which reproduces the NMPC torque correction with a coefficient of determination of 0.85. With <strong>SHAP</strong> analysis I checked which inputs drive its decisions in the different driving conditions, to make the controller interpretable rather than a "black box".</p>
+
+      <h2 id="retraining">Online retraining</h2>
+      <p>A network trained offline may face conditions it never saw during training. For this reason I developed an online retraining strategy: the LSTM layers stay frozen and only the output layer of each wheel is updated, driven by a loss function that combines the key performance indicators (KPIs) measured in closed loop.</p>
+      <p>Unlike existing adaptive schemes, the NMPC does not need to run in parallel as a reference: the network corrects itself directly from the errors measured on the vehicle.</p>
+      <figure>
+        <a href="../../assets/img/tesi/retraining.svg" target="_blank"><img src="../../assets/img/tesi/retraining.svg" alt="Diagram of the online retraining of the output layer driven by a weighted sum of the KPIs" loading="lazy"></a>
+        <figcaption>Online retraining strategy: the errors are measured, the vehicle KPIs are evaluated with a weighted sum, and the weights of the network's output layer are updated.</figcaption>
+      </figure>
+
+      <h2 id="simulazione">Simulation results</h2>
+      <p>In a manoeuvre with a bump and a drop in grip, the NMPC and the LSTM reduce the acceleration KPIs by 60–70% and the slip KPIs by 76–89% compared with the uncontrolled vehicle. The LSTM gets close to the ideal NMPC and does better than an NMPC simplified to run in real time. In a Monte Carlo analysis over 360 scenarios with varied parameters, the adaptive network improves the comfort KPIs in more than 91% of the cases and the slip KPIs in almost all of them.</p>
+      <figure>
+        <a href="../../assets/img/tesi/sim_dosso_kpi.png" target="_blank"><img src="../../assets/img/tesi/sim_dosso_kpi.png" alt="Bar chart of the KPI reduction for NMPC, real-time NMPC and LSTM" loading="lazy"></a>
+        <figcaption>Manoeuvre with a bump and low grip: reduction of the comfort KPIs (RMS, VDV) and of the slip KPIs (RMSE) compared with the passive vehicle.</figcaption>
+      </figure>
+
+      <h2 id="veicolo">Vehicle tests</h2>
+      <p>The networks were implemented on a <strong>dSPACE MicroAutoBox III</strong> control unit on board the Politecnico di Torino test vehicle, which has four in-wheel motors. The computation time of the network stays between 2.99 and 3.23 ms, well within the 5 ms sampling step.</p>
+      <p>In the most significant test the vehicle accelerates over a 4 m low-grip section, twice as long as the longest sections seen in training. Without control the wheel slips heavily; the static network reduces the slip error by 61%, the adaptive one by 87%. The adaptive network also compensates for a wrong slip reference deliberately fed as an input, because retraining is based on the measured error.</p>
+      <figure>
+        <video src="../../assets/video/prova_4m.mp4" poster="../../assets/video/prova_4m.jpg" controls muted playsinline preload="none" style="width:100%;border-radius:8px;display:block"></video>
+        <figcaption>Test on the 4 m low-grip section: vehicle without control, with the static network and with the adaptive network.</figcaption>
+      </figure>
+
+      <h2 id="imparato">What I learned</h2>
+      <p>I am very satisfied with this work, because it took me from theory all the way to the real vehicle. I learned a lot about training neural networks, from data preparation to the choice of architecture, and about what it takes to run model-based controllers such as NMPC in real time: computation times, model simplifications and the step from simulation to hardware.</p>
+
+      <div class="pnext">
+        <a href="../index.html#progetti">← All projects</a>
+        <a href="../index.html#contatti">Contact me →</a>
+      </div>
+    </article>
+
+    <aside class="facts">
+      <dl>
+        <dt>Context</dt><dd>MSc thesis, Politecnico di Torino</dd>
+        <dt>Period</dt><dd>2025 – 2026</dd>
+        <dt>Supervisor</dt><dd>Prof. Aldo Sorniotti</dd>
+        <dt>My role</dt><dd>Model and validation, NMPC, neural networks, online retraining, vehicle tests</dd>
+        <dt>Tools</dt>
+        <dd><div class="chips" style="margin-top:6px"><span class="chip">MATLAB</span><span class="chip">Simulink</span><span class="chip">acados</span><span class="chip">LSTM · MLP · Mamba</span><span class="chip">SHAP</span><span class="chip">dSPACE MicroAutoBox III</span><span class="chip">ControlDesk</span></div></dd>
+        <dt>On this page</dt>
+        <dd><ul class="toc">
+          <li><a href="#problema">The problem</a></li>
+          <li><a href="#architettura">Architecture</a></li>
+          <li><a href="#imitation">Imitation learning</a></li>
+          <li><a href="#retraining">Online retraining</a></li>
+          <li><a href="#simulazione">Simulation</a></li>
+          <li><a href="#veicolo">Vehicle tests</a></li>
+          <li><a href="#imparato">What I learned</a></li>
+        </ul></dd>
+      </dl>
+    </aside>
+  </div>
+</div>
+
+<footer>© 2026 Valerio Cubeddu</footer>
+</body>
+</html>

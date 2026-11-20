@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pneumatic and electro-pneumatic automation — Valerio Cubeddu</title>
+<meta name="description" content="Fluid Automation lab at Politecnico di Torino: eleven sessions on PLC and Ladder, relay logic, pneumatic circuits, Simcenter Amesim simulation, valves and air bearings.">
+<link rel="stylesheet" href="../../assets/css/style.css?v=7">
+</head>
+<body>
+
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="../index.html">Valerio <span>Cubeddu</span></a>
+    <ul>
+      <li><a href="../index.html#progetti">Projects</a></li>
+      <li><a href="../index.html#esperienza">Experience</a></li>
+      <li><a href="../index.html#contatti">Contact</a></li>
+    </ul>
+    <div class="lang"><a href="../../progetti/automazione-fluido.html" lang="it">IT</a><a href="automazione-fluido.html" class="on" lang="en">EN</a></div>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <a class="back" href="../index.html#progetti">← All projects</a>
+    <div class="eyebrow">Fluid Automation · Politecnico di Torino · 2024 – 2025</div>
+    <h1>Pneumatic and electro-pneumatic automation</h1>
+    <p class="lead">Eleven lab sessions on industrial fluid automation: from programming a PLC in Ladder to relay logic, from sequential pneumatic circuits to simulation in Simcenter Amesim, up to the experimental characterisation of valves and air bearings.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="pkpis">
+    <div class="kpi"><b>11</b><small>sessions on test benches and at the computer</small></div>
+    <div class="kpi"><b>PLC</b><small>Ladder programming of a Siemens PLC with the auxiliary relay method</small></div>
+    <div class="kpi"><b>Amesim</b><small>simulation of pneumatic circuits in Simcenter Amesim</small></div>
+    <div class="kpi"><b>ISO 6358</b><small>flow-rate characterisation of valves to the standard</small></div>
+  </div>
+
+  <div class="pbody">
+    <article>
+
+      <h2 id="esercitazioni">The sessions</h2>
+      <p>Each session combines circuit design, assembly on the bench and functional verification. Where possible, the measurements were processed in MATLAB and compared with theoretical or standard models. They are listed starting from the closest to industrial automation.</p>
+
+      <h3 id="es7">Programming a PLC in Ladder</h3>
+      <span class="exp-tag">PLC · Automation</span>
+      <p>A bench with six pneumatic cylinders, monostable and bistable solenoid valves and reed limit switches, run by a Siemens PLC. From the motion-phase diagram we derived the Grafcet, its condensed version and the auxiliary relay table, then wrote the Ladder program for a semi-automatic cycle, including timers, and tested it on the bench.</p>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/fluido/es7_grafcet.png" target="_blank"><img src="../../assets/img/fluido/es7_grafcet.png" alt="Condensed Grafcet of the two-cylinder cycle" loading="lazy"></a>
+          <a href="../../assets/img/fluido/es7_ladder.png" target="_blank"><img src="../../assets/img/fluido/es7_ladder.png" alt="Ladder program with auxiliary relays and timer" loading="lazy"></a>
+        </div>
+        <figcaption>Condensed Grafcet of the cycle and Ladder program with auxiliary relays and a TON timer.</figcaption>
+      </figure>
+
+      <h3 id="es6">Electro-pneumatic systems with relays</h3>
+      <span class="exp-tag">Electro-pneumatics</span>
+      <p>Combinational and sequential logic functions built with relays: OR, AND, memory and pulse limiter. On this basis we designed and wired an electro-pneumatic circuit that drives two cylinders through solenoid valves and limit switches, with the relay diagram derived from the required cycle.</p>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/fluido/es6_banco.jpg" target="_blank"><img src="../../assets/img/fluido/es6_banco.jpg" alt="Panel with relays, power supply and wiring of the electro-pneumatic circuit" loading="lazy"></a>
+          <a href="../../assets/img/fluido/es6_schema.png" target="_blank"><img src="../../assets/img/fluido/es6_schema.png" alt="Relay wiring diagram of the cycle with two limit switches" loading="lazy"></a>
+        </div>
+        <figcaption>The relay panel wired in the lab and the wiring diagram of the cycle.</figcaption>
+      </figure>
+
+      <h3 id="es8">Simulating pneumatic circuits in Simcenter Amesim</h3>
+      <span class="exp-tag">Simulation</span>
+      <p>Two multi-domain models: filling and emptying a tank through a proportional solenoid valve and a restrictor, and speed regulation of a cylinder. We analysed pressures, flow rates, forces and piston speeds as tank volume, restrictor area and viscous friction vary.</p>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/fluido/es8_modello.png" target="_blank"><img src="../../assets/img/fluido/es8_modello.png" alt="Amesim model of the cylinder speed regulation circuit" loading="lazy"></a>
+          <a href="../../assets/img/fluido/es8_pressioni.png" target="_blank"><img src="../../assets/img/fluido/es8_pressioni.png" alt="Tank filling and emptying pressure as the restrictor area varies" loading="lazy"></a>
+        </div>
+        <figcaption>Amesim model of the circuit with a cylinder, and pressure curves for tank filling and emptying with different restrictor areas.</figcaption>
+      </figure>
+
+      <h3 id="es11">Air-lubricated bearings</h3>
+      <span class="exp-tag">Measurement · MATLAB</span>
+      <p>A comparison of aerostatic pads with orifices, grooves and porous surfaces, then bench tests with a load cell, dial gauges and a flow meter. From the data, processed in MATLAB, we derived the static, load, consumption and stiffness characteristics as a function of air gap height, for two supply pressures.</p>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/fluido/es11_banco.jpg" target="_blank"><img src="../../assets/img/fluido/es11_banco.jpg" alt="Aerostatic pad test bench with load cell and instruments" loading="lazy"></a>
+          <a href="../../assets/img/fluido/es11_portanza.png" target="_blank"><img src="../../assets/img/fluido/es11_portanza.png" alt="Load capacity of the pad as a function of air gap height" loading="lazy"></a>
+        </div>
+        <figcaption>The air pad bench and load capacity as a function of air gap at 3.6 bar supply.</figcaption>
+      </figure>
+
+      <h3 id="es9">Valve response times and proportional interface</h3>
+      <span class="exp-tag">Measurement</span>
+      <p>With pressure transducers and an oscilloscope we measured the switch-on and switch-off delays of a bistable 4/2 valve. In the second part we characterised a proportional electro-pneumatic interface, i.e. the output pressure as a function of the command voltage, and evaluated the error against the theoretical characteristic by adjusting the zero and span screws.</p>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/fluido/es9_oscilloscopio.jpg" target="_blank"><img src="../../assets/img/fluido/es9_oscilloscopio.jpg" alt="Oscilloscope used to measure response times" loading="lazy"></a>
+          <a href="../../assets/img/fluido/es9_ritardo.png" target="_blank"><img src="../../assets/img/fluido/es9_ritardo.png" alt="Command and output signals for the valve switch-on delay" loading="lazy"></a>
+        </div>
+        <figcaption>The oscilloscope used in the tests and the valve switch-on delay between command and output signal.</figcaption>
+      </figure>
+
+      <h3 id="es5">Pneumatic circuits with sequencers</h3>
+      <span class="exp-tag">Pneumatics</span>
+      <p>Automatic two-cylinder cycles driven by pneumatic sequencer modules, with lever limit switches and threshold-based virtual NOT sensors. The cycle includes single-cycle and continuous modes and the start conditions.</p>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/fluido/es5_banco.jpg" target="_blank"><img src="../../assets/img/fluido/es5_banco.jpg" alt="Command and actuation panels of the sequencer circuit" loading="lazy"></a>
+          <a href="../../assets/img/fluido/es5_ciclo.png" target="_blank"><img src="../../assets/img/fluido/es5_ciclo.png" alt="Diagram of the four-phase cycle with sequencers" loading="lazy"></a>
+        </div>
+        <figcaption>The circuit assembled on the panels and the diagram of the four-phase cycle.</figcaption>
+      </figure>
+
+      <h3 id="es4">Basic controls and pneumatic circuits</h3>
+      <span class="exp-tag">Pneumatics</span>
+      <p>From elementary controls, OR and AND selectors, automatic return, timed return and sequential control, up to a circuit with two double-acting cylinders that reproduces a real cycle, built from the motion-phase diagram.</p>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/fluido/es4_banco.jpg" target="_blank"><img src="../../assets/img/fluido/es4_banco.jpg" alt="Two-cylinder pneumatic circuit assembled on the panel" loading="lazy"></a>
+          <a href="../../assets/img/fluido/es4_fasi.png" target="_blank"><img src="../../assets/img/fluido/es4_fasi.png" alt="Motion-phase diagram of the two cylinders" loading="lazy"></a>
+        </div>
+        <figcaption>The two-cylinder circuit and the motion-phase diagram to implement.</figcaption>
+      </figure>
+
+      <h3 id="es3">Flow rate of pneumatic valves</h3>
+      <span class="exp-tag">Measurement · Standards</span>
+      <p>Flow curves of a valve, i.e. the flow rate as a function of downstream pressure at a fixed upstream pressure, measured on a bench with a calibrated orifice. From the data we computed the conductance and critical pressure ratio according to ISO 6358 and the valve coefficient according to N.B.S., comparing the experimental curves with those from the standard.</p>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/fluido/es3_banco.jpg" target="_blank"><img src="../../assets/img/fluido/es3_banco.jpg" alt="Test bench for measuring valve flow rate" loading="lazy"></a>
+          <a href="../../assets/img/fluido/es3_curve.png" target="_blank"><img src="../../assets/img/fluido/es3_curve.png" alt="Valve flow curve at 3.5 bar upstream" loading="lazy"></a>
+        </div>
+        <figcaption>The flow measurement bench and a flow curve at 3.5 bar upstream pressure.</figcaption>
+      </figure>
+
+      <h3 id="es1">Pneumatic cylinders</h3>
+      <span class="exp-tag">Pneumatics</span>
+      <p>Measurement of the breakaway forces of single- and double-acting cylinder pistons, and speed regulation with one-way flow regulators and quick exhaust valves in different configurations.</p>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/fluido/es1_banco.jpg" target="_blank"><img src="../../assets/img/fluido/es1_banco.jpg" alt="Cylinder speed regulation circuit" loading="lazy"></a>
+          <a href="../../assets/img/fluido/es1_schema.png" target="_blank"><img src="../../assets/img/fluido/es1_schema.png" alt="Diagram of the circuit with flow regulator" loading="lazy"></a>
+        </div>
+        <figcaption>The assembled speed regulation circuit and its pneumatic diagram.</figcaption>
+      </figure>
+
+      <h3 id="es2">Pneumatic valves</h3>
+      <span class="exp-tag">Pneumatics</span>
+      <p>Actuation of monostable and bistable valves with positive and negative signals, minimum pilot pressure, a circuit that makes a monostable valve bistable, a pulse limiter and the actuation force of a limit switch.</p>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/fluido/es2_valvola.jpg" target="_blank"><img src="../../assets/img/fluido/es2_valvola.jpg" alt="Pneumatic valve tested in the lab" loading="lazy"></a>
+          <a href="../../assets/img/fluido/es2_schema.png" target="_blank"><img src="../../assets/img/fluido/es2_schema.png" alt="Diagram of the minimum pilot pressure test" loading="lazy"></a>
+        </div>
+        <figcaption>One of the tested valves and the diagram of the minimum pilot pressure test.</figcaption>
+      </figure>
+
+      <h3 id="es10">Bistable fluidic element, ejectors and suction cups</h3>
+      <span class="exp-tag">Pneumatics · Vacuum</span>
+      <p>Supply characteristic of a bistable fluidic element based on the wall-attachment effect, the experimental curve of a vacuum ejector, and pull-off force tests on rigid and bellows suction cups, used in industrial handling.</p>
+      <figure>
+        <div class="duo">
+          <a href="../../assets/img/fluido/es10_ventosa.jpg" target="_blank"><img src="../../assets/img/fluido/es10_ventosa.jpg" alt="Bellows suction cup during the pull-off test" loading="lazy"></a>
+          <a href="../../assets/img/fluido/es10_eiettore.png" target="_blank"><img src="../../assets/img/fluido/es10_eiettore.png" alt="Operating principle of an ejector" loading="lazy"></a>
+        </div>
+        <figcaption>Pull-off test on a suction cup and operating principle of the ejector.</figcaption>
+      </figure>
+
+      <h2 id="imparato">What I learned</h2>
+      <p>This lab took me from the diagram to a working machine: reading and drawing pneumatic and electro-pneumatic circuits, wiring them on the bench, translating a cycle into Grafcet and then into a Ladder program for a PLC. At the same time I learned to characterise components with measurements and standards, and to use simulation to predict how the circuit changes as the parameters vary.</p>
+
+      <div class="pnext">
+        <a href="../index.html#progetti">← All projects</a>
+        <a href="../index.html#contatti">Contact me →</a>
+      </div>
+    </article>
+
+    <aside class="facts">
+      <dl>
+        <dt>Context</dt><dd>Fluid Automation course, Politecnico di Torino</dd>
+        <dt>Period</dt><dd>Academic year 2024 – 2025</dd>
+        <dt>Tools</dt>
+        <dd><div class="chips" style="margin-top:6px"><span class="chip">Siemens PLC</span><span class="chip">Ladder</span><span class="chip">Grafcet</span><span class="chip">Simcenter Amesim</span><span class="chip">MATLAB</span><span class="chip">Oscilloscope</span></div></dd>
+        <dt>On this page</dt>
+        <dd><ul class="toc">
+          <li><a href="#esercitazioni">The sessions</a></li>
+          <li><a href="#es7">PLC and Ladder</a></li>
+          <li><a href="#es6">Relay electro-pneumatics</a></li>
+          <li><a href="#es8">Amesim simulation</a></li>
+          <li><a href="#es11">Air bearings</a></li>
+          <li><a href="#es9">Response times</a></li>
+          <li><a href="#es5">Sequencers</a></li>
+          <li><a href="#es4">Pneumatic circuits</a></li>
+          <li><a href="#es3">Valve flow rate</a></li>
+          <li><a href="#es1">Cylinders</a></li>
+          <li><a href="#es2">Valves</a></li>
+          <li><a href="#es10">Fluidics and vacuum</a></li>
+          <li><a href="#imparato">What I learned</a></li>
+        </ul></dd>
+      </dl>
+    </aside>
+  </div>
+</div>
+
+<footer>© 2026 Valerio Cubeddu</footer>
+</body>
+</html>
