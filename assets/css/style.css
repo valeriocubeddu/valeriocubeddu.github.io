@@ -167,3 +167,7 @@ figure img{width:100%;display:block}
 .hero .degree span::before{content:"·";margin:0 9px;opacity:.7}
 
 .lang a{text-decoration:none;display:block}
+a.featured{color:inherit;transition:transform .15s,box-shadow .15s}
+a.featured:hover{text-decoration:none;transform:translateY(-3px);box-shadow:0 14px 36px rgba(14,89,155,.14)}
+.featured .more{color:var(--blue);font-weight:600}
+a.featured:hover .more{text-decoration:underline}
