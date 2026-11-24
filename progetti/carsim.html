@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Controllo di trazione e di imbardata per una FSAE elettrica in CarSim — Valerio Cubeddu</title>
+<meta name="description" content="Co-simulazione CarSim–Simulink di una vettura Formula SAE elettrica a trazione posteriore con due motori: controllo gerarchico di velocità, imbardata e slip delle ruote su un circuito con diverse condizioni di aderenza.">
+<link rel="stylesheet" href="../assets/css/style.css?v=8">
+</head>
+<body>
+
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="../index.html">Valerio <span>Cubeddu</span></a>
+    <ul>
+      <li><a href="../index.html#progetti">Progetti</a></li>
+      <li><a href="../index.html#esperienza">Esperienza</a></li>
+      <li><a href="../index.html#contatti">Contatti</a></li>
+    </ul>
+    <div class="lang"><a href="carsim.html" class="on" lang="it">IT</a><a href="../en/progetti/carsim.html" lang="en">EN</a></div>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <a class="back" href="../index.html#progetti">← Tutti i progetti</a>
+    <div class="eyebrow">Corso di Controllo di motori elettrici · Università di Roma Tor Vergata · 2023</div>
+    <h1>Controllo di trazione e di imbardata per una FSAE elettrica in CarSim</h1>
+    <p class="lead">Una vettura Formula SAE elettrica con due motori sulle ruote posteriori, simulata in CarSim e controllata da Simulink. Il controllore decide istante per istante la coppia di ciascun motore per seguire la velocità e l'imbardata volute dal pilota senza far slittare le ruote, anche dove l'aderenza della pista cambia.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="pkpis">
+    <div class="kpi"><b>2,3 km</b><small>lunghezza del circuito simulato, percorso in un giro completo</small></div>
+    <div class="kpi"><b>102 s</b><small>tempo sul giro, a una media di circa 82 km/h</small></div>
+    <div class="kpi"><b>160 km/h</b><small>velocità massima raggiunta sul rettilineo</small></div>
+    <div class="kpi"><b>1,15 g</b><small>accelerazione laterale massima in curva</small></div>
+  </div>
+
+  <div class="pbody">
+    <article>
+
+      <h2 id="contesto">Il contesto</h2>
+      <p>Una vettura elettrica con un motore per ruota non ha bisogno di un differenziale meccanico: la ripartizione della coppia tra ruota destra e sinistra la decide il software. Questo apre due possibilità. La prima è il <strong>controllo di trazione</strong>: limitare la coppia di una ruota quando inizia a slittare. La seconda è il <strong>torque vectoring</strong>: dare più coppia alla ruota esterna in curva per aiutare la vettura a ruotare, cioè controllarne la velocità di imbardata.</p>
+      <p>Il progetto mette insieme le due cose su una Formula SAE elettrica a trazione posteriore. Il veicolo è simulato in <strong>CarSim</strong>, che fornisce un modello multibody completo con sospensioni, pneumatici e pista in 3D. Il controllore gira in <strong>Simulink</strong> e comunica con CarSim a ogni passo tramite la S-Function di co-simulazione.</p>
+
+      <h2 id="architettura">Il controllore a tre livelli</h2>
+      <p>Il controllo è organizzato in modo gerarchico, dal comportamento voluto per la vettura fino alla coppia dei singoli motori:</p>
+      <ul>
+        <li><strong>Modello di riferimento.</strong> Un modello di veicolo non lineare, con le forze laterali degli pneumatici descritte dalla formula di Pacejka, trasforma i comandi del pilota (pedali e angolo volante) nella velocità longitudinale e nella velocità di imbardata che la vettura dovrebbe avere.</li>
+        <li><strong>Livello intermedio.</strong> Due regolatori PI confrontano velocità e imbardata reali con quelle di riferimento e calcolano le azioni di controllo longitudinale e laterale. Queste vengono convertite in riferimenti di slip per le due ruote posteriori, saturati entro soglie che tengono le ruote nella zona di massima aderenza.</li>
+        <li><strong>Livello basso.</strong> Per ogni motore un regolatore PI sulla velocità della ruota, che tiene conto dell'inerzia della ruota, calcola la coppia da chiedere al motore, che arriva alla ruota attraverso un riduttore 7,5:1.</li>
+      </ul>
+      <p>Un blocco stima inoltre la rigidezza di deriva e i carichi verticali sulle ruote, usati dal modello di riferimento, e il controllo di slip e quello di imbardata si possono attivare separatamente per confrontarne l'effetto.</p>
+      <figure>
+        <a href="../assets/img/carsim/schema_controllo.png" target="_blank"><img src="../assets/img/carsim/schema_controllo.png" alt="Schema a blocchi del controllore: pilota, modello di riferimento, livello intermedio, livello basso, riduttore e veicolo CarSim con le misure in retroazione" loading="lazy"></a>
+        <figcaption>Architettura del controllore, ricostruita dal modello Simulink: dal pilota alla coppia dei due motori posteriori, con velocità, imbardata e velocità delle ruote misurate in retroazione dal veicolo CarSim.</figcaption>
+      </figure>
+      <figure>
+        <a href="../assets/img/carsim/simulink_modello.png" target="_blank"><img src="../assets/img/carsim/simulink_modello.png" alt="Livello principale del modello Simulink: Reference Model, Medium Layer Controller, Torque Controller e Reduction Box collegati in retroazione" loading="lazy"></a>
+        <figcaption>Il livello principale del modello Simulink: modello di riferimento (arancio), controllore di livello intermedio (verde), controllori di coppia (grigio) e blocco che elabora le misure di CarSim (azzurro). Gli errori di imbardata e di velocità sono calcolati tra il riferimento e le misure.</figcaption>
+      </figure>
+
+      <h2 id="motore">Il motore e il suo controllo</h2>
+      <p>Ogni ruota posteriore è mossa da un <strong>motore asincrono</strong> attraverso un riduttore. Nello statore tre avvolgimenti alimentati dall'inverter creano un campo magnetico rotante, che induce correnti nelle barre del rotore e lo trascina. Con il <strong>controllo a orientamento di campo</strong> la corrente si scompone in due parti: una (i<sub>d</sub>) fissa il flusso del rotore, l'altra (i<sub>q</sub>) regola la coppia, così il motore si comanda in modo semplice come un motore in corrente continua. Il modello del motore con il suo controllo l'ho sviluppato in Simulink; nella co-simulazione con CarSim ogni motore è rappresentato dal suo anello di velocità, che fornisce alla ruota la coppia richiesta.</p>
+      <p>Sopra c'è l'anello di velocità: un PI confronta la velocità del motore con quella chiesta dal livello intermedio e calcola la coppia necessaria. La coppia di carico, cioè la forza dello pneumatico sulla strada riportata al motore, non si misura: il controllore la stima e la compensa, e la stessa stima serve ai livelli superiori per capire quanta aderenza c'è. Dalla velocità della ruota e da quella del veicolo si ricava lo slip λ, che il controllo mantiene sotto i limiti di aderenza.</p>
+      <figure>
+        <a href="../assets/img/carsim/motore_ruota.svg" target="_blank"><img src="../assets/img/carsim/motore_ruota.svg" alt="Schema del motore asincrono, del riduttore e della ruota, con l'anello di controllo di velocità, il controllo a orientamento di campo e le equazioni principali" loading="lazy"></a>
+        <figcaption>Dal comando di velocità alla forza sulla strada: motore asincrono, riduttore e ruota, l'anello di controllo di ciascun motore e le equazioni che lo descrivono.</figcaption>
+      </figure>
+
+      <h2 id="pista">Il giro di pista</h2>
+      <p>La prova è un giro completo di un circuito di circa 2,3 km, con tratti in cui l'aderenza del fondo cambia. È qui che il controllo di slip lavora di più: quando una ruota passa su un tratto meno aderente, la sua coppia viene ridotta prima che inizi a pattinare, mentre il controllo di imbardata mantiene la vettura sulla traiettoria voluta dal pilota.</p>
+      <figure>
+        <video src="../assets/img/carsim/giro_carsim.mp4" poster="../assets/img/carsim/giro_poster.jpg" controls muted loop playsinline preload="none" style="width:100%;height:auto;border-radius:10px;display:block"></video>
+        <figcaption>Animazione di CarSim durante la simulazione: la vettura percorre il circuito passando su tratti con aderenza diversa.</figcaption>
+      </figure>
+      <figure>
+        <a href="../assets/img/carsim/giro_velocita.png" target="_blank"><img src="../assets/img/carsim/giro_velocita.png" alt="Mappa del circuito con la traiettoria colorata in base alla velocità della vettura" loading="lazy"></a>
+        <figcaption>Traiettoria del giro ricavata dai dati di uscita di CarSim, colorata in base alla velocità: si vedono il rettilineo a destra, dove la vettura supera i 150 km/h, e le curve lente nella parte centrale.</figcaption>
+      </figure>
+      <figure>
+        <a href="../assets/img/carsim/giro_canali.png" target="_blank"><img src="../assets/img/carsim/giro_canali.png" alt="Velocità, accelerazione laterale e velocità di imbardata lungo il giro" loading="lazy"></a>
+        <figcaption>Velocità, accelerazione laterale e velocità di imbardata lungo il giro. In curva l'accelerazione laterale arriva a circa 1 g in entrambe le direzioni, e l'imbardata segue l'andamento delle curve.</figcaption>
+      </figure>
+
+      <h2 id="imparato">Cosa ho imparato</h2>
+      <p>È stato il mio primo progetto di co-simulazione: far dialogare un modello di veicolo commerciale con un controllore scritto da me, gestendo segnali, unità di misura e frequenze di campionamento tra i due ambienti. Ho capito come si organizza un controllo di veicolo a livelli, separando cosa la vettura deve fare da come ottenerlo con i singoli attuatori, e quanto conti un buon modello di riferimento. Sono gli stessi temi che ho poi ripreso, molto più a fondo, nella tesi magistrale sul controllo di trazione predittivo.</p>
+
+      <div class="pnext">
+        <a href="../index.html#progetti">← Tutti i progetti</a>
+        <a href="../index.html#contatti">Contattami →</a>
+      </div>
+    </article>
+
+    <aside class="facts">
+      <dl>
+        <dt>Contesto</dt><dd>Corso di Controllo di motori elettrici, Università di Roma Tor Vergata</dd>
+        <dt>Periodo</dt><dd>2023</dd>
+        <dt>Veicolo</dt><dd>Formula SAE elettrica, trazione posteriore con due motori</dd>
+        <dt>Strumenti</dt>
+        <dd><div class="chips" style="margin-top:6px"><span class="chip">CarSim</span><span class="chip">Simulink</span><span class="chip">Co-simulazione</span><span class="chip">Torque vectoring</span><span class="chip">Pacejka</span></div></dd>
+        <dt>In questa pagina</dt>
+        <dd><ul class="toc">
+          <li><a href="#contesto">Il contesto</a></li>
+          <li><a href="#architettura">Il controllore a tre livelli</a></li>
+          <li><a href="#motore">Il motore e il suo controllo</a></li>
+          <li><a href="#pista">Il giro di pista</a></li>
+          <li><a href="#imparato">Cosa ho imparato</a></li>
+        </ul></dd>
+      </dl>
+    </aside>
+  </div>
+</div>
+
+<footer>© 2026 Valerio Cubeddu</footer>
+</body>
+</html>

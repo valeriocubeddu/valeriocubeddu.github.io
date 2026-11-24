@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 700" width="1100" height="700" role="img" aria-label="One motor per wheel: from the speed command to the force on the road" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#30455e"/></marker>
+<marker id="ap" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6a3d9a"/></marker>
+<marker id="ak" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1f2d3d"/></marker>
+<marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c0392b"/></marker>
+</defs>
+<rect width="1100" height="700" fill="#ffffff"/>
+<text x="550.0" y="34.0" font-size="24.0" text-anchor="middle" font-weight="600" fill="#1f2d3d">One motor per wheel: from the speed command to the force on the road</text>
+<circle cx="215" cy="175" r="78" fill="#c9d6e3" stroke="#30455e" stroke-width="2"/>
+<circle cx="215" cy="175" r="62" fill="#ffffff" stroke="#30455e" stroke-width="1.5"/>
+<circle cx="284.0" cy="175.0" r="5" fill="#d9534f" stroke="#30455e" stroke-width="0.8"/>
+<circle cx="279.8" cy="198.6" r="5" fill="#d9534f" stroke="#30455e" stroke-width="0.8"/>
+<circle cx="267.9" cy="219.4" r="5" fill="#d9534f" stroke="#30455e" stroke-width="0.8"/>
+<circle cx="249.5" cy="234.8" r="5" fill="#e0a800" stroke="#30455e" stroke-width="0.8"/>
+<circle cx="227.0" cy="243.0" r="5" fill="#e0a800" stroke="#30455e" stroke-width="0.8"/>
+<circle cx="203.0" cy="243.0" r="5" fill="#e0a800" stroke="#30455e" stroke-width="0.8"/>
+<circle cx="180.5" cy="234.8" r="5" fill="#2f7ed8" stroke="#30455e" stroke-width="0.8"/>
+<circle cx="162.1" cy="219.4" r="5" fill="#2f7ed8" stroke="#30455e" stroke-width="0.8"/>
+<circle cx="150.2" cy="198.6" r="5" fill="#2f7ed8" stroke="#30455e" stroke-width="0.8"/>
+<circle cx="146.0" cy="175.0" r="5" fill="#d9534f" stroke="#30455e" stroke-width="0.8"/>
+<circle cx="150.2" cy="151.4" r="5" fill="#d9534f" stroke="#30455e" stroke-width="0.8"/>
+<circle cx="162.1" cy="130.6" r="5" fill="#d9534f" stroke="#30455e" stroke-width="0.8"/>
+<circle cx="180.5" cy="115.2" r="5" fill="#e0a800" stroke="#30455e" stroke-width="0.8"/>
+<circle cx="203.0" cy="107.0" r="5" fill="#e0a800" stroke="#30455e" stroke-width="0.8"/>
+<circle cx="227.0" cy="107.0" r="5" fill="#e0a800" stroke="#30455e" stroke-width="0.8"/>
+<circle cx="249.5" cy="115.2" r="5" fill="#2f7ed8" stroke="#30455e" stroke-width="0.8"/>
+<circle cx="267.9" cy="130.6" r="5" fill="#2f7ed8" stroke="#30455e" stroke-width="0.8"/>
+<circle cx="279.8" cy="151.4" r="5" fill="#2f7ed8" stroke="#30455e" stroke-width="0.8"/>
+<circle cx="215" cy="175" r="44" fill="#9fb3c8" stroke="#30455e" stroke-width="1.5"/>
+<rect x="248.0" y="172.0" width="6" height="6" fill="#b87333" transform="rotate(0.0 251.0 175.0)"/>
+<rect x="244.4" y="187.6" width="6" height="6" fill="#b87333" transform="rotate(25.7 247.4 190.6)"/>
+<rect x="234.4" y="200.1" width="6" height="6" fill="#b87333" transform="rotate(51.4 237.4 203.1)"/>
+<rect x="220.0" y="207.1" width="6" height="6" fill="#b87333" transform="rotate(77.1 223.0 210.1)"/>
+<rect x="204.0" y="207.1" width="6" height="6" fill="#b87333" transform="rotate(102.9 207.0 210.1)"/>
+<rect x="189.6" y="200.1" width="6" height="6" fill="#b87333" transform="rotate(128.6 192.6 203.1)"/>
+<rect x="179.6" y="187.6" width="6" height="6" fill="#b87333" transform="rotate(154.3 182.6 190.6)"/>
+<rect x="176.0" y="172.0" width="6" height="6" fill="#b87333" transform="rotate(180.0 179.0 175.0)"/>
+<rect x="179.6" y="156.4" width="6" height="6" fill="#b87333" transform="rotate(205.7 182.6 159.4)"/>
+<rect x="189.6" y="143.9" width="6" height="6" fill="#b87333" transform="rotate(231.4 192.6 146.9)"/>
+<rect x="204.0" y="136.9" width="6" height="6" fill="#b87333" transform="rotate(257.1 207.0 139.9)"/>
+<rect x="220.0" y="136.9" width="6" height="6" fill="#b87333" transform="rotate(282.9 223.0 139.9)"/>
+<rect x="234.4" y="143.9" width="6" height="6" fill="#b87333" transform="rotate(308.6 237.4 146.9)"/>
+<rect x="244.4" y="156.4" width="6" height="6" fill="#b87333" transform="rotate(334.3 247.4 159.4)"/>
+<circle cx="215" cy="175" r="9" fill="#30455e"/>
+<path d="M168.2,148.0 A54,54 0 0 1 256.4,140.3" fill="none" stroke="#6a3d9a" stroke-width="3" marker-end="url(#ap)"/>
+<path d="M255.7,198.5 A47,47 0 0 1 191.5,215.7" fill="none" stroke="#1f2d3d" stroke-width="2.2" marker-end="url(#ak)"/>
+<text x="215" y="287.0" font-size="18.0" text-anchor="middle" font-weight="600" fill="#1f2d3d">Induction motor</text>
+<text x="215" y="306.0" font-size="14.4" text-anchor="middle" font-weight="400" fill="#5b6b7b">(one per rear wheel)</text>
+<text x="123" y="93.0" font-size="14.4" text-anchor="end" font-weight="400" fill="#30455e">stator</text>
+<line x1="125" y1="89" x2="160" y2="115" stroke="#30455e" stroke-width="1"/>
+<text x="115" y="237.0" font-size="14.4" text-anchor="end" font-weight="400" fill="#30455e">squirrel-cage rotor</text>
+<line x1="117" y1="233" x2="185" y2="203" stroke="#30455e" stroke-width="1"/>
+<text x="217" y="79.0" font-size="14.4" text-anchor="middle" font-weight="400" fill="#6a3d9a">rotating field</text>
+<text x="267" y="237.0" font-size="18.0" text-anchor="middle" font-weight="600" fill="#1f2d3d" font-style="italic">ω</text>
+<rect x="293" y="170" width="110" height="10" fill="#7d8a96"/>
+<text x="355" y="161.0" font-size="16.8" text-anchor="middle" font-weight="600" fill="#c0392b" font-style="italic">T<tspan baseline-shift="sub" font-size="75%">m</tspan></text>
+<rect x="340" y="105" width="125" height="140" rx="12" fill="#f3f5f7" stroke="#30455e" stroke-width="1.4"/>
+<polygon points="406.0,175.0 399.0,181.2 401.0,190.3 391.8,191.2 388.0,199.7 380.0,195.0 372.0,199.7 368.2,191.2 359.0,190.3 361.0,181.2 354.0,175.0 361.0,168.8 359.0,159.7 368.2,158.8 372.0,150.3 380.0,155.0 388.0,150.3 391.8,158.8 401.0,159.7 399.0,168.8" fill="#c9d6e3" stroke="#30455e" stroke-width="1.5"/><circle cx="380" cy="175" r="4" fill="#30455e"/>
+<polygon points="463.0,177.0 456.4,183.2 460.3,191.4 451.9,194.9 452.6,203.9 443.5,204.1 440.8,212.8 432.3,209.7 426.7,216.8 419.9,210.9 412.1,215.5 407.8,207.4 398.9,208.9 397.9,199.9 389.0,198.1 391.3,189.3 383.7,184.3 389.0,177.0 383.7,169.7 391.3,164.7 389.0,155.9 397.9,154.1 398.9,145.1 407.8,146.6 412.1,138.5 419.9,143.1 426.7,137.2 432.3,144.3 440.8,141.2 443.5,149.9 452.6,150.1 451.9,159.1 460.3,162.6 456.4,170.8" fill="#9fb3c8" stroke="#30455e" stroke-width="1.5"/><circle cx="423" cy="177" r="4" fill="#30455e"/>
+<text x="402" y="270.0" font-size="18.0" text-anchor="middle" font-weight="600" fill="#1f2d3d">Gearbox</text>
+<text x="402" y="289.0" font-size="14.4" text-anchor="middle" font-weight="400" fill="#5b6b7b">7.5 : 1</text>
+<rect x="465" y="170" width="140" height="10" fill="#7d8a96"/>
+<circle cx="690" cy="175" r="70" fill="#2b2b2b"/>
+<circle cx="690" cy="175" r="44" fill="#d5dbe1" stroke="#7d8a96" stroke-width="2"/>
+<line x1="690" y1="175" x2="690.0" y2="135.0" stroke="#7d8a96" stroke-width="7" stroke-linecap="round"/>
+<line x1="690" y1="175" x2="728.0" y2="162.6" stroke="#7d8a96" stroke-width="7" stroke-linecap="round"/>
+<line x1="690" y1="175" x2="713.5" y2="207.4" stroke="#7d8a96" stroke-width="7" stroke-linecap="round"/>
+<line x1="690" y1="175" x2="666.5" y2="207.4" stroke="#7d8a96" stroke-width="7" stroke-linecap="round"/>
+<line x1="690" y1="175" x2="652.0" y2="162.6" stroke="#7d8a96" stroke-width="7" stroke-linecap="round"/>
+<circle cx="690" cy="175" r="8" fill="#30455e"/>
+<line x1="550" y1="246" x2="810" y2="246" stroke="#5b6b7b" stroke-width="3"/>
+<line x1="560" y1="248" x2="550" y2="260" stroke="#9aa6b2" stroke-width="1.5"/>
+<line x1="584" y1="248" x2="574" y2="260" stroke="#9aa6b2" stroke-width="1.5"/>
+<line x1="608" y1="248" x2="598" y2="260" stroke="#9aa6b2" stroke-width="1.5"/>
+<line x1="632" y1="248" x2="622" y2="260" stroke="#9aa6b2" stroke-width="1.5"/>
+<line x1="656" y1="248" x2="646" y2="260" stroke="#9aa6b2" stroke-width="1.5"/>
+<line x1="680" y1="248" x2="670" y2="260" stroke="#9aa6b2" stroke-width="1.5"/>
+<line x1="704" y1="248" x2="694" y2="260" stroke="#9aa6b2" stroke-width="1.5"/>
+<line x1="728" y1="248" x2="718" y2="260" stroke="#9aa6b2" stroke-width="1.5"/>
+<line x1="752" y1="248" x2="742" y2="260" stroke="#9aa6b2" stroke-width="1.5"/>
+<line x1="776" y1="248" x2="766" y2="260" stroke="#9aa6b2" stroke-width="1.5"/>
+<line x1="800" y1="248" x2="790" y2="260" stroke="#9aa6b2" stroke-width="1.5"/>
+<line x1="680" y1="241" x2="770" y2="241" stroke="#c0392b" stroke-width="3" marker-end="url(#ar)"/>
+<text x="776" y="233.0" font-size="18.0" text-anchor="start" font-weight="600" fill="#c0392b" font-style="italic">F<tspan baseline-shift="sub" font-size="75%">x</tspan></text>
+<line x1="690" y1="80" x2="780" y2="80" stroke="#30455e" stroke-width="2" marker-end="url(#a)"/>
+<text x="786" y="85.0" font-size="18.0" text-anchor="start" font-weight="600" fill="#1f2d3d" font-style="italic">v<tspan baseline-shift="sub" font-size="75%">x</tspan></text>
+<path d="M635.0,127.0 A73,73 0 0 1 720.0,109.0" fill="none" stroke="#1f2d3d" stroke-width="2.2" marker-end="url(#ak)"/>
+<text x="630" y="117.0" font-size="16.8" text-anchor="end" font-weight="600" fill="#1f2d3d" font-style="italic">ω<tspan baseline-shift="sub" font-size="75%">w</tspan></text>
+<text x="690" y="287.0" font-size="18.0" text-anchor="middle" font-weight="600" fill="#1f2d3d">Wheel and tyre</text>
+<text x="690" y="306.0" font-size="14.4" text-anchor="middle" font-weight="400" fill="#5b6b7b" font-style="italic">radius R<tspan baseline-shift="sub" font-size="75%">ω</tspan></text>
+<rect x="822" y="64" width="262" height="312" rx="12" fill="#f7f9fb" stroke="#c4cdd6" stroke-width="1.2"/>
+<text x="838" y="92.0" font-size="18.0" text-anchor="start" font-weight="600" fill="#1f2d3d">The equations</text>
+<text x="838" y="124.0" font-size="14.4" text-anchor="start" font-weight="400" fill="#5b6b7b">rotor and wheel:</text>
+<text x="838" y="144.0" font-size="16.8" text-anchor="start" font-weight="600" fill="#1f2d3d" font-style="italic">J ω̇ = T<tspan baseline-shift="sub" font-size="75%">m</tspan> − T<tspan baseline-shift="sub" font-size="75%">L</tspan></text>
+<text x="838" y="186.0" font-size="14.4" text-anchor="start" font-weight="400" fill="#5b6b7b">motor torque (FOC):</text>
+<text x="838" y="206.0" font-size="16.8" text-anchor="start" font-weight="600" fill="#1f2d3d" font-style="italic">T<tspan baseline-shift="sub" font-size="75%">m</tspan> = (3p M / 2L<tspan baseline-shift="sub" font-size="75%">r</tspan>) ψ i<tspan baseline-shift="sub" font-size="75%">q</tspan></text>
+<text x="838" y="248.0" font-size="14.4" text-anchor="start" font-weight="400" fill="#5b6b7b">wheel slip:</text>
+<text x="838" y="268.0" font-size="16.8" text-anchor="start" font-weight="600" fill="#1f2d3d" font-style="italic">λ = (ω<tspan baseline-shift="sub" font-size="75%">w</tspan> R<tspan baseline-shift="sub" font-size="75%">ω</tspan> − v<tspan baseline-shift="sub" font-size="75%">x</tspan>) / v<tspan baseline-shift="sub" font-size="75%">x</tspan></text>
+<text x="838" y="310.0" font-size="14.4" text-anchor="start" font-weight="400" fill="#5b6b7b">control law:</text>
+<text x="838" y="330.0" font-size="16.8" text-anchor="start" font-weight="600" fill="#1f2d3d" font-style="italic">T* = T̂<tspan baseline-shift="sub" font-size="75%">L</tspan> − J (k<tspan baseline-shift="sub" font-size="75%">p</tspan> ω̃ + k<tspan baseline-shift="sub" font-size="75%">i</tspan> ∫ω̃)</text>
+<text x="838" y="374.0" font-size="14.4" text-anchor="start" font-weight="400" fill="#5b6b7b" font-style="italic">ω̃ = ω − ω*</text>
+<text x="40" y="424.0" font-size="18.0" text-anchor="start" font-weight="600" fill="#1f2d3d">Control loop of each motor</text>
+<rect x="30" y="436" width="1050" height="230" rx="14" fill="none" stroke="#c4cdd6" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="44" y="508.0" font-size="14.4" text-anchor="start" font-weight="400" fill="#30455e">speed reference ω*</text>
+<text x="44" y="526.0" font-size="14.4" text-anchor="start" font-weight="400" fill="#30455e">(from the medium layer)</text>
+<line x1="222" y1="519.0" x2="255" y2="519.0" stroke="#30455e" stroke-width="1.6" marker-end="url(#a)"/>
+<circle cx="270" cy="519.0" r="14" fill="#fff" stroke="#30455e" stroke-width="1.4"/>
+<text x="270" y="524.0" font-size="19.2" text-anchor="middle" font-weight="600" fill="#1f2d3d">−</text>
+<line x1="284" y1="519.0" x2="320" y2="519.0" stroke="#30455e" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="320" y="480" width="200" height="78" rx="10" fill="#d3e4f3" stroke="#30455e" stroke-width="1.4"/><text x="420.0" y="515.5" font-size="15.6" text-anchor="middle" font-weight="400" fill="#1f2d3d">PI speed control</text>
+<text x="420.0" y="535.0" font-size="15.6" text-anchor="middle" font-weight="400" fill="#1f2d3d">+ load-torque estimate</text>
+<line x1="520" y1="519.0" x2="560" y2="519.0" stroke="#30455e" stroke-width="1.6" marker-end="url(#a)"/>
+<text x="540" y="511.0" font-size="15.6" text-anchor="middle" font-weight="600" fill="#1f2d3d" font-style="italic">T*</text>
+<rect x="560" y="468" width="265" height="102" rx="10" fill="#c7ddf1" stroke="#30455e" stroke-width="1.4"/>
+<text x="692" y="494.0" font-size="15.6" text-anchor="middle" font-weight="600" fill="#1f2d3d">Field-oriented control</text>
+<text x="692" y="524.0" font-size="15.6" text-anchor="middle" font-weight="400" fill="#1f2d3d" font-style="italic">i<tspan baseline-shift="sub" font-size="75%">d</tspan> → rotor flux ψ</text>
+<text x="692" y="548.0" font-size="15.6" text-anchor="middle" font-weight="400" fill="#1f2d3d" font-style="italic">i<tspan baseline-shift="sub" font-size="75%">q</tspan> → torque</text>
+<line x1="825" y1="519.0" x2="855" y2="519.0" stroke="#30455e" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="855" y="490" width="105" height="58" rx="10" fill="#eef0f2" stroke="#30455e" stroke-width="1.4"/><text x="907.5" y="523.5" font-size="15.6" text-anchor="middle" font-weight="400" fill="#1f2d3d">Inverter</text>
+<line x1="960" y1="519.0" x2="1000" y2="519.0" stroke="#30455e" stroke-width="1.6" marker-end="url(#a)"/>
+<circle cx="1035" cy="519.0" r="30" fill="#c9d6e3" stroke="#30455e" stroke-width="1.6"/>
+<text x="1035" y="525.0" font-size="21.6" text-anchor="middle" font-weight="700" fill="#1f2d3d">M</text>
+<text x="1035" y="479.0" font-size="14.4" text-anchor="middle" font-weight="400" fill="#5b6b7b" font-style="italic">i<tspan baseline-shift="sub" font-size="75%">abc</tspan></text>
+<polyline points="1035,549.0 1035,608 270,608 270,535.0" fill="none" stroke="#8a5a2b" stroke-width="1.6" marker-end="url(#a)"/>
+<text x="640" y="600.0" font-size="14.4" text-anchor="middle" font-weight="400" fill="#8a5a2b">measured speed ω</text>
+<text x="40" y="686.0" font-size="14.4" text-anchor="start" font-weight="400" fill="#5b6b7b">The load T<tspan baseline-shift="sub" font-size="75%">L</tspan>, the tyre force seen by the motor, is not measured: the controller estimates it and compensates for it.</text>
+</svg>

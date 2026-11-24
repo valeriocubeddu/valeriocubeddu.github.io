@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Traction and yaw control for an electric FSAE car in CarSim — Valerio Cubeddu</title>
+<meta name="description" content="CarSim–Simulink co-simulation of a rear-wheel-drive electric Formula SAE car with two motors: hierarchical control of speed, yaw rate and wheel slip on a circuit with changing grip.">
+<link rel="stylesheet" href="../../assets/css/style.css?v=8">
+</head>
+<body>
+
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="../index.html">Valerio <span>Cubeddu</span></a>
+    <ul>
+      <li><a href="../index.html#progetti">Projects</a></li>
+      <li><a href="../index.html#esperienza">Experience</a></li>
+      <li><a href="../index.html#contatti">Contact</a></li>
+    </ul>
+    <div class="lang"><a href="../../progetti/carsim.html" lang="it">IT</a><a href="carsim.html" class="on" lang="en">EN</a></div>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <a class="back" href="../index.html#progetti">← All projects</a>
+    <div class="eyebrow">Electric Motor Control course · University of Rome Tor Vergata · 2023</div>
+    <h1>Traction and yaw control for an electric FSAE car in CarSim</h1>
+    <p class="lead">An electric Formula SAE car with two motors on the rear wheels, simulated in CarSim and controlled from Simulink. At every instant the controller decides each motor's torque so that the car follows the speed and yaw the driver asks for without spinning the wheels, even where the grip of the track changes.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="pkpis">
+    <div class="kpi"><b>2.3 km</b><small>length of the simulated circuit, driven for one full lap</small></div>
+    <div class="kpi"><b>102 s</b><small>lap time, at an average of about 82 km/h</small></div>
+    <div class="kpi"><b>160 km/h</b><small>top speed reached on the straight</small></div>
+    <div class="kpi"><b>1.15 g</b><small>peak lateral acceleration in the corners</small></div>
+  </div>
+
+  <div class="pbody">
+    <article>
+
+      <h2 id="contesto">Context</h2>
+      <p>An electric car with one motor per wheel needs no mechanical differential: the split of torque between the right and left wheel is decided by software. That opens two possibilities. The first is <strong>traction control</strong>: limiting a wheel's torque when it starts to slip. The second is <strong>torque vectoring</strong>: giving more torque to the outer wheel in a corner to help the car rotate, in other words controlling its yaw rate.</p>
+      <p>The project combines both on a rear-wheel-drive electric Formula SAE car. The vehicle is simulated in <strong>CarSim</strong>, which provides a full multibody model with suspension, tyres and a 3D track. The controller runs in <strong>Simulink</strong> and talks to CarSim at every step through the co-simulation S-Function.</p>
+
+      <h2 id="architettura">The three-layer controller</h2>
+      <p>The control is hierarchical, from the behaviour wanted for the car down to the torque of each motor:</p>
+      <ul>
+        <li><strong>Reference model.</strong> A nonlinear vehicle model, with the tyres' lateral forces described by the Pacejka formula, turns the driver's commands (pedals and steering wheel angle) into the longitudinal speed and yaw rate the car should have.</li>
+        <li><strong>Medium layer.</strong> Two PI controllers compare the actual speed and yaw rate with the reference ones and compute the longitudinal and lateral control actions. These are converted into slip references for the two rear wheels, saturated within thresholds that keep the wheels in the region of maximum grip.</li>
+        <li><strong>Low layer.</strong> For each motor a PI controller on wheel speed, which accounts for the wheel's inertia, computes the torque to request from the motor, which reaches the wheel through a 7.5:1 gearbox.</li>
+      </ul>
+      <p>A block also estimates the cornering stiffness and the vertical loads on the wheels, used by the reference model, and the slip and yaw controls can be switched on separately to compare their effect.</p>
+      <figure>
+        <a href="../../assets/img/carsim/control_scheme.png" target="_blank"><img src="../../assets/img/carsim/control_scheme.png" alt="Block diagram of the controller: driver, reference model, medium layer, low layer, gearbox and CarSim vehicle with feedback measurements" loading="lazy"></a>
+        <figcaption>Controller architecture, reconstructed from the Simulink model: from the driver to the torque of the two rear motors, with speed, yaw rate and wheel speeds fed back from the CarSim vehicle.</figcaption>
+      </figure>
+      <figure>
+        <a href="../../assets/img/carsim/simulink_modello.png" target="_blank"><img src="../../assets/img/carsim/simulink_modello.png" alt="Top level of the Simulink model: Reference Model, Medium Layer Controller, Torque Controller and Reduction Box connected in feedback" loading="lazy"></a>
+        <figcaption>The top level of the Simulink model: reference model (orange), medium-layer controller (green), torque controllers (grey) and the block that processes CarSim's measurements (light blue). The yaw-rate and speed errors are computed between the reference and the measurements.</figcaption>
+      </figure>
+
+      <h2 id="motore">The motor and its control</h2>
+      <p>Each rear wheel is driven by an <strong>induction motor</strong> through a gearbox. In the stator, three windings fed by the inverter create a rotating magnetic field, which induces currents in the rotor bars and drags the rotor along. With <strong>field-oriented control</strong> the current is split into two parts: one (i<sub>d</sub>) sets the rotor flux, the other (i<sub>q</sub>) sets the torque, so the motor can be commanded as simply as a DC motor. I developed the motor model with its control in Simulink; in the co-simulation with CarSim each motor is represented by its speed loop, which delivers the requested torque to the wheel.</p>
+      <p>On top sits the speed loop: a PI compares the motor speed with the one requested by the medium layer and computes the torque needed. The load torque, the tyre's force on the road seen by the motor, is not measured: the controller estimates it and compensates for it, and the same estimate tells the upper layers how much grip there is. From the wheel speed and the vehicle speed comes the slip λ, which the control keeps within the grip limits.</p>
+      <figure>
+        <a href="../../assets/img/carsim/motor_wheel.svg" target="_blank"><img src="../../assets/img/carsim/motor_wheel.svg" alt="Diagram of the induction motor, gearbox and wheel, with the speed control loop, field-oriented control and the main equations" loading="lazy"></a>
+        <figcaption>From the speed command to the force on the road: induction motor, gearbox and wheel, the control loop of each motor and the equations that describe it.</figcaption>
+      </figure>
+
+      <h2 id="pista">The lap</h2>
+      <p>The test is a full lap of a circuit of about 2.3 km, with sections where the grip of the surface changes. This is where the slip control works hardest: when a wheel reaches a less grippy section its torque is cut before it starts to spin, while the yaw control keeps the car on the path the driver wants.</p>
+      <figure>
+        <video src="../../assets/img/carsim/giro_carsim.mp4" poster="../../assets/img/carsim/giro_poster.jpg" controls muted loop playsinline preload="none" style="width:100%;height:auto;border-radius:10px;display:block"></video>
+        <figcaption>CarSim animation during the simulation: the car drives around the circuit over sections with different grip.</figcaption>
+      </figure>
+      <figure>
+        <a href="../../assets/img/carsim/lap_speed.png" target="_blank"><img src="../../assets/img/carsim/lap_speed.png" alt="Map of the circuit with the trajectory coloured by the car's speed" loading="lazy"></a>
+        <figcaption>Lap trajectory taken from CarSim's output data, coloured by speed: the straight on the right, where the car exceeds 150 km/h, and the slow corners in the middle.</figcaption>
+      </figure>
+      <figure>
+        <a href="../../assets/img/carsim/lap_channels.png" target="_blank"><img src="../../assets/img/carsim/lap_channels.png" alt="Speed, lateral acceleration and yaw rate along the lap" loading="lazy"></a>
+        <figcaption>Speed, lateral acceleration and yaw rate along the lap. In the corners the lateral acceleration reaches about 1 g in both directions, and the yaw rate follows the shape of the corners.</figcaption>
+      </figure>
+
+      <h2 id="imparato">What I learned</h2>
+      <p>This was my first co-simulation project: making a commercial vehicle model work with a controller I wrote, handling signals, units and sample rates between the two environments. I learned how vehicle control is organised in layers, separating what the car should do from how to achieve it with each actuator, and how much a good reference model matters. These are the same themes I later took up, in much more depth, in my master's thesis on predictive traction control.</p>
+
+      <div class="pnext">
+        <a href="../index.html#progetti">← All projects</a>
+        <a href="../index.html#contatti">Contact me →</a>
+      </div>
+    </article>
+
+    <aside class="facts">
+      <dl>
+        <dt>Context</dt><dd>Electric Motor Control course, University of Rome Tor Vergata</dd>
+        <dt>Period</dt><dd>2023</dd>
+        <dt>Vehicle</dt><dd>Electric Formula SAE car, rear-wheel drive with two motors</dd>
+        <dt>Tools</dt>
+        <dd><div class="chips" style="margin-top:6px"><span class="chip">CarSim</span><span class="chip">Simulink</span><span class="chip">Co-simulation</span><span class="chip">Torque vectoring</span><span class="chip">Pacejka</span></div></dd>
+        <dt>On this page</dt>
+        <dd><ul class="toc">
+          <li><a href="#contesto">Context</a></li>
+          <li><a href="#architettura">The three-layer controller</a></li>
+          <li><a href="#motore">The motor and its control</a></li>
+          <li><a href="#pista">The lap</a></li>
+          <li><a href="#imparato">What I learned</a></li>
+        </ul></dd>
+      </dl>
+    </aside>
+  </div>
+</div>
+
+<footer>© 2026 Valerio Cubeddu</footer>
+</body>
+</html>
