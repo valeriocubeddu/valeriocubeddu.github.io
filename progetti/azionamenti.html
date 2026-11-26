@@ -49,6 +49,10 @@
       <h2 id="modello">Dal datasheet al modello</h2>
       <p>Dal catalogo ho ricavato i parametri elettrici e meccanici della macchina. L'induttanza sincrona si ottiene da quelle di dispersione e di magnetizzazione, mentre il flusso dei magneti si ricava dalla tensione a vuoto: a corrente nulla la tensione di fase dipende solo dai magneti e dalla velocità elettrica. Il risultato è λ<sub>PM</sub> ≈ 0,754 Vs e una costante di coppia k<sub>T</sub> = 3/2 · p · λ<sub>PM</sub> ≈ 3,39 Nm/A.</p>
       <p>Il motore e l'inverter (6 IGBT con diodi di ricircolo, DC-link a 560 V, commutazione a 5 kHz) sono modellati con i componenti elettrici di Simscape Electrical. Il controllo, invece, è tutto a tempo discreto e si attiva una volta per periodo PWM, come su un microcontrollore o un DSP reale.</p>
+      <figure>
+        <a href="../assets/img/azionamenti/schema_plecs.png" target="_blank"><img src="../assets/img/azionamenti/schema_plecs.png" alt="Schema del modello: modulatore PWM, inverter trifase a IGBT, motore sincrono a magneti permanenti, sensori di posizione e velocità e coppia di carico" loading="lazy"></a>
+        <figcaption>La parte di potenza nella versione PLECS del modello: il modulatore PWM comanda i sei IGBT dell'inverter, che alimenta il motore; sull'albero ci sono i sensori di posizione e di velocità e la coppia di carico usata nelle prove.</figcaption>
+      </figure>
 
       <h2 id="cascata">Architettura di controllo</h2>
       <p>Gli anelli sono in cascata: ognuno genera il riferimento per quello interno. Per restare stabile e disaccoppiato, ogni anello ha una banda di circa un decimo di quello che lo segue.</p>
@@ -64,6 +68,10 @@
         <figcaption>Gradino di 0,5 A sulla corrente i<sub>q</sub> a 1000 rpm, con banda di 500 Hz e di 150 Hz. Il ripple è dovuto alla commutazione PWM.</figcaption>
       </figure>
       <p>Il controllo di coppia è un passaggio diretto: in un motore SPM la coppia dipende solo da i<sub>q</sub>, quindi basta dividere la coppia richiesta per k<sub>T</sub>, tenendo i<sub>d</sub> = 0. Proprio perché non introduce dinamica, l'anello di coppia ha la stessa banda di quello di corrente.</p>
+      <figure>
+        <a href="../assets/img/azionamenti/pmsm_correnti.png" target="_blank"><img src="../assets/img/azionamenti/pmsm_correnti.png" alt="Correnti in assi d-q e correnti di fase durante un gradino di posizione" loading="lazy"></a>
+        <figcaption>Le correnti durante un gradino di posizione: i<sub>q</sub> segue il riferimento generato dagli anelli esterni, i<sub>d</sub> resta a zero, come richiesto dal controllo a orientamento di campo, e le correnti di fase sono quelle che l'inverter impone al motore.</figcaption>
+      </figure>
 
       <h2 id="velocita">Controllo di velocità</h2>
       <p>Per l'anello di velocità il modello meccanico cambia: il motore non ha più la velocità imposta ma riceve una coppia di carico, e la velocità risulta dal bilancio con l'inerzia. Ho progettato un PI con anti-windup e saturazione alla coppia massima del motore, calcolando i guadagni dalla funzione d'anello aperto per avere crossover a 50 Hz e margine di fase di 60°.</p>
@@ -78,6 +86,11 @@
       <figure>
         <a href="../assets/img/azionamenti/posizione.png" target="_blank"><img src="../assets/img/azionamenti/posizione.png" alt="Risposta del controllo di posizione a un gradino e a riferimenti sinusoidali" loading="lazy"></a>
         <figcaption>Controllo di posizione: gradino di π rad, sinusoide a 1,5 Hz e a 4 Hz.</figcaption>
+      </figure>
+      <p>La prova che mostra meglio tutta la cascata al lavoro è un gradino di posizione seguito da un disturbo di carico. L'anello di posizione chiede velocità, quello di velocità chiede coppia, che arriva vicino al limite del motore; la posizione raggiunge il riferimento senza sovraelongazione e, quando sull'albero arriva la coppia di carico, il sistema la compensa in circa 30 ms.</p>
+      <figure>
+        <a href="../assets/img/azionamenti/pmsm_cascata.png" target="_blank"><img src="../assets/img/azionamenti/pmsm_cascata.png" alt="Posizione, velocità e coppia con i rispettivi riferimenti durante un gradino di posizione e un disturbo di carico" loading="lazy"></a>
+        <figcaption>Simulazione PLECS: gradino di posizione di 90° a 0,2 s e coppia di carico a 0,5 s: ogni grandezza è confrontata con il riferimento generato dall'anello esterno.</figcaption>
       </figure>
 
       <h2 id="imparato">Cosa ho imparato</h2>
@@ -96,7 +109,7 @@
         <dt>Tipo</dt><dd>Progetto individuale</dd>
         <dt>Motore</dt><dd>SPM PE1R 90 S6 · 7,2 Nm · 1000 rpm</dd>
         <dt>Strumenti</dt>
-        <dd><div class="chips" style="margin-top:6px"><span class="chip">MATLAB</span><span class="chip">Simulink</span><span class="chip">Simscape Electrical</span><span class="chip">Controllo d-q</span><span class="chip">PWM</span></div></dd>
+        <dd><div class="chips" style="margin-top:6px"><span class="chip">MATLAB</span><span class="chip">Simulink</span><span class="chip">Simscape Electrical</span><span class="chip">PLECS</span><span class="chip">Controllo d-q</span><span class="chip">PWM</span></div></dd>
         <dt>In questa pagina</dt>
         <dd><ul class="toc">
           <li><a href="#obiettivo">L'obiettivo</a></li>
